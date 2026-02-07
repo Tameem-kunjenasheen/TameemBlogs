@@ -76,12 +76,241 @@
 <script>
     // 🔹 Put your Java code here (easy to update) 
     let javaCode = `// ---------------- REPORT GEN ----------------
+package com.report.test;
 
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+public class reportGenerator {
+
+    public static void main(String[] args) {
+        try {
+            File staticFile = new File("input/static.xlsx");
+            File dataFile = new File("input/data.xlsx");
+            File outputFile = new File("output/formattedOutput.txt");
+
+            Map<String, String> staticFields = StaticDataLoader.load(staticFile);
+            List<Map<String, String>> rows = DataExcelReader.read(dataFile);
+
+            write(outputFile, staticFields, rows);
+
+            System.out.println("Report generated successfully.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void write(
+            File outputFile,
+            Map<String, String> staticFields,
+            List<Map<String, String>> rows) throws Exception {
+
+        if (rows == null || rows.isEmpty()) {
+            throw new RuntimeException("Data file has no data");
+        }
+
+        // Current loading date
+        String loadingDate =
+                new SimpleDateFormat("yyyyMMdd-HH:mm:ss").format(new Date());
+
+        // Build prefix
+        String offerCode = removeDecimal(staticFields.get("OFFER_CODE"));
+        String hardCode = staticFields.get("HARD_CODE");
+
+        String prefix = offerCode + hardCode;
+
+        long startCounter = Long.parseLong(
+                removeDecimal(staticFields.get("START_COUNTER"))
+        );
+
+        NumberGenerator gen = new NumberGenerator(prefix, startCounter);
+
+        try (BufferedWriter w = new BufferedWriter(new FileWriter(outputFile))) {
+
+            Map<String, String> firstRow = rows.get(0);
+
+            // Build header
+            StringBuilder header = new StringBuilder();
+            header.append("\"REFERENCE_NUMBER\",");
+            header.append("\"BATCH_ID\",");
+            header.append("\"LOADING_DATE\",");
+            header.append("\"OFFER_CODE\",");
+            header.append("\"SUBSCRIPTION_NUMBER\",");
+
+            for (String key : firstRow.keySet()) {
+                header.append("\"").append(key).append("\",");
+            }
+
+            // remove last comma
+            header.setLength(header.length() - 1);
+
+            w.write(header.toString());
+            w.newLine();
+
+            // Write data rows
+            for (Map<String, String> r : rows) {
+
+                String sub = gen.next();
+
+                StringBuilder line = new StringBuilder();
+
+                line.append("\"").append(sub).append("\",");
+                line.append("\"").append(staticFields.get("BATCH_ID")).append("\",");
+                line.append("\"").append(loadingDate).append("\",");
+                line.append("\"").append(offerCode).append("\",");
+                line.append("\"").append(sub).append("\",");
+
+                for (String key : r.keySet()) {
+                    String val = removeDecimal(r.get(key));
+                    if (val == null) val = "";
+                    line.append("\"").append(val).append("\",");
+                }
+
+                // remove last comma
+                line.setLength(line.length() - 1);
+
+                w.write(line.toString());
+                w.newLine();
+            }
+        }
+    }
+
+    private static String removeDecimal(String val) {
+        if (val == null) return null;
+        if (val.endsWith(".0")) {
+            return val.substring(0, val.length() - 2);
+        }
+        return val;
+    }
+}
     // ---------------- STATIC LOADER ----------------
-    
+    package com.report.test;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class StaticDataLoader {
+
+    public static Map<String, String> load(File file) throws Exception {
+        System.out.println("Loading static data: " + file.getName());
+
+        Map<String, String> map = new LinkedHashMap<>();
+
+        try (FileInputStream fis = new FileInputStream(file);
+             Workbook wb = new XSSFWorkbook(fis)) {
+
+            Sheet sheet = wb.getSheetAt(0);
+
+            Row headerRow = sheet.getRow(0);
+            Row valueRow = sheet.getRow(1);
+
+            if (headerRow == null || valueRow == null) {
+                throw new RuntimeException("Static file must have header and one data row");
+            }
+
+            DataFormatter formatter = new DataFormatter();
+
+            for (int i = 0; i < headerRow.getLastCellNum(); i++) {
+                Cell headerCell = headerRow.getCell(i);
+                Cell valueCell = valueRow.getCell(i);
+
+                if (headerCell == null) continue;
+
+                String key = formatter.formatCellValue(headerCell).trim();
+                if (key.isEmpty()) continue;
+
+                String value = "";
+                if (valueCell != null) {
+                    value = formatter.formatCellValue(valueCell).trim();
+                }
+
+                map.put(key, value);
+            }
+        }
+
+        System.out.println("Static map: " + map);
+        return map;
+    }
+}
     // ---------------- DYNAMIC DATA READER ----------------
      
+package com.report.test;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.*;
+
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class DataExcelReader {
+
+    public static List<Map<String, String>> read(File dataFile) throws Exception {
+        List<Map<String, String>> rows = new ArrayList<>();
+
+        try (FileInputStream fis = new FileInputStream(dataFile);
+             Workbook wb = new XSSFWorkbook(fis)) {
+
+            Sheet sheet = wb.getSheetAt(0);
+            Row headerRow = sheet.getRow(0);
+
+            if (headerRow == null) {
+                throw new RuntimeException("Dynamic file has no header row");
+            }
+
+            DataFormatter formatter = new DataFormatter();
+
+            int lastCol = headerRow.getLastCellNum();
+
+            List<String> headers = new ArrayList<>();
+
+            // Build headers
+            for (int i = 0; i < lastCol; i++) {
+                Cell c = headerRow.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                String name = formatter.formatCellValue(c).trim();
+
+                if (name.isEmpty()) {
+                    name = "COL_" + (i + 1); // generate safe name
+                }
+
+                headers.add(name);
+            }
+
+            // Read data rows
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                Row r = sheet.getRow(i);
+                if (r == null) continue;
+
+                Map<String, String> row = new LinkedHashMap<>();
+                boolean hasData = false;
+
+                for (int j = 0; j < headers.size(); j++) {
+                    Cell c = r.getCell(j, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                    String value = formatter.formatCellValue(c).trim();
+
+                    if (!value.isEmpty()) {
+                        hasData = true;
+                    }
+
+                    row.put(headers.get(j), value);
+                }
+
+                if (hasData) {
+                    rows.add(row);
+                }
+            }
+        }
+
+        return rows;
+    }
+}
     // ---------------- NUMBER GENERATOR ----------------
     static class NumberGenerator {
 
