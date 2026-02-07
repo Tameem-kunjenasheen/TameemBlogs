@@ -6,5 +6,201 @@
 <body>
     <h1>Hello, this is my page!</h1>
     <p>This page is published for free using GitHub Pages.</p>
+    <p>package com.report.test;
+
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class ReportGenerator {
+
+    public static void main(String[] args) throws Exception {
+
+        File staticFile = new File("static.xlsx");
+        File dataFile = new File("data.xlsx");
+        File outputFile = new File("output.txt");
+
+        Map<String, String> staticFields = loadStatic(staticFile);
+        List<Map<String, String>> rows = readDynamic(dataFile);
+
+        writeOutput(outputFile, staticFields, rows);
+
+        System.out.println("File generated: " + outputFile.getAbsolutePath());
+    }
+
+    // ---------------- STATIC LOADER ----------------
+    public static Map<String, String> loadStatic(File file) throws Exception {
+
+        Map<String, String> map = new LinkedHashMap<>();
+
+        try (FileInputStream fis = new FileInputStream(file);
+             Workbook wb = new XSSFWorkbook(fis)) {
+
+            Sheet sheet = wb.getSheetAt(0);
+            DataFormatter formatter = new DataFormatter();
+
+            Row headerRow = sheet.getRow(0);
+            Row valueRow = sheet.getRow(1);
+
+            if (headerRow == null || valueRow == null) {
+                throw new RuntimeException("Static file must have header and one data row");
+            }
+
+            for (int i = 0; i < headerRow.getLastCellNum(); i++) {
+
+                Cell headerCell = headerRow.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                Cell valueCell = valueRow.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+
+                String key = formatter.formatCellValue(headerCell).trim();
+                String value = formatter.formatCellValue(valueCell).trim();
+
+                if (!key.isEmpty()) {
+                    map.put(key, value);
+                }
+            }
+        }
+
+        return map;
+    }
+
+    // ---------------- DYNAMIC DATA READER ----------------
+    public static List<Map<String, String>> readDynamic(File dataFile) throws Exception {
+
+        List<Map<String, String>> rows = new ArrayList<>();
+
+        try (FileInputStream fis = new FileInputStream(dataFile);
+             Workbook wb = new XSSFWorkbook(fis)) {
+
+            Sheet sheet = wb.getSheetAt(0);
+            DataFormatter formatter = new DataFormatter();
+
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+
+                Row r = sheet.getRow(i);
+                if (r == null) continue;
+
+                Map<String, String> row = new LinkedHashMap<>();
+
+                String systemId = formatter.formatCellValue(
+                        r.getCell(0, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK)).trim();
+
+                String channelId = formatter.formatCellValue(
+                        r.getCell(1, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK)).trim();
+
+                String bidsCountStr = formatter.formatCellValue(
+                        r.getCell(2, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK)).trim();
+
+                if (systemId.isEmpty() && channelId.isEmpty() && bidsCountStr.isEmpty()) {
+                    continue;
+                }
+
+                int bidsCount = 0;
+                try {
+                    bidsCount = (int) Double.parseDouble(bidsCountStr);
+                } catch (Exception e) {
+                    bidsCount = 0;
+                }
+
+                row.put("SYSTEM_ID", systemId);
+                row.put("CHANNEL_ID", channelId);
+                row.put("BIDS_COUNT", String.valueOf(bidsCount));
+
+                // dynamic columns
+                int extraColumns = 2 + (8 * bidsCount);
+
+                for (int j = 0; j < extraColumns; j++) {
+                    int colIndex = 3 + j;
+
+                    Cell c = r.getCell(colIndex, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                    String value = formatter.formatCellValue(c).trim();
+
+                    if (!value.isEmpty()) {
+                        row.put("BID_FIELD_" + (j + 1), value);
+                    }
+                }
+
+                rows.add(row);
+            }
+        }
+
+        return rows;
+    }
+
+    // ---------------- NUMBER GENERATOR ----------------
+    static class NumberGenerator {
+
+        private long counter;
+        private final String prefix;
+
+        public NumberGenerator(String prefix, long counter) {
+            this.prefix = prefix;
+            this.counter = counter;
+        }
+
+        public String next() {
+            return prefix + String.format("%07d", counter++);
+        }
+    }
+
+    // ---------------- OUTPUT WRITER ----------------
+    public static void writeOutput(
+            File outputFile,
+            Map<String, String> staticFields,
+            List<Map<String, String>> rows) throws Exception {
+
+        if (rows == null || rows.isEmpty()) {
+            throw new RuntimeException("No data rows found");
+        }
+
+        String loadingDate =
+                new SimpleDateFormat("yyyyMMdd-HH:mm:ss").format(new Date());
+
+        String hardCode = staticFields.get("HARD_CODE");
+        String offerCode = staticFields.get("OFFER_CODE");
+        String prefix = offerCode + hardCode;
+
+        long startCounter = (long) Double.parseDouble(
+                staticFields.get("START_COUNTER"));
+
+        NumberGenerator gen = new NumberGenerator(prefix, startCounter);
+
+        try (BufferedWriter w = new BufferedWriter(new FileWriter(outputFile))) {
+
+            // Header
+            w.write("\"REFERENCE_NUMBER\",\"BATCH_ID\",\"LOADING_DATE\",\"OFFER_CODE\",\"SUBSCRIPTION_NUMBER\",\"SYSTEM_ID\",\"CHANNEL_ID\",\"BIDS_COUNT\"");
+            w.newLine();
+
+            for (Map<String, String> r : rows) {
+
+                String ref = gen.next();
+
+                StringBuilder line = new StringBuilder();
+                line.append("\"").append(ref).append("\",");
+                line.append("\"").append(staticFields.get("BATCH_ID")).append("\",");
+                line.append("\"").append(loadingDate).append("\",");
+                line.append("\"").append(offerCode).append("\",");
+                line.append("\"").append(ref).append("\",");
+
+                line.append("\"").append(r.get("SYSTEM_ID")).append("\",");
+                line.append("\"").append(r.get("CHANNEL_ID")).append("\",");
+                line.append("\"").append(r.get("BIDS_COUNT")).append("\"");
+
+                // dynamic fields
+                for (String key : r.keySet()) {
+                    if (key.startsWith("BID_FIELD_")) {
+                        line.append(",\"").append(r.get(key)).append("\"");
+                    }
+                }
+
+                w.write(line.toString());
+                w.newLine();
+            }
+        }
+    }
+}
+</p>
 </body>
 </html>
