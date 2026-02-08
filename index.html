@@ -76,6 +76,82 @@
 <script>
     // 🔹 Put your Java code here (easy to update) 
     let javaCode = `// ---------------- REPORT GEN ----------------
+
+
+
+New IPO name
+Purpose
+reportGenerator
+IpoSubscriptionApp
+Main class
+StaticDataLoader
+IpoStaticConfigLoader
+Loads static config
+DataExcelreader
+IpoDataExcelReader
+Reads dynamic IPO data
+NumberGenerator
+IpoSubscriptionNumberGenerator
+Generates subscription numbers
+SubFileWriter
+IpoSubFileWriter
+
+
+
+javac -cp "lib/*" src/com/ipo/subscription/*.java
+jar cfe IpoSubscriptionTool.jar com.ipo.subscription.IpoSubscriptionApp -C src .import java.io.File;
+
+
+
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class LargestFileFinder {
+
+    public static String getLatestFileName(String folderPath, String prefix) {
+
+        File folder = new File(folderPath);
+
+        String today = new SimpleDateFormat("yyyyMMdd").format(new Date());
+
+        File[] files = folder.listFiles();
+        int maxNumber = -1;
+        String latestFileName = null;
+
+        if (files != null) {
+            for (File file : files) {
+                String name = file.getName();
+
+                // Check prefix and today's date
+                if (name.startsWith(prefix + "-" + today)) {
+
+                    try {
+                        // Find last "-" and "."
+                        int lastDash = name.lastIndexOf('-');
+                        int lastDot = name.lastIndexOf('.');
+
+                        // Extract only the number part
+                        String numberPart = name.substring(lastDash + 1, lastDot);
+
+                        int num = Integer.parseInt(numberPart);
+
+                        if (num > maxNumber) {
+                            maxNumber = num;
+                            latestFileName = name;
+                        }
+                    } catch (Exception e) {
+                        // ignore invalid file names
+                    }
+                }
+            }
+        }
+        return latestFileName;
+    }
+}
+
+
+
 package com.report.test;
 
 import java.io.*;
