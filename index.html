@@ -75,7 +75,20 @@
 <button class="update-btn" onclick="updateCode()">Update Code</button>
 <script>
     // 🔹 Put your Java code here (easy to update) 
-    let javaCode = `// ---------------- REPORT private static void validateFileDate(String fileName) {
+    let javaCode = `// ---------------- REPORT 
+    
+    @echo off
+echo ===============================
+echo IPO Subscription Tool Started
+echo ===============================
+
+java -jar IpoSubscriptionTool.jar
+
+echo.
+echo Process finished.
+pause
+    
+    private static void validateFileDate(String fileName) {
     String todayDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
 
     String[] parts = fileName.split("-");
