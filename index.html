@@ -75,7 +75,24 @@
 <button class="update-btn" onclick="updateCode()">Update Code</button>
 <script>
     // 🔹 Put your Java code here (easy to update) 
-    let javaCode = `// ---------------- REPORT GEN ----------------
+    let javaCode = `// ---------------- REPORT private static void validateFileDate(String fileName) {
+    String todayDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
+
+    String[] parts = fileName.split("-");
+
+    if (parts.length < 5) {
+        throw new RuntimeException("Invalid dynamic file name format: " + fileName);
+    }
+
+    String fileDate = parts[3];
+
+    if (!todayDate.equals(fileDate)) {
+        throw new RuntimeException(
+            "Dynamic file is old. Expected: " + todayDate +
+            ", found: " + fileDate
+        );
+    }
+}
 
 public static void main(String[] args) {
 
