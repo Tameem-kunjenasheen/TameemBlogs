@@ -77,6 +77,108 @@
     // 🔹 Put your Java code here (easy to update) 
     let javaCode = `// ---------------- REPORT 
     
+    
+    package com.report.test;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.*;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class StaticDataLoader {
+
+    // Required columns
+    private static final String[] REQUIRED_COLUMNS = {
+        "BATCH_ID",
+        "OFFER_CODE",
+        "HARD_CODE",
+        "START_COUNTER"
+    };
+
+    public static Map<String, String> load(File file) throws Exception {
+
+        if (file == null || !file.exists()) {
+            throw new RuntimeException("Static file not found: " + file);
+        }
+
+        System.out.println("Loading static data: " + file.getName());
+
+        Map<String, String> map = new LinkedHashMap<>();
+
+        try (FileInputStream fis = new FileInputStream(file);
+             Workbook wb = new XSSFWorkbook(fis)) {
+
+            Sheet sheet = wb.getSheetAt(0);
+
+            if (sheet == null) {
+                throw new RuntimeException("Static file has no sheet");
+            }
+
+            Row headerRow = sheet.getRow(0);
+            Row valueRow = sheet.getRow(1);
+
+            if (headerRow == null) {
+                throw new RuntimeException("Static file missing header row");
+            }
+
+            if (valueRow == null) {
+                throw new RuntimeException("Static file missing data row");
+            }
+
+            DataFormatter formatter = new DataFormatter();
+            int lastCol = headerRow.getLastCellNum();
+
+            for (int i = 0; i < lastCol; i++) {
+                Cell headerCell = headerRow.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                Cell valueCell = valueRow.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+
+                String key = formatter.formatCellValue(headerCell).trim();
+                String value = formatter.formatCellValue(valueCell).trim();
+
+                if (!key.isEmpty()) {
+                    map.put(key, value);
+                }
+            }
+
+            // Validate required columns
+            validateRequiredColumns(map);
+        }
+
+        System.out.println("Static fields loaded: " + map);
+        return map;
+    }
+
+    private static void validateRequiredColumns(Map<String, String> map) {
+
+        List<String> missingColumns = new ArrayList<>();
+        List<String> emptyValues = new ArrayList<>();
+
+        for (String col : REQUIRED_COLUMNS) {
+
+            if (!map.containsKey(col)) {
+                missingColumns.add(col);
+            } else if (map.get(col) == null || map.get(col).trim().isEmpty()) {
+                emptyValues.add(col);
+            }
+        }
+
+        if (!missingColumns.isEmpty()) {
+            throw new RuntimeException(
+                "Missing required static columns: " + missingColumns);
+        }
+
+        if (!emptyValues.isEmpty()) {
+            throw new RuntimeException(
+                "Static columns have empty values: " + emptyValues);
+        }
+    }
+}
+    
+    
+    
+    
+    
     @echo off
 echo ===============================
 echo IPO Subscription Tool Started
