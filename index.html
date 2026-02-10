@@ -77,6 +77,56 @@
     // 🔹 Put your Java code here (easy to update) 
     let javaCode = `// ---------------- REPORT 
     
+⸻
+
+1. Description
+
+Trades received from Tadawul were missing key CCP fields such as Settlement ID and other related identifiers.
+Only the T message was received, and the CCP QMD SI information was not available for the trades.
+
+Additionally, the Trade Report AE message was not received due to a FIXML issue from Tadawul.
+Because of this, required settlement-related data was not populated in our system.
+
+⸻
+
+2. Business Impact
+
+If the missing settlement details are not updated:
+	•	Trade confirmations will be generated with incorrect or incomplete settlement information.
+	•	This will directly impact the settlement process.
+	•	There is a risk of settlement failures and reconciliation issues.
+
+This is a business-critical issue caused by the external Tadawul message problem.
+
+⸻
+
+3. Short Description
+
+Missing CCP settlement fields in trades due to FIXML message issue from Tadawul.
+Manual database update required to populate missing settlement information.
+
+⸻
+
+4. Implementation Plan
+	1.	Identify affected trades where CCP settlement fields are missing.
+	2.	Take business approval for manual correction.
+	3.	Update the required settlement fields in the database for affected trades.
+	4.	Verify data consistency after the update.
+
+⸻
+
+5. Technical Impact
+	•	Direct database update on trade records to populate missing CCP settlement fields.
+	•	No application deployment or code changes required.
+	•	Changes limited only to affected trades.
+
+⸻
+
+6. Post-Implementation Verification Plan
+	1.	Verify that all affected trades have the correct settlement IDs and CCP fields.
+	2.	Re-generate or validate trade confirmations.
+	3.	Confirm settlement details are correctly reflected in downstream systems.
+	4.	Obtain business confirmation that trades are correct
     
     package com.report.test;
 
