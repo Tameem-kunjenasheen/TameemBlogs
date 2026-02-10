@@ -77,6 +77,78 @@
     // 🔹 Put your Java code here (easy to update) 
     let javaCode = `// ---------------- REPORT 
     
+    
+    Title
+
+Manual Script Execution to Generate Backdated Broker File for SNB Custodian
+
+⸻
+
+Short Description
+
+Manual execution of database script to generate and send backdated broker file (BCN) to SNB custodian for 9 February 2026, as the automated process did not run due to configuration issue.
+
+⸻
+
+Description
+
+SNB custodian has not received the broker file/BCN for the portfolio for the trade date 9 February 2026.
+This occurred because the required setup was not configured by the operations team on the previous day, causing the automated process to fail.
+
+The system automation only processes current-day trade confirmations and does not support backdated confirmations.
+To avoid settlement issues, a manual database script execution is required to trigger the backdated trade confirmations and generate the broker file.
+
+An incident ticket has already been raised for this issue.
+
+⸻
+
+Justification
+
+This is a business-critical activity, as the broker file must be sent to the custodian.
+Without this file:
+	•	Trades may fail to settle.
+	•	There may be financial and operational impact.
+
+Manual script execution is required to generate the missing backdated confirmations.
+
+⸻
+
+Implementation Plan
+	1.	Identify the affected portfolio and trade date (9 February 2026).
+	2.	Take backup of relevant records before execution.
+	3.	Execute the approved database script to trigger backdated trade confirmations.
+	4.	Generate the broker file (BCN).
+	5.	Send the broker file to SNB custodian.
+
+⸻
+
+Business Impact
+	•	Trades may fail to settle if the broker file is not sent.
+	•	Potential financial and reconciliation impact.
+	•	Urgent action required to meet custodian settlement timelines.
+
+⸻
+
+Technical Impact
+	•	Manual execution of database script.
+	•	No application deployment or code change involved.
+	•	Impact limited to the affected portfolio and trade date.
+
+⸻
+
+Backout Plan
+
+Restore the affected records using the pre-execution database backup if any issue occurs after script execution.
+
+⸻
+
+Post-Implementation Verification Plan
+	1.	Confirm backdated trade confirmations are generated successfully.
+	2.	Verify broker file (BCN) is created for the affected portfolio.
+	3.	Ensure the file is delivered to SNB custodian.
+	4.	Obtain business confirmation that settlements can proceed normally.
+    
+    
 ⸻
 
 1. 
