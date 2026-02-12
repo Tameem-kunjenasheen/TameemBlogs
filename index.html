@@ -75,7 +75,82 @@
 <button class="update-btn" onclick="updateCode()">Update Code</button>
 <script>
     // 🔹 Put your Java code here (easy to update) 
-    let javaCode = `// ---------------- REPORT 
+    let javaCode = `// ---------------- REPORT -------------
+    
+    
+    Title
+
+Certificate Renewal for Service Connectivity
+
+⸻
+
+Short Description
+
+Renewal and replacement of expiring service connectivity certificate in the respective environment(s) to avoid service disruption.
+
+⸻
+
+Description
+
+The existing certificate used for secure connectivity to the service is nearing expiry and requires renewal.
+
+The renewed certificate must be installed and configured before expiration to ensure uninterrupted communication between systems.
+
+If the certificate is used in both Production and other environments (UAT/DR), it will be updated accordingly to maintain secure connectivity across all applicable environments.
+
+⸻
+
+Justification
+	•	The current certificate is expiring.
+	•	If not renewed, services depending on this certificate will fail to connect.
+	•	This may result in service disruption, transaction failures, or data transmission issues.
+	•	Proactive renewal ensures business continuity and avoids production outages.
+
+⸻
+
+Business Impact
+
+If not implemented before expiry:
+	•	Service connectivity will fail.
+	•	Transactions may not be processed.
+	•	Possible operational and financial impact.
+
+There is no negative business impact expected during implementation if performed within the approved maintenance window.
+
+⸻
+
+Technical Impact
+	•	Replacement of expiring SSL/TLS certificate.
+	•	Service restart may be required after certificate installation.
+	•	No application code changes involved.
+	•	Change will be applied in relevant environments (Production and/or UAT as applicable).
+
+⸻
+
+Implementation Plan
+	1.	Verify certificate validity and expiry date.
+	2.	Take backup of existing certificate and configuration.
+	3.	Install renewed certificate in the target environment(s).
+	4.	Update configuration files if required.
+	5.	Restart dependent services (if applicable).
+	6.	Perform connectivity testing.
+
+⸻
+
+Backout Plan
+
+If any issue occurs:
+	•	Restore the previous certificate from backup.
+	•	Revert configuration changes.
+	•	Restart services to restore original state.
+
+⸻
+
+Post-Implementation Verification Plan
+	1.	Verify certificate is correctly installed and active.
+	2.	Confirm service connectivity is successful.
+	3.	Perform end-to-end transaction testing.
+	4.	Monitor logs for any SSL or connection errors
     
 
                     
