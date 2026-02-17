@@ -77,15 +77,64 @@
     // 🔹 Put your Java code here (easy to update) 
     let javaCode = `// ---------------- REPORT -------------
     
-Hi Team,
+SELECT
+    cmaster.case_master_id AS CASE_ID,
+    rd.RBCDD_REG_COUNTRY_N,
+    rd.RBCDD_PURPOSE_SPV,
+    rd.RBCDD_PURPOSE_ACCOUNT_SPV,
+    rd.RBCDD_PROOF_REG_ABLE_EFRI_STAT,
+    rd.RBCDD_PRINCIPAL_BUSINESS_ADD
+FROM
+    fdhdata.case_master cmaster
+INNER JOIN
+    fdhdata."Reduced_Baseline" rd
+    ON cmaster.case_master_id = rd.case_master_id
+WHERE
+    rd."RBCDD_LEGAL_NAME" IS NOT NULL
+    AND cmaster.case_master_id IN (
+        '2015-11132',
+        '2015-115860',
+        '2015-115865',
+        '2015-115866',
+        '2015-115880',
+        '2015-115924',
+        '2015-115933',
+        '2015-115934',
+        '2015-115940',
+        '2015-115942',
+        '2015-115944',
+        '2015-115947',
+        '2015-115975',
+        '2015-115985',
+        '2015-115987',
+        '2015-116003',
+        '2015-116019',
+        '2015-116035',
+        '2015-116056',
+        '2015-116068',
+        '2015-116089',
+        '2015-116099'
+    )
+ORDER BY
+    cmaster.case_master_id;
+    
+        
+            
+                Method 1: Excel Formula (Fastest)
 
-As a follow-up, could you please provide me with access to the shared folder for the vulnerability reports and remediation evidence?
+Assume your case IDs are in Column A starting from A2.
 
-I need the access to review the reports and proceed with the required analysis and action items.
+In B2, enter this formula:
 
-Please let me know once the access is granted.
+="'" & A2 & "',"
 
-Thanks.         
+
+Then:
+	1.	Press Enter
+	2.	Drag the formula down to all rows
+	3.	Copy the results from column B
+	4.	Paste into your SQL IN clause
+                           
 `;
 
     // Load code on page load
