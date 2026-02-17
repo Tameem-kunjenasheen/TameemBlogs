@@ -77,14 +77,63 @@
     // 🔹 Put your Java code here (easy to update) 
     let javaCode = `// ---------------- REPORT -------------
     
-    Hi Syed and Taqi,
+    Title
 
-We have received the approvals and are good to proceed with the activity.
+Fix Required for Portfolio Suspension in OMS System
 
-As discussed, we are facing a network issue while connecting to Zoom.  
-Could you please check this from your side?
-    There will be no conflict because this change will be done by the SAB team. This certificate renewal is important, and we have received confirmation from SAB that they will renew the certificate.
-                    
+⸻
+
+Short Description
+
+System issue in OMS preventing suspension/deactivation of non-ICM portfolios without Support intervention.
+
+⸻
+
+Description
+
+While attempting to suspend the mentioned portfolio, we received a remark from Support stating that the account is already marked as suspended in the market since it is no longer active.
+
+Previously, the OMS system allowed BSU users to suspend or deactivate non-ICM portfolios without requiring Support involvement. However, this functionality is currently not working as expected.
+
+This appears to be a system defect. A major incident ticket has been raised, and the issue requires priority resolution.
+
+⸻
+
+Justification
+
+The OMS system should allow authorized users (BSU) to suspend/deactivate non-ICM portfolios as per earlier functionality.
+The current behavior is inconsistent with previous system design and operational workflow.
+Fixing this issue is necessary to restore standard operational capability.
+
+⸻
+
+Business Impact
+	•	Delay in portfolio suspension process.
+	•	Increased dependency on Support team.
+	•	Operational inefficiency.
+	•	Potential compliance and control risk if inactive portfolios remain active in the system.
+
+⸻
+
+Technical Impact
+	•	System-level fix required in OMS suspension/deactivation logic.
+	•	No infrastructure change expected.
+	•	Change limited to portfolio status handling functionality.
+
+⸻
+
+Backout Plan
+
+If the fix causes unexpected issues, revert to the previous stable version of the OMS module.
+
+⸻
+
+Post-Implementation Verification Plan
+	1.	Verify BSU users can suspend/deactivate non-ICM portfolios without Support intervention.
+	2.	Validate status update reflects correctly in OMS and downstream systems.
+	3.	Confirm no impact on ICM portfolios.
+	4.	Obtain business confirmation after testing.
+                  
 `;
 
     // Load code on page load
