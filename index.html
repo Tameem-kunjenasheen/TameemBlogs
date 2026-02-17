@@ -76,83 +76,12 @@
 <script>
     // 🔹 Put your Java code here (easy to update) 
     let javaCode = `// ---------------- REPORT -------------
-    Hi Title
-
-Database Status Correction for Portfolio Suspension in OMS
-
-⸻
-
-Short Description
-
-Manual database update to correct portfolio status in OMS from “Suspend Rejected” to “Suspend” due to mismatch between EDAA and OMS systems.
-
-⸻
-
-Description
-
-In the EDAA system, the portfolio has already been deleted/deactivated. However, in the OMS system, the same portfolio is currently showing a status of “Suspend Rejected.”
-
-As per the standard process, portfolio status changes (Delete/Suspend/Deactivate) should be performed through the OMS front end. However, since the portfolio is already deleted in EDAA, the system is not allowing proper status transition in OMS, resulting in an inconsistent state.
-
-To resolve this mismatch and align both systems, a manual database update is required to change the portfolio status from “Suspend Rejected” to “Suspend.”
-
-This is a corrective action while the root cause of the front-end issue is being investigated on priority.
-
-⸻
-
-Justification
-	•	There is a status mismatch between EDAA and OMS systems.
-	•	The portfolio is already deleted/deactivated in EDAA but incorrectly reflected in OMS.
-	•	The front-end process is not allowing proper status correction.
-	•	Immediate database correction is required to maintain system consistency and avoid operational issues.
-
-This is a data correction activity to restore accurate portfolio status.
-
-⸻
-
-Business Impact
-
-If not corrected:
-	•	Portfolio status inconsistency may cause operational confusion.
-	•	Risk of incorrect reporting or downstream processing issues.
-	•	Potential compliance or control concerns due to incorrect portfolio status.
-
-Correcting the status ensures accurate system records and smooth operations.
-
-⸻
-
-Technical Impact
-	•	Manual database update of the portfolio status column in OMS.
-	•	No application code change involved.
-	•	No infrastructure impact.
-	•	Change limited strictly to the identified portfolio record.
-
-⸻
-
-Implementation Plan
-	1.	Identify the affected portfolio in OMS.
-	2.	Take a backup of the relevant database record before modification.
-	3.	Execute approved SQL update statement to change status from “Suspend Rejected” to “Suspend.”
-	4.	Commit changes after validation.
-	5.	Verify status update reflects correctly in OMS.
-
-⸻
-
-Backout Plan
-
-If any issue occurs:
-	•	Restore the affected record from the database backup taken prior to update.
-	•	Re-validate portfolio status post restoration.
-
-⸻
-
-Post-Implementation Verification Plan
-	1.	Confirm portfolio status is updated to “Suspend” in OMS.
-	2.	Validate no impact on other portfolios.
-	3.	Cross-check alignment between EDAA and OMS systems.
-	4.	Obtain business confirmation after validation.
-
     
+Team,
+
+I will go through the reports for each CIB application and check the liabilities in the Secretary system. After that, I will discuss the findings with the CIT members to decide the required actions.
+
+I will also prepare a report outlining the issues, recommended actions, and how we can resolve them. Once this is ready, I will schedule a call with all CIB members to share the details so we can discuss and agree on the action plan.
 
          
 `;
