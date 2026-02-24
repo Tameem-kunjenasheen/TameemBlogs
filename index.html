@@ -81,13 +81,53 @@
 
 
 
-Patching for HBSA PROD & DR servers has been scheduled for 27th February 2026 from 9:00 AM to 4:00 PM.
+Justification
 
-Once we receive validation confirmation for PROD, we will proceed with DR. Services will be stopped prior to the activity and restarted once the activity is completed.
-
-This email serves as formal notification to the business team regarding this change.
+The certificate renewal is mandatory to maintain secure communication and ensure uninterrupted application availability. The certificate will expire, and renewal is required before the expiry date to prevent service disruption.
 
 ⸻
+
+Business Impact
+
+If the certificate expires, users will be unable to access the system. This will result in service unavailability and operational disruption.
+
+⸻
+
+Technical Impact
+
+If the certificate expires, secure connectivity between systems will fail, resulting in application downtime.
+
+During implementation:
+	•	Certificate replacement activity will be performed.
+	•	A controlled service restart will be executed to activate the new certificate.
+	•	No impact to data integrity.
+
+⸻
+
+Implementation Plan
+	1.	Take backup of the existing certificate and configuration.
+	2.	Install the renewed certificate.
+	3.	Update certificate configuration.
+	4.	Restart the affected service.
+	5.	Validate certificate installation and expiry date.
+	6.	Perform connectivity and application functionality testing.
+
+⸻
+
+Backout Plan
+	1.	Remove the new certificate.
+	2.	Reinstall the previous backup certificate.
+	3.	Restart the service.
+	4.	Validate service restoration.
+
+⸻
+
+Post Implementation Verification Plan
+	1.	Verify the new certificate expiry date.
+	2.	Confirm secure connectivity is established.
+	3.	Perform end-to-end application testing.
+	4.	Confirm application accessibility with business users.
+
 
 
 
