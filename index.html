@@ -77,20 +77,81 @@
     // 🔹 Put your Java code here (easy to update) 
     let javaCode = `// ---------------- REPORT -------------
     
+Title
+
+Database Script Modification to Exclude Suspended Portfolios from Report
+
+⸻
+
+Short Description
+
+Modification of existing SQL query to prevent extraction of suspended portfolios in the generated report.
+
+⸻
+
+Description
+
+The current database script/SQL query used to extract and generate the report is incorrectly including suspended portfolios in the output.
+
+As per business requirement, suspended portfolios should not be part of the report. Therefore, the SQL query needs to be corrected to properly filter and exclude portfolios with suspended status.
+
+This change involves updating the existing query logic to ensure accurate report generation.
+
+⸻
+
+Justification
+	•	The report currently contains incorrect data (suspended portfolios).
+	•	This does not align with business reporting requirements.
+	•	Data accuracy is critical for reporting and decision-making.
+
+The correction is required to ensure proper filtering and compliance with reporting standards.
+
+⸻
+
+Business Impact
+
+If not corrected:
+	•	Incorrect reports will be generated and shared.
+	•	Potential confusion for business users and clients.
+	•	Risk of reputational impact due to inaccurate reporting.
+
+Correcting the query ensures accurate and reliable reporting.
+
+⸻
+
+Technical Impact
+	•	Update to existing SQL query logic.
+	•	No infrastructure changes.
+	•	No impact to other modules or applications.
+	•	Impact limited only to the report generation process.
+
+⸻
+
+Implementation Plan
+	1.	Review the existing SQL query used for report generation.
+	2.	Modify the WHERE condition to exclude portfolios with “Suspended” status.
+	3.	Test the updated query in UAT with sample data.
+	4.	Validate report output with business users.
+	5.	Deploy the updated query to Production during approved window.
+	6.	Generate report and confirm correctness.
+
+⸻
+
+Backout Plan
+
+If any issue occurs after deployment:
+	•	Revert to the previous version of the SQL query.
+	•	Validate report generation using the original logic.
+
+⸻
+
+Post-Implementation Verification Plan
+	1.	Generate the report after deployment.
+	2.	Confirm suspended portfolios are no longer included.
+	3.	Validate report totals and counts.
+	4.	Obtain business confirmation of accuracy.
 
 
-Dear Team,
-
-The date change has been completed and verified successfully.
-
-However, the turnaround update and the removal of the International Broker NIN account are still pending. We are planning to implement these changes next weekend.
-
-Please note that there is a service protection period from 19th to 26th February. Hence, the remaining activities will be scheduled after this period.
-
-Kindly let us know if you have any concerns.
-
-Regards,  
-Akram
 `;
 
     // Load code on page load
