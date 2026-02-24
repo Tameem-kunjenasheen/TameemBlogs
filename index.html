@@ -77,6 +77,90 @@
     // 🔹 Put your Java code here (easy to update) 
     let javaCode = `// ---------------- REPORT -------------
     
+Urgency for Raising the CR During SP
+
+The certificate is expiring on 03 March 2026. Renewal must be completed before expiry to avoid service disruption. Since the expiry date falls within the planning window, the CR is raised during SP to ensure uninterrupted service.
+
+⸻
+
+What Will Be the Impact if You Raise the CR After SP?
+
+If the CR is delayed beyond SP and the certificate expires:
+	•	Application connectivity will fail.
+	•	Users will not be able to access the system.
+	•	Integration with Tadawul will stop.
+	•	Production outage will occur.
+
+Therefore, renewal cannot be postponed.
+
+⸻
+
+Business / Regulatory Impact if Not Proceeded
+	•	Trading connectivity with Tadawul will stop.
+	•	Trade processing will fail.
+	•	Settlement and reporting activities will be impacted.
+	•	This will result in operational disruption and reputational impact.
+
+This activity is mandatory to maintain secure connectivity.
+
+⸻
+
+HBSA CIO Approval (If Within SP)
+
+This CR is raised during SP due to certificate expiry and requires CIO approval as per SP governance policy.
+
+⸻
+
+Cyber Approval Required or Not
+
+Cyber approval is required as this activity involves certificate replacement related to secure communication.
+
+(If not required in your case, replace with:
+Cyber approval is not required as this is renewal of an existing approved certificate with no configuration change.)
+
+⸻
+
+Manual Release – CIO Approval
+
+This change is a controlled manual certificate installation activity and will be executed within the approved maintenance window with CIO approval.
+
+⸻
+
+ITSO Endorsement
+
+This CR will be endorsed by ITSO prior to implementation.
+
+⸻
+
+Testing Evidence
+
+Post installation:
+	•	Certificate validity will be verified.
+	•	Connectivity testing with Tadawul will be performed.
+	•	Application access testing will be completed.
+	•	Evidence will be attached to the CR.
+
+⸻
+
+Detailed Health Check
+	•	Verify application service status.
+	•	Verify certificate expiry date and thumbprint.
+	•	Check application logs for SSL errors.
+	•	Confirm successful secure connection.
+
+⸻
+
+SAB Impact
+
+There is no impact on SAB systems.
+Change is limited to HSBC Tadawul application certificate only.
+
+⸻
+
+Impacted Services / CIs
+	•	HSBC Tadawul Application
+	•	Related Application Server
+	•	Certificate Store Configuration
 
 
 
