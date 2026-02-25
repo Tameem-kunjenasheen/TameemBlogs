@@ -77,154 +77,33 @@
     // 🔹 Put your Java code here (easy to update) 
     let javaCode = `// ---------------- REPORT -------------
     
-f this issue is not corrected:
-	•	The report will continue to show suspended portfolios.
-	•	Business users and clients will receive incorrect data.
-	•	This can lead to confusion and loss of trust.
-	•	It can impact reporting accuracy and decision-making.
+Certificate Renewal – Approval Completed & Timing Correction
 
-Correcting this ensures the report shows only valid active portfolios and maintains data accuracy.
+Hi Team,
 
-⸻
+All approvals for the certificate renewal have been completed.
 
-Technical Impact (Improved – Simple and Clear)
-	•	Only the SQL query used for report generation is being updated.
-	•	No changes to application code.
-	•	No changes to server or infrastructure.
-	•	Impact is limited only to the specific report.
+We have selected the timing incorrectly in the request. The renewal activity should be performed post business hours, after 5:00 PM.
 
-The certificate is expiring on 03 March 2026. Renewal must be completed before expiry to avoid service disruption. Since the expiry date falls within the planning window, the CR is raised during SP to ensure uninterrupted service.
+Kindly update the timing and proceed with the certificate renewal after 5:00 PM.
 
-⸻
+Please proceed accordingly.
 
-What Will Be the Impact if You Raise the CR After SP?
+Thank you.
 
-If the CR is delayed beyond SP and the certificate expires:
-	•	Application connectivity will fail.
-	•	Users will not be able to access the system.
-	•	Integration with Tadawul will stop.
-	•	Production outage will occur.
+Regards,
 
-Therefore, renewal cannot be postponed.
+Meeting Scheduled to Discuss Vulnerabilities – Priority Action Required
 
-⸻
+Hi Team,
 
-Business / Regulatory Impact if Not Proceeded
-	•	Trading connectivity with Tadawul will stop.
-	•	Trade processing will fail.
-	•	Settlement and reporting activities will be impacted.
-	•	This will result in operational disruption and reputational impact.
+We have scheduled a call to discuss the identified vulnerabilities. The meeting will include all relevant teams, including the Infrastructure Team, Application Team, and DBA Team.
 
-This activity is mandatory to maintain secure connectivity.
+We request all ISO members to kindly join the call. During the discussion, we will review the vulnerabilities in detail and identify the items that need to be resolved on priority.
 
-⸻
+Your presence and support are highly appreciated to ensure timely closure of these issues.
 
-HBSA CIO Approval (If Within SP)
-
-This CR is raised during SP due to certificate expiry and requires CIO approval as per SP governance policy.
-
-⸻
-
-Cyber Approval Required or Not
-
-Cyber approval is required as this activity involves certificate replacement related to secure communication.
-
-(If not required in your case, replace with:
-Cyber approval is not required as this is renewal of an existing approved certificate with no configuration change.)
-
-⸻
-
-Manual Release – CIO Approval
-
-This change is a controlled manual certificate installation activity and will be executed within the approved maintenance window with CIO approval.
-
-⸻
-
-ITSO Endorsement
-
-This CR will be endorsed by ITSO prior to implementation.
-
-⸻
-
-Testing Evidence
-
-Post installation:
-	•	Certificate validity will be verified.
-	•	Connectivity testing with Tadawul will be performed.
-	•	Application access testing will be completed.
-	•	Evidence will be attached to the CR.
-
-⸻
-
-Detailed Health Check
-	•	Verify application service status.
-	•	Verify certificate expiry date and thumbprint.
-	•	Check application logs for SSL errors.
-	•	Confirm successful secure connection.
-
-⸻
-
-SAB Impact
-
-There is no impact on SAB systems.
-Change is limited to HSBC Tadawul application certificate only.
-
-⸻
-
-Impacted Services / CIs
-	•	HSBC Tadawul Application
-	•	Related Application Server
-	•	Certificate Store Configuration
-
-
-
-
-Justification
-
-The certificate renewal is mandatory to maintain secure communication and ensure uninterrupted application availability. The certificate will expire, and renewal is required before the expiry date to prevent service disruption.
-
-⸻
-
-Business Impact
-
-If the certificate expires, users will be unable to access the system. This will result in service unavailability and operational disruption.
-
-⸻
-
-Technical Impact
-
-If the certificate expires, secure connectivity between systems will fail, resulting in application downtime.
-
-During implementation:
-	•	Certificate replacement activity will be performed.
-	•	A controlled service restart will be executed to activate the new certificate.
-	•	No impact to data integrity.
-
-⸻
-
-Implementation Plan
-	1.	Take backup of the existing certificate and configuration.
-	2.	Install the renewed certificate.
-	3.	Update certificate configuration.
-	4.	Restart the affected service.
-	5.	Validate certificate installation and expiry date.
-	6.	Perform connectivity and application functionality testing.
-
-⸻
-
-Backout Plan
-	1.	Remove the new certificate.
-	2.	Reinstall the previous backup certificate.
-	3.	Restart the service.
-	4.	Validate service restoration.
-
-⸻
-
-Post Implementation Verification Plan
-	1.	Verify the new certificate expiry date.
-	2.	Confirm secure connectivity is established.
-	3.	Perform end-to-end application testing.
-	4.	Confirm application accessibility with business users.
+.
 
 
 
