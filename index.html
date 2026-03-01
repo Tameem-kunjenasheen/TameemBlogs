@@ -77,16 +77,32 @@
     // 🔹 Put your Java code here (easy to update) 
     let javaCode = `// ---------------- REPORT -------------
     
-Action Required: Vulnerability Remediation and Expected Closure Date Update
-Dear Team,
+Hi Team,
 
-As discussed, we have identified multiple vulnerabilities in the February 2026 report, including Critical, High, Medium, and Low severity issues across OS, database, middleware, and application components.
+Please find the IPO Subscription Upload Tool folder attached.
 
-Critical and High issues require immediate attention as they may impact system security and business operations. Medium and Low issues are also to be addressed as part of regular remediation activities.
+Kindly follow the below steps before running the tool:
 
-Kindly review the listed vulnerabilities and respective vendor advisories, apply the recommended solutions, and do the needful at the earliest. Also, update the expected remediation date for each item so that we can properly track the progress and ensure timely closure.
+1. Place the latest dynamic input file inside the input folder.  
+2. Update the STATIC_INPUT.xlsx file inside the input folder:
+   - Ensure all required fields are filled.
+   - Verify OFFER_CODE and BRANCH_CODE are correct.
+   - Ensure SUBSCRIPTION_NUMBER_COUNTER is updated properly.
+3. The dynamic file name must contain today’s date (YYYYMMDD format).
+4. The counter at the end of the file name should be in sequence (for example: 001, 002, etc.). The tool will pick the file with the highest counter for today’s date.
+5. Ensure no Excel files are open before running the tool.
 
-Your prompt action is highly appreciated.
+To run the tool:
+- Double-click IPOSubscriptionUploadTool.bat
+- Wait until the process completes.
+- The output file will be generated inside the output folder.
+
+Please ensure the date and counter format are correct before execution to avoid processing issues.
+
+Let me know if any clarification is required.
+
+Thanks & Regards,  
+Akram
 
 Thanks & Regards,  
 Akram
