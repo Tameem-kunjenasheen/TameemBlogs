@@ -80,81 +80,26 @@
 
 ⸻
 
-Title
+Hi Fahad,
 
-Production IP Address Update for FCCRAM Online Application – Nginx Plus Migration
+With reference to the below discussion, we would like to clarify our understanding regarding the Internet access revoked and External email access revoked.
 
-⸻
+As per the communication, the revoke will be done on a notification basis — meaning before starting the migration activity we will inform you to initiate the revoke, and once the activity is completed we will notify you to reactivate the access.
 
-Short Description
+Our understanding is that this revoke is implemented to protect the Production data during the migration to Saudi UAT.
 
-Update of Production IP addresses for FCCRAM Online Application as part of Nginx Plus migration. No URL changes involved.
+Kindly confirm if this understanding is correct.
 
-⸻
+Also, please confirm that once the BRETT activity is completed, the VDI access and related access will be restored.
 
-Description
+Please find below the list of members who will be performing the activity:
 
-As part of the Nginx Plus migration, the FCCRAM Online Application infrastructure is being updated in Production. There is no change in URL. Only the backend IP addresses are being updated.
+[Insert member names and IDs here]
 
-The new Production IP addresses will be added while keeping the existing IP addresses active. Once validation is completed successfully, the old IP addresses will be removed.
+Kindly review and confirm so we can proceed accordingly.
 
-⸻
-
-Justification
-
-This change is required to complete the Production phase of the Nginx Plus migration. The migration improves infrastructure stability and standardization.
-
-If this change is not implemented, the Production environment will remain on the old configuration and the migration activity will remain incomplete.
-
-⸻
-
-Implementation Plan
-	1.	Infrastructure Team will confirm the new Production IP addresses.
-	2.	Network/Application Team will update the IP configuration by adding new IPs while keeping old IPs active.
-	3.	Validate application connectivity using both IP addresses.
-	4.	Application Team will perform functional testing.
-	5.	After successful validation, Network Team will remove old IP addresses.
-	6.	Final connectivity and application validation will be completed.
-
-⸻
-
-Business Impact
-
-If the change is not completed:
-	•	Production migration will remain incomplete.
-	•	Future infrastructure support and maintenance may be impacted.
-	•	Risk of service interruption if old infrastructure is decommissioned without update.
-
-During implementation:
-	•	No user impact expected.
-	•	No URL change for users.
-
-⸻
-
-Technical Impact
-	•	Backend IP configuration update in Production.
-	•	No application code change.
-	•	No database impact.
-	•	Risk scenario: Incorrect IP configuration can cause application connectivity failure.
-
-Proper validation will be performed to avoid service disruption.
-
-⸻
-
-Backout Plan
-	1.	If connectivity issues are observed, remove newly added IP addresses.
-	2.	Retain and revert fully to existing old IP configuration.
-	3.	Validate application connectivity on old IPs.
-	4.	Inform stakeholders once service is stable.
-
-⸻
-
-Post-Implementation Verification Plan
-	1.	Verify application accessibility via Production URL.
-	2.	Validate backend connectivity to new IP addresses.
-	3.	Confirm no errors in application logs.
-	4.	Obtain business confirmation after validation Regards,  
-Akram
+Thanks & Regards,  
+Tameem
 
 
 
