@@ -2,70 +2,68 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>note</title>
+<title>Notes</title>
 
 <style>
-
 body{
-font-family:Arial;
-background:#121212;
-color:#e0e0e0;
-padding:30px;
+  font-family:Arial;
+  background:#121212;
+  color:#e0e0e0;
+  padding:30px;
 }
 
 h1{
-color:#fff;
+  color:#fff;
 }
 
 .code-container{
-background:#1e1e1e;
-padding:20px;
-border-radius:6px;
-position:relative;
-overflow-x:auto;
-border:1px solid #333;
-display:none;
+  background:#1e1e1e;
+  padding:20px;
+  border-radius:6px;
+  position:relative;
+  overflow-x:auto;
+  border:1px solid #333;
+  display:none; /* Hidden until PIN entered */
 }
 
 pre{
-margin:0;
-white-space:pre;
+  margin:0;
+  white-space:pre;
 }
 
 .copy-btn{
-position:absolute;
-top:10px;
-right:10px;
-background:#2a2a2a;
-color:white;
-border:none;
-padding:6px 12px;
-border-radius:4px;
-cursor:pointer;
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:#2a2a2a;
+  color:white;
+  border:none;
+  padding:6px 12px;
+  border-radius:4px;
+  cursor:pointer;
 }
 
 .copy-btn:hover{
-background:#3a3a3a;
+  background:#3a3a3a;
 }
 
 input{
-padding:8px;
-background:#1e1e1e;
-border:1px solid #333;
-color:#fff;
-border-radius:6px;
+  padding:8px;
+  background:#1e1e1e;
+  border:1px solid #333;
+  color:#fff;
+  border-radius:6px;
 }
 
 button{
-padding:8px 16px;
-margin-left:5px;
-cursor:pointer;
-background:#2a2a2a;
-color:white;
-border:none;
-border-radius:6px;
+  padding:8px 16px;
+  margin-left:5px;
+  cursor:pointer;
+  background:#2a2a2a;
+  color:white;
+  border:none;
+  border-radius:6px;
 }
-
 </style>
 </head>
 
@@ -73,13 +71,16 @@ border-radius:6px;
 
 <h1>Notes</h1>
 
-<input type="password" id="pin" placeholder="Enter Number">
-<button onclick="unlock()">Counter Start1</button>
+<!-- PIN Input -->
+<input type="password" id="pinInput" placeholder="Enter PIN">
+<button onclick="checkPin()">Unlock</button>
 
+<div id="msg" style="margin-top:10px;color:#aaa;"></div>
+
+<!-- Code container -->
 <div class="code-container" id="codeBox">
-<button class="copy-btn" onclick="copyCode()">Copy</button>
-<pre><code id="codeBlock">
-
+  <button class="copy-btn" onclick="copyCode()">Copy</button>
+  <pre><code id="codeBlock">
 // Put your Java code here
 
 public class HelloWorld {
@@ -87,68 +88,35 @@ public class HelloWorld {
         System.out.println("Hello World!");
     }
 }
-
-</code></pre>
+  </code></pre>
 </div>
 
 <script>
+ 
+const correctPin = "Azxcv"; 
 
-
-const storedHash = "8c4a33af93e8a4a4c3b7e0f6e2cda6e9b9a2b805d6e7a3a0655e768f8b510069";
-
-async function sha256(message){
-
-const msgBuffer = new TextEncoder().encode(message);
-const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-const hashArray = Array.from(new Uint8Array(hashBuffer));
-
-return hashArray.map(b => b.toString(16).padStart(2,"0")).join("");
-
-}
-
-async function unlock(){
-
-let pin=document.getElementById("pin").value;
-
-let hash=await sha256(pin);
-
-if(hash===storedHash){
-
-document.getElementById("codeBox").style.display="block";
-
-}else{
-
-alert("Wrong Number");
-
-}
-
+function checkPin(){
+  const pin = document.getElementById("pinInput").value;
+  if(pin === correctPin){
+    document.getElementById("codeBox").style.display = "block";
+    document.getElementById("msg").innerText = "";
+  } else {
+    document.getElementById("msg").innerText = "Wrong PIN";
+  }
 }
 
 function copyCode(){
-
-let code=document.getElementById("codeBlock").innerText;
-
-navigator.clipboard.writeText(code);
-
+  const code = document.getElementById("codeBlock").innerText;
+  navigator.clipboard.writeText(code);
 }
 
 /* basic protection */
-
-document.addEventListener("contextmenu",e=>e.preventDefault());
-
-document.onkeydown=function(e){
-
-if(e.keyCode==123)return false;
-if(e.ctrlKey && e.shiftKey && e.keyCode==73)return false;
-
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.onkeydown = function(e){
+  if(e.keyCode == 123) return false; // F12
+  if(e.ctrlKey && e.shiftKey && e.keyCode == 73) return false; // Ctrl+Shift+I
 }
-
 </script>
 
 </body>
 </html>
-
-
-
-
-
