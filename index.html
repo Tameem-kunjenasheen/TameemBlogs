@@ -78,7 +78,54 @@
     let javaCode = `// ---------------- REPORT -------------
     
 
+Urgency for Raising the CR During Service Protection (SP)
+
+This change is required to whitelist the new RAM service IP addresses in the CRMS Production and DR servers. The IP update is part of the infrastructure update and must be completed to maintain connectivity between CRMS and the RAM service. The change is time-sensitive because RAM calculations are required for customer onboarding.
+
 ⸻
+
+What Will Be the Impact if You Raise the CR After SP?
+
+If the change is delayed beyond the SP window, CRMS will continue to use old IP addresses. This will cause connectivity failure with the RAM service once the old IPs are decommissioned. RAM calculation will fail and customer onboarding cannot be completed.
+
+⸻
+
+Business / Regulatory Impact if Not Proceeded
+
+RAM service is used for customer risk assessment during onboarding. If the CRMS application cannot connect to the RAM service:
+	•	RAM calculation will fail.
+	•	Customer onboarding will not proceed.
+	•	Business operations related to onboarding will be impacted.
+
+⸻
+
+HBSA CIO Approval (If Within SP)
+
+This CR is raised during the Service Protection period due to the required IP whitelist update for RAM service connectivity. CIO approval will be obtained as per SP governance requirements.
+
+⸻
+
+Cyber Approval Required or Not
+
+Cyber approval is not required because this change only involves IP whitelisting for an existing service. There are no security configuration changes or new external integrations.
+
+(If your process requires cyber approval, you can change this line.)
+
+⸻
+
+Manual Release – CIO Approval
+
+This change will be executed as a controlled manual configuration update during the approved CR window. Implementation will follow standard change management procedures and CIO approval will be obtained.
+
+⸻
+
+Detailed Health Check
+
+After implementation the following checks will be performed:
+	•	Verify CRMS connectivity to the RAM service.
+	•	Confirm RAM calculation is working correctly.
+	•	Check application logs for connectivity errors.
+	•	Validate customer onboarding flow from CRMS.
 
 Apologies for the delayed response.
 
