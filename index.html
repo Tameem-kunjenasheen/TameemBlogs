@@ -84,24 +84,64 @@
 
  
 
-Dear Team,
+Optimized Automation Flow – Java Application
 
-Kind reminder.
+Step 1 – Upload Input File  
+The user uploads the Monthly Cash Balance Excel report into the application.
 
-The certificate renewal was successfully implemented on 25/02/2026, and verification has also been completed from our end.
+Step 2 – Data Validation  
+The system validates the uploaded file to ensure:
+- The file format is correct (Excel).
+- Required columns are present.
+- No mandatory fields are missing.
 
-We have been following up for confirmation to proceed with closing the task. Since the certificates have been successfully renewed and verified, we will proceed with closing the Change Request (CR) from our side.
+Step 3 – Data Filtering  
+The system automatically filters the data based on the following conditions:
+- ALPRIE = CUT  
+- ALCYCD = SAR  
+- ALDCG = SABB  
 
-Details of the changes are below:
+Any rows that do not meet these conditions are removed.
 
-1. CHG0050169 – ICS Certificate Renewal (iclearsuite.systems.sa.hsbc)  
-2. CHG0050168 – HSBCTadawul Certificate Renewal (hsbctadawulapp.systems.sa.hsbc)
+Step 4 – Remove Zero Balances  
+The system checks column ALMVC1 and removes rows where the balance is zero.
 
-SNOW Links:  
-CHG0050168 – Change Request | ServiceNow  
-CHG0050169 – Change Request | ServiceNow
+Step 5 – Balance Conversion  
+Column ALMVC1 contains values in halalas.  
+The system converts them to SAR using the formula:
 
-Thank you. 
+Balance = ALMVC1 / 100
+
+Step 6 – Aggregate Balance Calculation  
+The application calculates the Total Eligible Average Balance from the remaining records.
+
+Step 7 – Reverse Repo Rate  
+The Reverse Repo Rate is applied in the calculation.  
+This can be handled in two ways:
+- Automatically fetching the rate from the SAMA website.
+- Allowing the user to manually enter the rate.
+
+Step 8 – DCC and GC Balance Calculation  
+The system calculates the balances for:
+- DCC
+- GC
+- Project Trust
+- Internal / Other
+- Private Funds
+
+Step 9 – NII Calculation  
+The application calculates the estimated NII using the formula:
+
+NII = Balance × Reverse Repo Rate × Days / 360
+
+Step 10 – Generate Final Report  
+The system generates the final NII Estimation Report in Excel format.  
+The report includes:
+- Eligible Average Balance
+- Reverse Repo Rate
+- Number of days in the month
+- DCC and GC balances
+- Final NII estimate. 
 
 
 
