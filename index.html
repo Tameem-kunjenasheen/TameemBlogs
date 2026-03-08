@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Note</title>
+<title>note</title>
 
 <style>
 
@@ -14,13 +14,13 @@ padding:30px;
 }
 
 h1{
-color:#ffffff;
+color:#fff;
 }
 
 .code-container{
 background:#1e1e1e;
 padding:20px;
-border-radius:8px;
+border-radius:6px;
 position:relative;
 overflow-x:auto;
 border:1px solid #333;
@@ -30,7 +30,6 @@ display:none;
 pre{
 margin:0;
 white-space:pre;
-color:#e0e0e0;
 }
 
 .copy-btn{
@@ -38,10 +37,10 @@ position:absolute;
 top:10px;
 right:10px;
 background:#2a2a2a;
-color:#fff;
+color:white;
 border:none;
 padding:6px 12px;
-border-radius:6px;
+border-radius:4px;
 cursor:pointer;
 }
 
@@ -51,7 +50,6 @@ background:#3a3a3a;
 
 input{
 padding:8px;
-margin-top:10px;
 background:#1e1e1e;
 border:1px solid #333;
 color:#fff;
@@ -60,17 +58,12 @@ border-radius:6px;
 
 button{
 padding:8px 16px;
-margin-left:6px;
+margin-left:5px;
 cursor:pointer;
 background:#2a2a2a;
-color:#fff;
+color:white;
 border:none;
 border-radius:6px;
-}
-
-#msg{
-margin-top:10px;
-color:#aaa;
 }
 
 </style>
@@ -78,53 +71,62 @@ color:#aaa;
 
 <body>
 
-<h1>Keep a small note</h1>
+<h1>Notes</h1>
 
-<p>Enter Number for counter to start.</p>
-
-<input type="password" id="pin" placeholder="Enter Access Pin">
-<button onclick="unlock()">get</button>
-
-<div id="msg"></div>
+<input type="password" id="pin" placeholder="Enter Number">
+<button onclick="unlock()">Counter Start</button>
 
 <div class="code-container" id="codeBox">
 <button class="copy-btn" onclick="copyCode()">Copy</button>
-<pre><code id="codeBlock"></code></pre>
+<pre><code id="codeBlock">
+
+// Put your Java code here
+
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}
+
+</code></pre>
 </div>
 
 <script>
 
-/* CONSTANT PIN */
-const correctPin = "zoha123notes";
+/* SHA-256 HASH of "Azxcv" */
+const storedHash = "a9999e364706816aba3e25717850c26c9cd0d89d5f7c6a6f0e2f3f8fda6e8c8b";
 
-/* 🔐 Encrypted Java Code (Base64) */
-const encryptedCode = "Ci8vIFBsYWNlIHlvdXIgSmF2YSBjb2RlIGhlcmUKcHVibGljIGNsYXNzIEhlbGxvIHsKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBtYWluKFN0cmluZ1tdIGFyZ3MpIHsKICAgICAgICBTeXN0ZW0ub3V0LnByaW50bG4oIkhlbGxvIFdvcmxkISIpOwogICAgfQp9";
+async function sha256(message){
 
-/* decode base64 */
-function decryptCode(data){
-return atob(data);
+const msgBuffer = new TextEncoder().encode(message);
+const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+return hashArray.map(b => b.toString(16).padStart(2,"0")).join("");
+
 }
 
-function unlock(){
+async function unlock(){
 
 let pin=document.getElementById("pin").value;
 
-if(pin!==correctPin){
-document.getElementById("msg").innerText="wrong number.";
-return;
-}
+let hash=await sha256(pin);
 
-let code=decryptCode(encryptedCode);
+if(hash===storedHash){
 
-document.getElementById("codeBlock").textContent=code;
 document.getElementById("codeBox").style.display="block";
-document.getElementById("msg").innerText="";
+
+}else{
+
+alert("Wrong Number");
+
+}
 
 }
 
 function copyCode(){
 
-let code=document.getElementById("codeBlock").textContent;
+let code=document.getElementById("codeBlock").innerText;
 
 navigator.clipboard.writeText(code);
 
@@ -145,4 +147,3 @@ if(e.ctrlKey && e.shiftKey && e.keyCode==73)return false;
 
 </body>
 </html>
-
