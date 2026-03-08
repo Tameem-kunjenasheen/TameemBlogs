@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Notes</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:30px;
+background:#f4f6f8;
+}
+
+textarea{
+width:100%;
+height:220px;
+font-family:monospace;
+padding:10px;
+}
+
+button{
+padding:8px 16px;
+margin-top:10px;
+cursor:pointer;
+}
+
+#viewer{
+margin-top:20px;
+background:#1e1e1e;
+color:#dcdcdc;
+padding:20px;
+white-space:pre-wrap;
+display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<h3>Notes</h3>
+
+<textarea id="editor" placeholder="Paste text or code here"></textarea>
+
+<br>
+
+<input type="password" id="pin" placeholder="PIN">
+
+<br>
+
+<button onclick="publish()">Publish (Encrypt)</button>
+
+<button onclick="clearData()">Remove Data</button>
+
+<hr>
+
+<input type="password" id="viewPin" placeholder="Enter PIN to View">
+
+<button onclick="unlock()">View</button>
+
+<div id="viewer"></div>
+
+<script>
+
+/* Stored encrypted text */
+let encryptedData = "";
+
+/* AES encryption using browser crypto */
+
+async function getKey(pin){
+
+const enc = new TextEncoder();
+
+const keyMaterial = await crypto.subtle.importKey(
+"raw",
+enc.encode(pin),
+{ name: "PBKDF2" },
+false,
+["deriveKey"]
+);
+
+return crypto.subtle.deriveKey(
+{
+name: "PBKDF2",
+salt: enc.encode("simple-salt"),
+iterations: 100000,
+hash: "SHA-256"
+},
+keyMaterial,
+{ name: "AES-GCM", length: 256 },
+false,
+["encrypt","decrypt"]
+);
+
+}
+
+async function publish(){
+
+let text = document.getElementById("editor").value;
+let pin = document.getElementById("pin").value;
+
+if(!text || !pin){
+alert("Enter text and PIN");
+return;
+}
+
+const enc = new TextEncoder();
+const iv = crypto.getRandomValues(new Uint8Array(12));
+
+const key = await getKey(pin);
+
+const encrypted = await crypto.subtle.encrypt(
+{ name:"AES-GCM", iv },
+key,
+enc.encode(text)
+);
+
+const data = {
+iv:Array.from(iv),
+data:Array.from(new Uint8Array(encrypted))
+};
+
+encryptedData = btoa(JSON.stringify(data));
+
+document.getElementById("editor").value="";
+document.getElementById("pin").value="";
+
+alert("Published securely");
+
+}
+
+async function unlock(){
+
+let pin = document.getElementById("viewPin").value;
+
+if(!encryptedData){
+alert("No data");
+return;
+}
+
+try{
+
+const decoded = JSON.parse(atob(encryptedData));
+
+const iv = new Uint8Array(decoded.iv);
+const data = new Uint8Array(decoded.data);
+
+const key = await getKey(pin);
+
+const decrypted = await crypto.subtle.decrypt(
+{ name:"AES-GCM", iv },
+key,
+data
+);
+
+const dec = new TextDecoder();
+
+document.getElementById("viewer").style.display="block";
+document.getElementById("viewer").textContent = dec.decode(decrypted);
+
+}catch{
+
+alert("Wrong PIN");
+
+}
+
+}
+
+function clearData(){
+
+encryptedData="";
+
+document.getElementById("viewer").textContent="";
+document.getElementById("viewer").style.display="none";
+
+alert("Data removed");
+
+}
+
+/* basic protection */
+
+document.addEventListener("contextmenu",e=>e.preventDefault());
+
+document.onkeydown=function(e){
+
+if(e.keyCode==123)return false;
+if(e.ctrlKey && e.shiftKey && e.keyCode==73)return false;
+
+}
+
+</script>
+
+</body>
+</html>
