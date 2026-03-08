@@ -101,7 +101,7 @@ let text = document.getElementById("editor").value;
 let pin = document.getElementById("pin").value;
 
 if(!text || !pin){
-alert("Enter text and PIN");
+alert("trying to take notes....Failed!! Please try Again later.");
 return;
 }
 
@@ -126,7 +126,7 @@ encryptedData = btoa(JSON.stringify(data));
 document.getElementById("editor").value="";
 document.getElementById("pin").value="";
 
-alert("Published securely");
+//alert("Published securely");
 
 }
 
@@ -135,7 +135,7 @@ async function unlock(){
 let pin = document.getElementById("viewPin").value;
 
 if(!encryptedData){
-alert("No data");
+alert("trying to Exit notes....Failed!! Please try Again later."");
 return;
 }
 
@@ -161,7 +161,7 @@ document.getElementById("viewer").textContent = dec.decode(decrypted);
 
 }catch{
 
-alert("Wrong PIN");
+//alert("Wrong PIN");
 
 }
 
@@ -174,7 +174,7 @@ encryptedData="";
 document.getElementById("viewer").textContent="";
 document.getElementById("viewer").style.display="none";
 
-alert("Data removed");
+//alert("Data removed");
 
 }
 
@@ -193,4 +193,5 @@ if(e.ctrlKey && e.shiftKey && e.keyCode==73)return false;
 
 </body>
 </html>
+
 
