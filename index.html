@@ -73,7 +73,7 @@ button{
 
 <!-- PIN Input -->
 <input type="password" id="pinInput" placeholder="Enter PIN">
-<button onclick="checkPin()">Unlock</button>
+<button onclick="checkPin()">Counter start</button>
 
 <div id="msg" style="margin-top:10px;color:#aaa;"></div>
 
@@ -81,13 +81,7 @@ button{
 <div class="code-container" id="codeBox">
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
-// Put your Java code here
-
-public class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
-}
+ 
   </code></pre>
 </div>
 
@@ -101,7 +95,7 @@ function checkPin(){
     document.getElementById("codeBox").style.display = "block";
     document.getElementById("msg").innerText = "";
   } else {
-    document.getElementById("msg").innerText = "Wrong PIN";
+    document.getElementById("msg").innerText = "Wrong Number";
   }
 }
 
@@ -120,3 +114,4 @@ document.onkeydown = function(e){
 
 </body>
 </html>
+
