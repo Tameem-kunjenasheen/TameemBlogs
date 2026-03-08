@@ -41,7 +41,7 @@ display:none;
 
 <h3>Notes</h3>
 
-<textarea id="editor" placeholder="Paste text or code here"></textarea>
+<textarea id="editor" placeholder="Keep a small notebook near you so that when you do get an idea, you can write it down and not forget it."></textarea>
 
 <br>
 
@@ -49,15 +49,15 @@ display:none;
 
 <br>
 
-<button onclick="publish()">Publish (Encrypt)</button>
+<button onclick="publish()">Try adding Notes</button>
 
-<button onclick="clearData()">Remove Data</button>
+
 
 <hr>
 
 <input type="password" id="viewPin" placeholder="Enter PIN to View">
 
-<button onclick="unlock()">View</button>
+<button onclick="unlock()">Exit</button>
 
 <div id="viewer"></div>
 
@@ -193,3 +193,4 @@ if(e.ctrlKey && e.shiftKey && e.keyCode==73)return false;
 
 </body>
 </html>
+
