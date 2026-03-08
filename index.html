@@ -82,100 +82,26 @@
 
 
 
- Subject: Request for Cyber Approval – Firewall Whitelisting for CR Implementation
+ 
 
 Dear Team,
 
-We request Cyber approval for the firewall changes required as part of the CR implementation.
+Kind reminder.
 
-The new IP addresses have been updated for the below URLs, and the details of the new IP addresses are shown below. The required firewall whitelisting needs to be completed while keeping the existing IP addresses active to avoid any service disruption.
+The certificate renewal was successfully implemented on 25/02/2026, and verification has also been completed from our end.
 
-The RAM service is used for customer onboarding and customer risk assessment. CRMS connects to the RAM service to perform RAM calculation during the onboarding process. If the firewall rules are not updated, CRMS will not be able to communicate with the RAM service, and RAM calculation will fail which will impact customer onboarding.
+We have been following up for confirmation to proceed with closing the task. Since the certificates have been successfully renewed and verified, we will proceed with closing the Change Request (CR) from our side.
 
-The firewall request form has also been attached for your reference.
+Details of the changes are below:
 
-Kindly review and provide Cyber approval to proceed with the firewall update.
+1. CHG0050169 – ICS Certificate Renewal (iclearsuite.systems.sa.hsbc)  
+2. CHG0050168 – HSBCTadawul Certificate Renewal (hsbctadawulapp.systems.sa.hsbc)
 
-This change is required to whitelist the new RAM service IP addresses in the CRMS Production and DR servers. The IP update is part of the infrastructure update and must be completed to maintain connectivity between CRMS and the RAM service. The change is time-sensitive because RAM calculations are required for customer onboarding.
+SNOW Links:  
+CHG0050168 – Change Request | ServiceNow  
+CHG0050169 – Change Request | ServiceNow
 
-⸻
-
-What Will Be the Impact if You Raise the CR After SP?
-
-If the change is delayed beyond the SP window, CRMS will continue to use old IP addresses. This will cause connectivity failure with the RAM service once the old IPs are decommissioned. RAM calculation will fail and customer onboarding cannot be completed.
-
-⸻
-
-Business / Regulatory Impact if Not Proceeded
-
-RAM service is used for customer risk assessment during onboarding. If the CRMS application cannot connect to the RAM service:
-	•	RAM calculation will fail.
-	•	Customer onboarding will not proceed.
-	•	Business operations related to onboarding will be impacted.
-
-⸻
-
-HBSA CIO Approval (If Within SP)
-
-This CR is raised during the Service Protection period due to the required IP whitelist update for RAM service connectivity. CIO approval will be obtained as per SP governance requirements.
-
-⸻
-
-Cyber Approval Required or Not
-
-Cyber approval is not required because this change only involves IP whitelisting for an existing service. There are no security configuration changes or new external integrations.
-
-(If your process requires cyber approval, you can change this line.)
-
-⸻
-
-Manual Release – CIO Approval
-
-This change will be executed as a controlled manual configuration update during the approved CR window. Implementation will follow standard change management procedures and CIO approval will be obtained.
-
-⸻
-
-Detailed Health Check
-
-After implementation the following checks will be performed:
-	•	Verify CRMS connectivity to the RAM service.
-	•	Confirm RAM calculation is working correctly.
-	•	Check application logs for connectivity errors.
-	•	Validate customer onboarding flow from CRMS.
-
-Apologies for the delayed response.
-
-We have started the development in the UAT environment, and the changes need to be tested in UAT. At the same time, we are engaged in other development activities, as a service protection period was scheduled for this week.
-
-Last weekend there was a conflicting activity, so the task had to be rescheduled.
-
-We assure you that this task is on our high priority list. Once the development and testing are completed in UAT, we will proceed with the UAT sign-off and then plan the release for Production.
-
-We are doing our best to complete the activity as soon as possible..
-
-Thanks..
-
-Thanks & Regards,  
-Akram
-
-With reference to the below discussion, we would like to clarify our understanding regarding the Internet access revoked and External email access revoked.
-
-As per the communication, the revoke will be done on a notification basis — meaning before starting the migration activity we will inform you to initiate the revoke, and once the activity is completed we will notify you to reactivate the access.
-
-Our understanding is that this revoke is implemented to protect the Production data during the migration to Saudi UAT.
-
-Kindly confirm if this understanding is correct.
-
-Also, please confirm that once the BRETT activity is completed, the VDI access and related access will be restored.
-
-Please find below the list of members who will be performing the activity:
-
-[Insert member names and IDs here]
-
-Kindly review and confirm so we can proceed accordingly.
-
-Thanks & Regards,  
-Tameem
+Thank you. 
 
 
 
