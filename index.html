@@ -83,15 +83,48 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
-Hi Team,
+Hi Business Approval Required – Production Data Backup and Masking Activity for UAT (Regulatory Requirement)
 
-All required approvals have been received for the CRMS firewall whitelisting activity.
+Dear Team,
 
-We can proceed with whitelisting the IPs as scheduled at 5:00 PM today. Please proceed with the activity accordingly.
+We request your approval to perform a Production Data Backup and Masking activity for the UAT environment as part of HSBC regulatory requirements for backup and data recovery validation.
 
-Once the whitelisting is completed, kindly confirm back so we can verify the connectivity from our end.
+Purpose of the Activity
 
-Thanks & Regards,  
+This activity is required to ensure that we have a reliable and realistic test environment to support troubleshooting and recovery scenarios. In case any issue occurs in the Production environment, the team must be able to replicate the same scenario in UAT to analyze the problem and identify the resolution without impacting live services.
+
+Having a masked copy of production data in UAT allows the technical teams to reproduce issues accurately, perform investigation, and validate fixes before applying them in production. This process supports HSBC data recovery, operational resilience, and regulatory compliance requirements.
+
+Data Protection
+
+Please note the following controls will be applied:
+	•	Production data will be masked before being used in UAT
+	•	Sensitive information will be protected
+	•	The data will remain within the Saudi hosted UAT servers
+	•	The activity will be performed in line with HSBC security and regulatory guidelines
+
+Planned Schedule
+
+The activity is planned to be performed after the Service Protection Period, on 27 March, to ensure there is no impact to production stability.
+
+Activity Overview
+
+The high-level steps involved in this process are:
+	1.	Take a backup of the required production data.
+	2.	Transfer the data securely to the UAE processing environment.
+	3.	Perform data masking to remove or protect sensitive information.
+	4.	Move the masked dataset to the Saudi UAT servers.
+	5.	Validate the data to ensure it is usable for troubleshooting and recovery testing.
+
+This process will help ensure that HSBC teams can quickly replicate production issues, investigate root causes, and test solutions safely in UAT.
+
+We kindly request your business approval to proceed with this activity.
+
+Please let us know if you need any further clarification.
+
+Best regards,
+Akram
+,  
 Akram.
 
 
