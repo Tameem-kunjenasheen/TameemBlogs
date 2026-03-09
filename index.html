@@ -83,48 +83,24 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
-Hi Business Approval Required – Production Data Backup and Masking Activity for UAT (Regulatory Requirement)
-
 Dear Team,
 
-We request your approval to perform a Production Data Backup and Masking activity for the UAT environment as part of HSBC regulatory requirements for backup and data recovery validation.
+We request your business approval to perform the BRETT activity for the KSA Transfer Agency SA system, as part of the HSBC Data Backup and Recovery regulatory requirement.
 
-Purpose of the Activity
+Purpose of the Activity  
+This exercise is required to simulate a data recovery scenario. In the event of any issue where both Production and Alternative sites are unavailable, the team must be able to restore production data in a testing environment to reproduce the issue and validate the fix. This activity ensures HSBC meets regulatory expectations for backup and recovery readiness.
 
-This activity is required to ensure that we have a reliable and realistic test environment to support troubleshooting and recovery scenarios. In case any issue occurs in the Production environment, the team must be able to replicate the same scenario in UAT to analyze the problem and identify the resolution without impacting live services.
+Activity Overview  
+- Take the backup from the Production environment.  
+- Restore the backup in the UAT environment for recovery simulation.  
+- Perform data masking to protect sensitive information.  
+- Execute post-masking validation and cleanup to ensure no sensitive data remains exposed in the test environment.
 
-Having a masked copy of production data in UAT allows the technical teams to reproduce issues accurately, perform investigation, and validate fixes before applying them in production. This process supports HSBC data recovery, operational resilience, and regulatory compliance requirements.
+This activity is planned to be performed after the Service Protection Period on 27 March.
 
-Data Protection
+Kindly review and provide your business approval to proceed with this regulatory activity.
 
-Please note the following controls will be applied:
-	•	Production data will be masked before being used in UAT
-	•	Sensitive information will be protected
-	•	The data will remain within the Saudi hosted UAT servers
-	•	The activity will be performed in line with HSBC security and regulatory guidelines
-
-Planned Schedule
-
-The activity is planned to be performed after the Service Protection Period, on 27 March, to ensure there is no impact to production stability.
-
-Activity Overview
-
-The high-level steps involved in this process are:
-	1.	Take a backup of the required production data.
-	2.	Transfer the data securely to the UAE processing environment.
-	3.	Perform data masking to remove or protect sensitive information.
-	4.	Move the masked dataset to the Saudi UAT servers.
-	5.	Validate the data to ensure it is usable for troubleshooting and recovery testing.
-
-This process will help ensure that HSBC teams can quickly replicate production issues, investigate root causes, and test solutions safely in UAT.
-
-We kindly request your business approval to proceed with this activity.
-
-Please let us know if you need any further clarification.
-
-Best regards,
-Akram
-,  
+Best regards,  
 Akram.
 
 
