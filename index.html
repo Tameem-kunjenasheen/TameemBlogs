@@ -398,6 +398,132 @@ public class MainUI {
         controller.execute("input/source.xlsx", p);
 
         System.out.println("Process Completed Successfully ✅");
+    
+ttttt
+
+import java.util.*;
+
+// Handles all calculations
+public class CalculationService {
+
+    // ✅ Method 1: Group data by ALDCS
+    public Map<String, Double> groupByCategory(List<Record> records) {
+
+        Map<String, Double> map = new HashMap<String, Double>();
+
+        for (Record r : records) {
+
+            // If category not exists → add
+            if (!map.containsKey(r.aldcs)) {
+                map.put(r.aldcs, r.balance);
+            } 
+            // If exists → sum
+            else {
+                map.put(r.aldcs, map.get(r.aldcs) + r.balance);
+            }
+        }
+
+        return map;
+    }
+
+    // ✅ Method 2: Main calculation (THIS WAS MISSING / WRONG)
+    public Map<String, Double> calculate(Map<String, Double> totals, InputParams p) {
+
+        Map<String, Double> result = new HashMap<String, Double>();
+
+        double total = 0;
+
+        // Sum all categories
+        for (double v : totals.values()) {
+            total += v;
+        }
+
+        // Calculations
+        double statReserve = total * p.statReserve;
+        double eligible = total - statReserve;
+
+        double vof = eligible * (p.vofRate / 100) * p.days / 365;
+        double dpf = eligible * (p.dpfRate / 100) * p.days / 365;
+        double hss = vof - dpf;
+
+        double nii = total * p.repoRate * p.days / 360;
+        double niiAdj = nii * p.niiFactor;
+
+        double vat = niiAdj * p.vatRate;
+        double claim = niiAdj + vat;
+
+        // Store results
+        result.put("TOTAL", total);
+        result.put("STAT_RESERVE", statReserve);
+        result.put("ELIGIBLE", eligible);
+        result.put("VOF", vof);
+        result.put("DPF", dpf);
+        result.put("HSS", hss);
+        result.put("NII", niiAdj);
+        result.put("VAT", vat);
+        result.put("CLAIM", claim);
+
+        return result;
+    }
+}
+
+import org.apache.poi.xssf.usermodel.*;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+public class ReportService {
+
+    public String generate(Map<String, Double> r) throws Exception {
+
+        XSSFWorkbook wb = new XSSFWorkbook();
+        XSSFSheet sheet = wb.createSheet("Working");
+
+        int row = 0;
+
+        // Title
+        sheet.createRow(row++).createCell(0).setCellValue("NII ESTIMATION");
+
+        row++;
+
+        // Write values (FIXED CASTING)
+        sheet.createRow(row).createCell(0).setCellValue("Total Balance");
+        sheet.getRow(row++).createCell(1).setCellValue((Double) r.get("TOTAL"));
+
+        sheet.createRow(row).createCell(0).setCellValue("Stat Reserve");
+        sheet.getRow(row++).createCell(1).setCellValue((Double) r.get("STAT_RESERVE"));
+
+        sheet.createRow(row).createCell(0).setCellValue("Eligible Balance");
+        sheet.getRow(row++).createCell(1).setCellValue((Double) r.get("ELIGIBLE"));
+
+        sheet.createRow(row).createCell(0).setCellValue("VOF");
+        sheet.getRow(row++).createCell(1).setCellValue((Double) r.get("VOF"));
+
+        sheet.createRow(row).createCell(0).setCellValue("DPF");
+        sheet.getRow(row++).createCell(1).setCellValue((Double) r.get("DPF"));
+
+        sheet.createRow(row).createCell(0).setCellValue("HSS");
+        sheet.getRow(row++).createCell(1).setCellValue((Double) r.get("HSS"));
+
+        sheet.createRow(row).createCell(0).setCellValue("NII");
+        sheet.getRow(row++).createCell(1).setCellValue((Double) r.get("NII"));
+
+        sheet.createRow(row).createCell(0).setCellValue("VAT");
+        sheet.getRow(row++).createCell(1).setCellValue((Double) r.get("VAT"));
+
+        sheet.createRow(row).createCell(0).setCellValue("Claim");
+        sheet.getRow(row++).createCell(1).setCellValue((Double) r.get("CLAIM"));
+
+        String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String path = "output/NII_Output_" + time + ".xlsx";
+
+        FileOutputStream out = new FileOutputStream(path);
+        wb.write(out);
+
+        wb.close();
+        out.close();
+
+        return path;
     }
 }
 
