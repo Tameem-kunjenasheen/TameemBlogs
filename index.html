@@ -84,275 +84,39 @@ button{
  // -------------------Start-----------------
 
 
-
-✅ 📄 MainUI.java (FULL CODE WITH COMMENTS)
-import javax.swing.*;            // Swing UI components (JFrame, JButton, etc.)
-import java.awt.*;              // Layout management (GridLayout, etc.)
-import java.awt.event.*;        // Event handling (button clicks, etc.)
-
-public class MainUI {
-
-    // UI Components (declared at class level so all methods can access them)
-    private JTextField sourceFileField;   // Input: Source Excel file path
-    private JTextField mappingFileField;  // Input: Mapping Excel file path
-    private JTextField rateField;         // Input: Repo rate
-    private JTextField daysField;         // Input: Number of days
-    private JLabel statusLabel;           // Output: Status message
-
-    public MainUI() {
-
-        // Create main window (JFrame)
-        JFrame frame = new JFrame("NII Estimation Tool");
-
-        // Set window size
-        frame.setSize(600, 400);
-
-        // Close application when user clicks "X"
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Use GridLayout (rows, columns, spacing)
-        frame.setLayout(new GridLayout(10, 1, 5, 5));
-
-        // =========================
-        // SOURCE FILE SECTION
-        // =========================
-
-        frame.add(new JLabel("Select Source File:"));
-
-        sourceFileField = new JTextField(); // Text field to show selected file path
-        frame.add(sourceFileField);
-
-        JButton sourceBrowseBtn = new JButton("Browse Source File");
-
-        // Add click event for source file button
-        sourceBrowseBtn.addActionListener(e -> {
-            JFileChooser chooser = new JFileChooser(); // File picker dialog
-
-            int result = chooser.showOpenDialog(null);
-
-            // If user selects a file
-            if (result == JFileChooser.APPROVE_OPTION) {
-                sourceFileField.setText(
-                    chooser.getSelectedFile().getAbsolutePath()
-                );
-            }
-        });
-
-        frame.add(sourceBrowseBtn);
-
-        // =========================
-        // MAPPING FILE SECTION
-        // =========================
-
-        frame.add(new JLabel("Select Mapping File:"));
-
-        mappingFileField = new JTextField(); // Text field for mapping file
-        frame.add(mappingFileField);
-
-        JButton mappingBrowseBtn = new JButton("Browse Mapping File");
-
-        // Click event for mapping file selection
-        mappingBrowseBtn.addActionListener(e -> {
-            JFileChooser chooser = new JFileChooser();
-
-            int result = chooser.showOpenDialog(null);
-
-            if (result == JFileChooser.APPROVE_OPTION) {
-                mappingFileField.setText(
-                    chooser.getSelectedFile().getAbsolutePath()
-                );
-            }
-        });
-
-        frame.add(mappingBrowseBtn);
-
-        // =========================
-        // INPUT FIELDS (RATE & DAYS)
-        // =========================
-
-        frame.add(new JLabel("Reverse Repo Rate (%)"));
-
-        rateField = new JTextField(); // User enters rate like 5.5
-        frame.add(rateField);
-
-        frame.add(new JLabel("Days in Month"));
-
-        daysField = new JTextField(); // User enters days like 30
-        frame.add(daysField);
-
-        // =========================
-        // CALCULATE BUTTON
-        // =========================
-
-        JButton calculateBtn = new JButton("Calculate NII");
-
-        // Button click event
-        calculateBtn.addActionListener(e -> {
-
-            try {
-                // Read inputs from UI fields
-                String sourceFile = sourceFileField.getText();
-                String mappingFile = mappingFileField.getText();
-
-                // Convert rate from % to decimal
-                double rate = Double.parseDouble(rateField.getText()) / 100;
-
-                // Convert days input to integer
-                int days = Integer.parseInt(daysField.getText());
-
-                // Create controller object (handles full workflow)
-                NiiController controller = new NiiController();
-
-                // Execute main process
-                controller.execute(sourceFile, mappingFile, rate, days);
-
-                // Update status label on success
-                statusLabel.setText("✅ Calculation completed successfully!");
-
-            } catch (Exception ex) {
-
-                // If any error occurs, show error message
-                statusLabel.setText("❌ Error: " + ex.getMessage());
-
-                // Also show popup dialog (better UX)
-                JOptionPane.showMessageDialog(
-                    null,
-                    "Error occurred:\n" + ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-                );
-            }
-        });
-
-        frame.add(calculateBtn);
-
-        // =========================
-        // STATUS LABEL
-        // =========================
-
-        statusLabel = new JLabel("Status: Waiting for input...");
-        frame.add(statusLabel);
-
-        // Make window visible
-        frame.setVisible(true);
-    }
-}
-✅ What This UI Does
-✔ Allows user to:
-Select Source Excel file
-Select Mapping file
-Enter:
-Repo rate
-Days
-✔ On clicking "Calculate":
-Calls NiiController
-Runs full process:
-Read Excel
-Apply mapping
-Calculate NII
-Generate output
-Backup files
-✔ Shows:
-Success message
-Error popup (if issue)
-✅ Next Step
-
-You now have complete UI layer.
-
-If you want same level for all classes, I can give:
-
-👉 ExcelReaderService (line-by-line)
-👉 CalculationService (line-by-line)
-👉 MappingService
-👉 BackupService
-👉 ReportService
-
-Just tell:
-
-👉 “continue with all classes” 👍
-
-Yes for all classes analysis all code and check again complete logic and give complete code for each class
-
-Perfect 👍 — now I’ll give you the FULL PROJECT CODE (all classes) with:
-
-✅ Clean SOLID design
-✅ Corrected logic (reviewed from your Excel)
-✅ Line-by-line comments
-✅ No gaps / production-ready structure
-✅ Backup + Summary + Validation
-🚨 BEFORE CODE — FINAL LOGIC VALIDATION (IMPORTANT)
-✔ Category Key
-
-👉 ALDCS (Column C)
-
-✔ Balance
-
-👉 ALMVC1 / 100
-
-✔ Filter
-ALPRIE = CUT
-ALCYCD = SAR
-ALDCG = SABB
-✔ Mapping Driven
-TRUST
-INTERNAL
-DCC
-GC
-PRIVATE
-✔ Correct Calculation Logic (FINAL FIX)
-TOTAL = sum(all included categories)
-DCC   = TOTAL - PRIVATE
-GC    = PRIVATE   (based on your Excel pattern)
-🧱 1. MODEL CLASSES
-📄 Record.java
-// Represents one row from source Excel
+COMPLETE FINAL CODE (ALL CLASSES)
+📄 1. Record.java
+// Represents each row from source file
 public class Record {
 
-    public String aldcs;   // Category key (ALDCS column)
-    public double balance; // Converted balance (SAR)
+    public String aldcs;   // Category
+    public double balance; // Balance in SAR
 
-    // Constructor to initialize values
     public Record(String aldcs, double balance) {
         this.aldcs = aldcs;
         this.balance = balance;
     }
 }
-📄 Mapping.java
-// Represents mapping configuration for each ALDCS
-public class Mapping {
+📄 2. InputParams.java (NEW 🔥)
+// Holds all user inputs (rates, % etc.)
+public class InputParams {
 
-    public String category; // TRUST / DCC / GC / INTERNAL / PRIVATE
-    public String include;  // Y or N
+    public double repoRate;     // e.g. 0.055
+    public double statReserve;  // 0.07
+    public double vofRate;      // 3.75
+    public double dpfRate;      // 0.05
+    public double vatRate;      // 0.15
+    public double niiFactor;    // 0.88
+    public int days;
 
-    public Mapping(String category, String include) {
-        this.category = category;
-        this.include = include;
-    }
 }
-📄 Result.java
-// Holds final calculated values
-public class Result {
-
-    public double trust;
-    public double internal;
-    public double dcc;
-    public double gc;
-    public double privateFunds;
-    public double total;
-
-    public double nii;
-    public double vat;
-    public double claim;
-}
-📊 2. EXCEL READER
-📄 ExcelReaderService.java
+📄 3. ExcelReaderService.java
 import org.apache.poi.ss.usermodel.*;
 import java.io.File;
 import java.util.*;
 
 public class ExcelReaderService {
 
-    // Reads source Excel and applies filtering logic
     public List<Record> readSource(String filePath) throws Exception {
 
         List<Record> records = new ArrayList<>();
@@ -362,28 +126,23 @@ public class ExcelReaderService {
 
         for (Row row : sheet) {
 
-            // Skip header row
             if (row.getRowNum() == 0) continue;
 
-            // Read required columns
-            String bank = row.getCell(0).toString();     // ALDCG
-            String aldcs = row.getCell(2).toString();    // ALDCS
-            String product = row.getCell(8).toString();  // ALPRIE
-            String currency = row.getCell(9).toString(); // ALCYCD
+            String bank = row.getCell(0).toString();
+            String aldcs = row.getCell(2).toString();
+            String product = row.getCell(8).toString();
+            String currency = row.getCell(9).toString();
 
-            // Balance in halalas
             double almvc1 = row.getCell(10).getNumericCellValue();
 
-            // Apply filter conditions
+            // Apply filter
             if (bank.equals("SABB") &&
                 product.equals("CUT") &&
                 currency.equals("SAR") &&
                 almvc1 > 0) {
 
-                // Convert halalas to SAR
                 double balance = almvc1 / 100;
 
-                // Add record to list
                 records.add(new Record(aldcs, balance));
             }
         }
@@ -392,147 +151,126 @@ public class ExcelReaderService {
         return records;
     }
 }
-📊 3. MAPPING SERVICE
-📄 MappingService.java
-import org.apache.poi.ss.usermodel.*;
-import java.io.File;
-import java.util.*;
-
-public class MappingService {
-
-    // Loads mapping file into memory
-    public Map<String, Mapping> loadMapping(String filePath) throws Exception {
-
-        Map<String, Mapping> map = new HashMap<>();
-
-        Workbook wb = WorkbookFactory.create(new File(filePath));
-        Sheet sheet = wb.getSheetAt(0);
-
-        for (Row row : sheet) {
-
-            if (row.getRowNum() == 0) continue;
-
-            String aldcs = row.getCell(0).toString();
-            String category = row.getCell(1).toString();
-            String include = row.getCell(2).toString();
-
-            map.put(aldcs, new Mapping(category, include));
-        }
-
-        wb.close();
-        return map;
-    }
-}
-🧠 4. CALCULATION ENGINE (CORE)
-📄 CalculationService.java
+📄 4. CalculationService.java (FULL LOGIC 🔥)
 import java.util.*;
 
 public class CalculationService {
 
-    public Result calculate(List<Record> records,
-                            Map<String, Mapping> mapping,
-                            double rate,
-                            int days) {
+    public Map<String, Double> groupByCategory(List<Record> records) {
 
-        Map<String, Double> totals = new HashMap<>();
+        Map<String, Double> map = new HashMap<>();
 
-        // Loop through each record
         for (Record r : records) {
 
-            Mapping m = mapping.get(r.aldcs);
-
-            // Skip if no mapping found
-            if (m == null) continue;
-
-            // Skip if excluded
-            if (!m.include.equalsIgnoreCase("Y")) continue;
-
-            // Add balance to category total
-            totals.put(
-                m.category,
-                totals.getOrDefault(m.category, 0.0) + r.balance
+            map.put(
+                r.aldcs,
+                map.getOrDefault(r.aldcs, 0.0) + r.balance
             );
         }
 
-        Result res = new Result();
+        return map;
+    }
 
-        // Extract category totals
-        res.trust = totals.getOrDefault("TRUST", 0.0);
-        res.internal = totals.getOrDefault("INTERNAL", 0.0);
-        res.privateFunds = totals.getOrDefault("PRIVATE", 0.0);
+    public Map<String, Double> calculate(Map<String, Double> totals, InputParams p) {
 
-        // Total = sum of all categories
-        res.total = totals.values()
-                          .stream()
-                          .mapToDouble(Double::doubleValue)
-                          .sum();
+        Map<String, Double> result = new HashMap<>();
 
-        // Business logic
-        res.dcc = res.total - res.privateFunds;
-        res.gc = res.privateFunds;
+        double totalBalance = totals.values().stream().mapToDouble(Double::doubleValue).sum();
 
-        // NII calculation
-        res.nii = (res.total * rate * days) / 360;
+        // Eligible balance
+        double statReserve = totalBalance * p.statReserve;
+        double eligibleBalance = totalBalance - statReserve;
+
+        // VOF
+        double vof = eligibleBalance * (p.vofRate / 100) * p.days / 365;
+
+        // DPF
+        double dpf = eligibleBalance * (p.dpfRate / 100) * p.days / 365;
+
+        // HSS
+        double hss = vof - dpf;
+
+        // NII
+        double nii = totalBalance * p.repoRate * p.days / 360;
+
+        // Adjusted NII
+        double niiAdjusted = nii * p.niiFactor;
 
         // VAT
-        res.vat = res.nii * 0.15;
+        double vat = niiAdjusted * p.vatRate;
 
         // Claim
-        res.claim = res.nii + res.vat;
+        double claim = niiAdjusted + vat;
 
-        return res;
+        // Store all values
+        result.put("TOTAL", totalBalance);
+        result.put("STAT_RESERVE", statReserve);
+        result.put("ELIGIBLE", eligibleBalance);
+        result.put("VOF", vof);
+        result.put("DPF", dpf);
+        result.put("HSS", hss);
+        result.put("NII", niiAdjusted);
+        result.put("VAT", vat);
+        result.put("CLAIM", claim);
+
+        return result;
     }
 }
-📊 5. REPORT GENERATION
-📄 ReportService.java
+📄 5. ReportService.java (MATCH YOUR TABLE)
 import org.apache.poi.xssf.usermodel.*;
 import java.io.FileOutputStream;
+import java.util.Map;
 
 public class ReportService {
 
-    public String generate(Result r) throws Exception {
-
-        String fileName = "output.xlsx";
+    public String generate(Map<String, Double> r) throws Exception {
 
         XSSFWorkbook wb = new XSSFWorkbook();
-        XSSFSheet sheet = wb.createSheet("Summary");
+        XSSFSheet sheet = wb.createSheet("Working");
 
         int row = 0;
 
-        // Write each value clearly
-        sheet.createRow(row).createCell(0).setCellValue("Total");
-        sheet.getRow(row++).createCell(1).setCellValue(r.total);
+        // Title
+        sheet.createRow(row++).createCell(0).setCellValue("NII ESTIMATION");
 
-        sheet.createRow(row).createCell(0).setCellValue("Trust");
-        sheet.getRow(row++).createCell(1).setCellValue(r.trust);
+        row++;
 
-        sheet.createRow(row).createCell(0).setCellValue("Internal");
-        sheet.getRow(row++).createCell(1).setCellValue(r.internal);
+        // Eligible Balance Section
+        sheet.createRow(row).createCell(0).setCellValue("Total Balance");
+        sheet.getRow(row++).createCell(1).setCellValue(r.get("TOTAL"));
 
-        sheet.createRow(row).createCell(0).setCellValue("DCC");
-        sheet.getRow(row++).createCell(1).setCellValue(r.dcc);
+        sheet.createRow(row).createCell(0).setCellValue("Stat Reserve");
+        sheet.getRow(row++).createCell(1).setCellValue(r.get("STAT_RESERVE"));
 
-        sheet.createRow(row).createCell(0).setCellValue("GC");
-        sheet.getRow(row++).createCell(1).setCellValue(r.gc);
+        sheet.createRow(row).createCell(0).setCellValue("Eligible Balance");
+        sheet.getRow(row++).createCell(1).setCellValue(r.get("ELIGIBLE"));
+
+        sheet.createRow(row).createCell(0).setCellValue("VOF");
+        sheet.getRow(row++).createCell(1).setCellValue(r.get("VOF"));
+
+        sheet.createRow(row).createCell(0).setCellValue("DPF");
+        sheet.getRow(row++).createCell(1).setCellValue(r.get("DPF"));
+
+        sheet.createRow(row).createCell(0).setCellValue("HSS Share");
+        sheet.getRow(row++).createCell(1).setCellValue(r.get("HSS"));
 
         sheet.createRow(row).createCell(0).setCellValue("NII");
-        sheet.getRow(row++).createCell(1).setCellValue(r.nii);
+        sheet.getRow(row++).createCell(1).setCellValue(r.get("NII"));
 
         sheet.createRow(row).createCell(0).setCellValue("VAT");
-        sheet.getRow(row++).createCell(1).setCellValue(r.vat);
+        sheet.getRow(row++).createCell(1).setCellValue(r.get("VAT"));
 
         sheet.createRow(row).createCell(0).setCellValue("Claim");
-        sheet.getRow(row++).createCell(1).setCellValue(r.claim);
+        sheet.getRow(row++).createCell(1).setCellValue(r.get("CLAIM"));
 
-        FileOutputStream out = new FileOutputStream(fileName);
+        FileOutputStream out = new FileOutputStream("Output.xlsx");
         wb.write(out);
         wb.close();
 
-        return fileName;
+        return "Output.xlsx";
     }
 }
-💾 6. BACKUP SERVICE
-📄 BackupService.java
+📄 6. BackupService.java
 import java.io.File;
 import java.nio.file.*;
 import java.text.SimpleDateFormat;
@@ -542,59 +280,60 @@ public class BackupService {
 
     public void backup(String input, String output) throws Exception {
 
-        // Create timestamp
-        String time = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                        .format(new Date());
+        String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
-        // Create backup folder if not exists
         File dir = new File("bkp");
         if (!dir.exists()) dir.mkdir();
 
-        // Copy input file
-        Files.copy(
-            Paths.get(input),
-            Paths.get("bkp/input_" + time + ".xlsx"),
-            StandardCopyOption.REPLACE_EXISTING
-        );
-
-        // Copy output file
-        Files.copy(
-            Paths.get(output),
-            Paths.get("bkp/output_" + time + ".xlsx"),
-            StandardCopyOption.REPLACE_EXISTING
-        );
+        Files.copy(Paths.get(input), Paths.get("bkp/input_" + time + ".xlsx"));
+        Files.copy(Paths.get(output), Paths.get("bkp/output_" + time + ".xlsx"));
     }
 }
-🎯 7. CONTROLLER
-📄 NiiController.java
+📄 7. NiiController.java
+import java.util.*;
+
 public class NiiController {
 
-    private ExcelReaderService reader = new ExcelReaderService();
-    private MappingService mappingService = new MappingService();
-    private CalculationService calc = new CalculationService();
-    private ReportService report = new ReportService();
-    private BackupService backup = new BackupService();
+    ExcelReaderService reader = new ExcelReaderService();
+    CalculationService calc = new CalculationService();
+    ReportService report = new ReportService();
+    BackupService backup = new BackupService();
 
-    public void execute(String sourceFile, String mappingFile,
-                        double rate, int days) throws Exception {
+    public void execute(String sourceFile, InputParams params) throws Exception {
 
-        var records = reader.readSource(sourceFile);
+        List<Record> records = reader.readSource(sourceFile);
 
-        var mapping = mappingService.loadMapping(mappingFile);
+        Map<String, Double> grouped = calc.groupByCategory(records);
 
-        var result = calc.calculate(records, mapping, rate, days);
+        Map<String, Double> result = calc.calculate(grouped, params);
 
         String output = report.generate(result);
 
         backup.backup(sourceFile, output);
     }
 }
-🏁 8. MAIN CLASS
+📄 8. Main.java
 public class Main {
-    public static void main(String[] args) {
-        new MainUI();
+
+    public static void main(String[] args) throws Exception {
+
+        InputParams p = new InputParams();
+
+        // Example inputs (can come from UI)
+        p.repoRate = 0.055;
+        p.statReserve = 0.07;
+        p.vofRate = 3.75;
+        p.dpfRate = 0.05;
+        p.vatRate = 0.15;
+        p.niiFactor = 0.88;
+        p.days = 30;
+
+        NiiController controller = new NiiController();
+
+        controller.execute("source.xlsx", p);
     }
 }
+
     
   // -------------------End-----------------   
   </code></pre>
