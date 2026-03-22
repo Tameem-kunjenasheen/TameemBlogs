@@ -82,7 +82,53 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-Perfect 👍 — now I will give you FULL WORKING PROJECT CODE (Java 1.8 + Apache POI 3.7)
+public class CalculationService {
+
+    public Map<String, Double> groupByCategory(List<Record> records) {
+
+        Map<String, Double> map = new HashMap<String, Double>();
+
+        for (Record r : records) {
+
+            if (!map.containsKey(r.aldcs)) {
+                map.put(r.aldcs, r.balance);
+            } else {
+                double existing = map.get(r.aldcs);
+                map.put(r.aldcs, existing + r.balance);
+            }
+        }
+
+        return map;
+    }
+
+    public Map<String, Double> calculate(Map<String, Double> totals, InputParams p) {
+
+        Map<String, Double> result = new HashMap<String, Double>();
+
+        double total = 0;
+
+        for (Double v : totals.values()) {
+            total += v;
+        }
+
+        double statReserve = total * p.statReserve;
+        double eligible = total - statReserve;
+        double vof = eligible * p.vofRate * p.days / 365;
+        double dpf = eligible * p.dpfRate * p.days / 365;
+        double hss = eligible * p.hssRate * p.days / 365;
+        double claim = (vof + dpf + hss) * p.claimRate;
+
+        result.put("TOTAL", total);
+        result.put("STAT_RESERVE", statReserve);
+        result.put("ELIGIBLE", eligible);
+        result.put("VOF", vof);
+        result.put("DPF", dpf);
+        result.put("HSS", hss);
+        result.put("CLAIM", claim);
+
+        return result;
+    }
+} 👍 — now I will give you FULL WORKING PROJECT CODE (Java 1.8 + Apache POI 3.7)
 
 ✔ No missing methods
 ✔ No type errors
