@@ -84,7 +84,236 @@ button{
  // -------------------Start-----------------
 
 
-Perfect — now I will give you clean, complete, working code for ALL 6 classes
+      package model;
+
+/**
+ * Represents one row from Excel source file
+ */
+public class Record {
+
+    // Customer number (ALDCS column)
+    private String customer;
+
+    // Category (ALACX column)
+    private String category;
+
+    // Product type (ALPRIE column → CUT)
+    private String productType;
+
+    // Currency (ALCYCD → SAR)
+    private String currency;
+
+    // Bank (ALGMAB → SABB)
+    private String bank;
+
+    // Final calculated balance (ALMVC1 / 100)
+    private double balance;
+
+    // Getters and setters
+
+    public String getCustomer() { return customer; }
+    public void setCustomer(String customer) { this.customer = customer; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public String getProductType() { return productType; }
+    public void setProductType(String productType) { this.productType = productType; }
+
+    public String getCurrency() { return currency; }
+    public void setCurrency(String currency) { this.currency = currency; }
+
+    public String getBank() { return bank; }
+    public void setBank(String bank) { this.bank = bank; }
+
+    public double getBalance() { return balance; }
+    public void setBalance(double balance) { this.balance = balance; }
+}
+      
+      
+      
+      
+      
+      
+      
+       — ggg
+      
+      
+      package service;
+
+import model.Record;
+import org.apache.poi.ss.usermodel.*;
+
+import java.io.FileInputStream;
+import java.util.*;
+
+/**
+ * STEP 1:
+ * Read Excel → Filter → Convert → Sort → Return Records
+ */
+public class SourceReaderService {
+
+    public List<Record> readAndFilter(String filePath) throws Exception {
+
+        // List to store final filtered records
+        List<Record> filteredRecords = new ArrayList<>();
+
+        // Open Excel file
+        FileInputStream fis = new FileInputStream(filePath);
+
+        // Create workbook (POI 3.7 compatible)
+        Workbook workbook = WorkbookFactory.create(fis);
+
+        // Get first sheet (Source sheet)
+        Sheet sheet = workbook.getSheetAt(0);
+
+        System.out.println("STEP 1: Reading Source File...");
+        System.out.println("Total Rows: " + sheet.getLastRowNum());
+
+        // -------------------------------
+        // STEP 1.1: Read Header Row
+        // -------------------------------
+        Row headerRow = sheet.getRow(0);
+
+        // Map to store column name → index
+        Map<String, Integer> headerMap = new HashMap<>();
+
+        // Loop through header cells
+        for (Cell cell : headerRow) {
+
+            // Get column name
+            String columnName = cell.getStringCellValue().trim();
+
+            // Store column index
+            headerMap.put(columnName, cell.getColumnIndex());
+
+            System.out.println("Mapped Column: " + columnName + " → Index: " + cell.getColumnIndex());
+        }
+
+        // -------------------------------
+        // STEP 1.2: Read Data Rows
+        // -------------------------------
+        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+
+            // Get row
+            Row row = sheet.getRow(i);
+
+            // Skip empty row
+            if (row == null) continue;
+
+            // Create new Record object
+            Record record = new Record();
+
+            // -------------------------------
+            // Read each required column
+            // -------------------------------
+
+            // Customer (ALDCS)
+            record.setCustomer(getStringValue(row, headerMap.get("ALDCS")));
+
+            // Category (ALACX)
+            record.setCategory(getStringValue(row, headerMap.get("ALACX")));
+
+            // Product Type (ALPRIE → CUT)
+            record.setProductType(getStringValue(row, headerMap.get("ALPRIE")));
+
+            // Currency (ALCYCD → SAR)
+            record.setCurrency(getStringValue(row, headerMap.get("ALCYCD")));
+
+            // Bank (ALGMAB → SABB)
+            record.setBank(getStringValue(row, headerMap.get("ALGMAB")));
+
+            // -------------------------------
+            // Read ALMVC1 and convert to balance
+            // -------------------------------
+            double almvc1 = getNumericValue(row, headerMap.get("ALMVC1"));
+
+            // Convert halalas → SAR
+            double balance = almvc1 / 100;
+
+            record.setBalance(balance);
+
+            // -------------------------------
+            // FILTER CONDITIONS
+            // -------------------------------
+            if ("CUT".equalsIgnoreCase(record.getProductType()) &&
+                "SAR".equalsIgnoreCase(record.getCurrency()) &&
+                "SABB".equalsIgnoreCase(record.getBank())) {
+
+                // Remove zero balance rows
+                if (balance > 0) {
+
+                    filteredRecords.add(record);
+
+                    System.out.println("Accepted Row " + i +
+                            " | Customer=" + record.getCustomer() +
+                            " | Balance=" + balance);
+                }
+            }
+        }
+
+        // -------------------------------
+        // STEP 1.3: SORT (ALMVC1 ascending)
+        // -------------------------------
+        Collections.sort(filteredRecords, new Comparator<Record>() {
+            public int compare(Record r1, Record r2) {
+                return Double.compare(r1.getBalance(), r2.getBalance());
+            }
+        });
+
+        System.out.println("Filtered Records Count: " + filteredRecords.size());
+
+        // Close file
+        workbook.close();
+        fis.close();
+
+        return filteredRecords;
+    }
+
+    // -------------------------------
+    // Utility Method: Safe String Read
+    // -------------------------------
+    private String getStringValue(Row row, Integer colIndex) {
+
+        // Get cell
+        Cell cell = row.getCell(colIndex);
+
+        if (cell == null) return "";
+
+        // Convert to string safely
+        if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+            return cell.getStringCellValue().trim();
+        } else {
+            return cell.toString().trim();
+        }
+    }
+
+    // -------------------------------
+    // Utility Method: Safe Numeric Read
+    // -------------------------------
+    private double getNumericValue(Row row, Integer colIndex) {
+
+        // Get cell
+        Cell cell = row.getCell(colIndex);
+
+        if (cell == null) return 0;
+
+        // If numeric
+        if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+            return cell.getNumericCellValue();
+        } else {
+            try {
+                return Double.parseDouble(cell.toString());
+            } catch (Exception e) {
+                return 0;
+            }
+        }
+    }
+}
+      
+      
+      
+      now I will give you clean, complete, working code for ALL 6 classes
 ✔ Java 1.8
 ✔ Apache POI 3.7 compatible
 ✔ Proper flow as per your design
