@@ -84,7 +84,105 @@ button{
  // -------------------Start-----------------
 
 ftttt
-      Perfect 👍 — now I will give you FULL WORKING PROJECT CODE in the same style as your IPO Subscription Tool:
+      Here is your complete CR in simple Indian English (basic, clear, no complex words):
+
+⸻
+
+Title
+
+Fix for Incorrect Dealing Date in Dividend Reinvestment Transactions
+
+⸻
+
+Short Description
+
+Fix to correct wrong dealing date in dividend reinvestment transactions for Ashmore Short Duration Fund.
+
+⸻
+
+Description
+
+There are 3 dividend reinvestment transactions created with incorrect dealing date (16/03/2026). This is not a valid dealing date.
+
+The correct dealing date should be 26/03/2026 based on the dividend event. Currently, there is no option in UI to correct this.
+
+Because of this issue, pending trades are still in the system with wrong date and business cannot proceed with next NAV.
+
+This change will fix the issue and update the dealing date correctly.
+
+⸻
+
+Justification
+
+This change is required to correct the dealing date for dividend reinvestment transactions.
+
+If this is not fixed:
+	•	Trades will remain with incorrect date
+	•	System cannot proceed with next NAV
+	•	Business operations will be blocked
+
+This fix is required before the planned release.
+
+⸻
+
+Implementation Plan
+	1.	Take backup of affected transaction records – DB Team
+	2.	Identify all transactions with incorrect dealing date – Application/DB Team
+	3.	Update dealing date from 16/03/2026 to 26/03/2026 using approved script – DB Team
+	4.	Validate updated data in database – DB Team
+	5.	Verify transactions in application – Application Team
+	6.	Inform business for validation – Support Team
+
+⸻
+
+Business Impact
+
+If not fixed:
+	•	Business cannot proceed with next NAV calculation
+	•	Customer transactions will remain incorrect
+	•	Operational activities will be blocked
+
+After fix:
+	•	No impact to users
+	•	System will work correctly
+
+⸻
+
+Technical Impact
+	•	Incorrect dealing date will remain in system
+	•	NAV processing will fail
+	•	Transactions will not be processed correctly
+	•	Data inconsistency will continue
+
+No application code change. Only data correction.
+
+⸻
+
+Backout Plan
+	1.	Restore data from backup – DB Team
+	2.	Revert all updated records to original values
+	3.	Validate data after rollback
+	4.	Inform stakeholders
+
+⸻
+
+Post Implementation Verification Plan
+	1.	Verify dealing date is updated correctly
+	2.	Check transactions in application
+	3.	Validate NAV process is working
+	4.	Confirm with business team
+
+⸻
+
+Urgency (SP Justification)
+
+This is required to fix incorrect transaction data before NAV processing. Delay will block business operations.
+
+⸻
+
+If you want, I can also give you:
+✅ Very short version (for emergency CR)
+✅ Mail format to send for approval 👍 — now I will give you FULL WORKING PROJECT CODE in the same style as your IPO Subscription Tool:
 
 ✔ Map-based (no complex POJO)
 ✔ DataFormatter usage
