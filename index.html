@@ -82,7 +82,26 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-Hi Hi Hi Got it 👍 — you want same approach as IPO subscription tool, but now:
+public static Map<StrinString> loadCategory(File file) throws Exception {
+
+    List<Map<StrinString>> rows = ExcelReaderUtil.readExcel(file);
+    Map<StrinString> result = new HashMap<>();
+
+    for (Map<StringString> row : rows) {
+
+        for (Map.Entry<StrinString> entry : row.entrySet()) {
+
+            String category = entry.getKey();      // TRUST, DCC, etc
+            String customerNo = entry.getValue();  // 14230, 11160, etc
+
+            if (customerNo != null && !customerNo.trim().isEmpty()) {
+                result.put(customerNo.trim(), category);
+            }
+        }
+    }
+
+    return result;
+} Hi Hi Got it 👍 — you want same approach as IPO subscription tool, but now:
 	•	4 Excel files
 	1.	Source file
 	2.	Percentage
