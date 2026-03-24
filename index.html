@@ -82,26 +82,197 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-public static Map<StrinString> loadCategory(File file) throws Exception {
 
-    List<Map<StrinString>> rows = ExcelReaderUtil.readExcel(file);
-    Map<StrinString> result = new HashMap<>();
+Perfect 👍 now we are moving into actual business logic (Step 1 processing) — and yes, we will follow clean design (SOLID).
 
-    for (Map<StringString> row : rows) {
+I’ll give you:
+✔ Correct understanding
+✔ Step-by-step logic
+✔ Separate class (clean design)
+✔ Final working code
 
-        for (Map.Entry<StrinString> entry : row.entrySet()) {
+⸻
 
-            String category = entry.getKey();      // TRUST, DCC, etc
-            String customerNo = entry.getValue();  // 14230, 11160, etc
+✅ 🎯 What you need to do (Simplified)
 
-            if (customerNo != null && !customerNo.trim().isEmpty()) {
-                result.put(customerNo.trim(), category);
+From sourceData (List):
+
+Step 1 → Filter
+	•	Keep only:
+	•	ALPRIE = "CUT"
+	•	ALDCG = "SABB"
+
+⸻
+
+Step 2 → Sort
+	•	Sort by:
+	•	ALMVC1 (ascending)
+
+⸻
+
+Step 3 → Remove zero balance
+	•	Remove rows where:
+
+ALMVC1 = 0
+
+
+⸻
+
+Step 4 → Convert amount
+	•	ALMVC1 includes halala
+👉 So:
+
+Balance = ALMVC1 / 100
+
+
+⸻
+
+Step 5 → Store result
+
+You want:
+
+Map<String, Double> result
+
+Example:
+
+CustomerNo → Balance
+
+
+⸻
+
+✅ 🧱 Design (SOLID)
+
+We create separate class:
+
+SourceDataProcessor
+
+✔ Single Responsibility
+✔ Clean reusable
+
+⸻
+
+✅ 💻 Final Code
+
+🔹 New Class
+
+import java.util.*;
+
+public class SourceDataProcessor {
+
+    public static Map<String, Double> process(List<Map<String, String>> sourceData) {
+
+        List<Map<String, String>> filtered = new ArrayList<>();
+
+        // 1. Filter ALPRIE = CUT and ALDCG = SABB
+        for (Map<String, String> row : sourceData) {
+
+            String product = row.get("ALPRIE");
+            String bank = row.get("ALDCG");
+
+            if ("CUT".equalsIgnoreCase(product) && "SABB".equalsIgnoreCase(bank)) {
+                filtered.add(row);
             }
         }
-    }
 
-    return result;
-} Hi Hi Got it 👍 — you want same approach as IPO subscription tool, but now:
+        // 2. Remove zero balance
+        filtered.removeIf(row -> {
+            String val = row.get("ALMVC1");
+            return val == null || val.trim().isEmpty() || Double.parseDouble(val) == 0;
+        });
+
+        // 3. Sort by ALMVC1 (ascending)
+        filtered.sort(Comparator.comparingDouble(row ->
+                Double.parseDouble(row.get("ALMVC1"))
+        ));
+
+        // 4. Create result map (CustomerNo → Balance)
+        Map<String, Double> result = new LinkedHashMap<>();
+
+        for (Map<String, String> row : filtered) {
+
+            String customerNo = row.get("ALACCS"); // adjust if different column
+            double almvc1 = Double.parseDouble(row.get("ALMVC1"));
+
+            double balance = almvc1 / 100.0;
+
+            result.put(customerNo, balance);
+        }
+
+        return result;
+    }
+}
+
+
+⸻
+
+⚠️ IMPORTANT (Check Column Name)
+
+From your screenshot:
+
+ALACCS → Customer number
+ALMVC1 → Balance
+
+👉 Confirm:
+
+String customerNo = row.get("ALACCS");
+
+
+⸻
+
+✅ 🧪 How to Use in Main
+
+Map<String, Double> processedData = SourceDataProcessor.process(sourceData);
+
+System.out.println("===== PROCESSED DATA =====");
+
+for (Map.Entry<String, Double> entry : processedData.entrySet()) {
+    System.out.println("Customer: " + entry.getKey() +
+                       " -> Balance: " + entry.getValue());
+}
+
+
+⸻
+
+🔥 Example Output
+
+Customer: 3811 -> Balance: 0.01
+Customer: 9065 -> Balance: 1.25
+
+
+⸻
+
+✅ Summary
+
+Step	Done
+Filter CUT	✔
+Filter SABB	✔
+Remove zero	✔
+Sort ascending	✔
+Divide by 100	✔
+Store in map	✔
+Separate class (SOLID)	✔
+
+
+⸻
+
+👍 Next Step
+
+Now next we can:
+
+✅ Join this with:
+	•	Category map
+	•	Exception set
+	•	Percentage
+
+👉 and build final NII calculation
+
+Just tell 👍
+
+
+
+
+
+Hi Hi Got it 👍 — you want same approach as IPO subscription tool, but now:
 	•	4 Excel files
 	1.	Source file
 	2.	Percentage
