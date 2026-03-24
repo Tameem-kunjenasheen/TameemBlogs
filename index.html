@@ -82,85 +82,227 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-Hi Hi Hi Team,
+Hi Hi Hi Got it 👍 — you want same approach as IPO subscription tool, but now:
+	•	4 Excel files
+	1.	Source file
+	2.	Percentage
+	3.	Category
+	4.	Alinma Exception
+	•	Load each into separate Map
+	•	Use Java 1.8 + Apache POI (XSSF)
+	•	Clean reusable code
 
-The issues listed below have been fixed in the UAT environment.
+I’ll give you production-ready code (simple Indian English + clear logic).
 
-We request you to review the fixes and provide UAT sign-off for the same.
+⸻
 
-Once we receive the sign-off, we will proceed with planning the change for deployment in the production environment.
+✅ 1. Common Excel Reader Utility (Reusable)
 
-List of Issues:
-- [Mention issue 1]
-- [Mention issue 2]
-- [Mention issue 3]
+This is similar to your IpoDataExcelReader, but generic.
 
-Kindly provide your confirmation at the earliest.
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-Thanks & Regards,  
-[Your Name],
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.*;
 
-As mentioned, this is critical for the Ops team.
+public class ExcelReaderUtil {
 
-We will implement the bug fix in the requested window of 8:00 AM to 10:00 AM.
+    public static List<Map<String, String>> readExcel(File file) throws Exception {
 
-Kindly provide your approval for the application outage during this time.
+        List<Map<String, String>> rows = new ArrayList<>();
 
-Thanks & Regards,  
-[Your Name],
+        try (FileInputStream fis = new FileInputStream(file);
+             Workbook wb = new XSSFWorkbook(fis)) {
 
-We need your guidance on whether to proceed with an Emergency CR or a Normal CR for the required change.
+            Sheet sheet = wb.getSheetAt(0);
 
-This change needs to be implemented tomorrow (before 26th March) to avoid impact on business operations. If this fix is not implemented on time, it will lead to incorrect transaction data, which will affect NAV processing and report accuracy. This will have a major impact on business.
+            Row headerRow = sheet.getRow(0);
+            if (headerRow == null) {
+                throw new RuntimeException("Excel file missing header row");
+            }
 
-Considering the urgency and business impact, please confirm whether we should proceed with an Emergency CR or continue with the Normal CR process.
+            DataFormatter formatter = new DataFormatter();
 
-Kindly provide your confirmation at the earliest so we can proceed accordingly.
+            // Read headers
+            List<String> headers = new ArrayList<>();
+            int lastCol = headerRow.getLastCellNum();
 
-Thanks & Regards,  
-[Your Name]
+            for (int i = 0; i < lastCol; i++) {
+                Cell cell = headerRow.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                String header = formatter.formatCellValue(cell).trim();
 
-Hi ,
+                if (header.isEmpty()) break;
+                headers.add(header);
+            }
 
-Kindly approve the subject CR: CHG0050554 – KSA Transfer Agency SA 2.2.0 Urgent Bug Fix.
+            // Read data rows
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 
-IVR and RIA are attached for your reference.
+                Row row = sheet.getRow(i);
+                if (row == null) continue;
 
-This change is required to fix an issue where incorrect transaction data is generated, which impacts NAV processing and report accuracy. After this fix, the system will generate correct transaction data and properly formatted reports.
+                Map<String, String> rowMap = new LinkedHashMap<>();
 
-We also require ITSO approval on this CR. CIO approval will be requested once all required approvals are completed.
+                for (int j = 0; j < headers.size(); j++) {
+                    Cell cell = row.getCell(j, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                    String value = formatter.formatCellValue(cell).trim();
 
-Change Details:
-- Requester: Tameem K Junaidi  
-- CR Number: CHG0050554  
-- Implementation Date: 25th Mar 2026  
-- Change Description: KSA Transfer Agency SA 2.2.0 Bug Fix  
+                    rowMap.put(headers.get(j), value);
+                }
 
-Kindly provide your approval to proceed.
+                rows.add(rowMap);
+            }
+        }
 
-Thanks & Regards,  
-[Your Name]
+        return rows;
+    }
+}
 
-We are planning to perform a bug fix deployment for the TA application.
 
-This activity requires a scheduled application outage from 11:00 AM to 1:00 PM.
+⸻
 
-Reason for Outage:
-There is an issue in the application which is causing incorrect transaction data. This is impacting the NAV processing and resulting in incorrect report generation.
+✅ 2. Loader Class for All 4 Files
 
-Purpose of Fix:
-The fix will correct the transaction data before NAV processing and ensure that the reports are generated accurately.
+Each file → separate map (as per your requirement)
 
-Impact During Outage:
-- The application will not be available during the outage window.
-- Users will not be able to access or perform any transactions.
+import java.io.File;
+import java.util.*;
 
-Kindly provide your approval to proceed with this activity.
+public class DataLoader {
 
-Please let us know if you have any concerns.
+    // 1. Source Data
+    public static List<Map<String, String>> loadSource(File file) throws Exception {
+        return ExcelReaderUtil.readExcel(file);
+    }
 
-Thanks & Regards,  
-[Your Name]”
+    // 2. Percentage Data
+    public static Map<String, Map<String, String>> loadPercentage(File file) throws Exception {
+
+        List<Map<String, String>> rows = ExcelReaderUtil.readExcel(file);
+        Map<String, Map<String, String>> result = new HashMap<>();
+
+        for (Map<String, String> row : rows) {
+            String key = row.get("Date"); // or unique column
+            result.put(key, row);
+        }
+
+        return result;
+    }
+
+    // 3. Category Data
+    public static Map<String, String> loadCategory(File file) throws Exception {
+
+        List<Map<String, String>> rows = ExcelReaderUtil.readExcel(file);
+        Map<String, String> result = new HashMap<>();
+
+        for (Map<String, String> row : rows) {
+            String customerNo = row.get("Customer No");
+            String category = row.get("Category"); // adjust column name
+
+            result.put(customerNo, category);
+        }
+
+        return result;
+    }
+
+    // 4. Alinma Exception Data
+    public static Set<String> loadException(File file) throws Exception {
+
+        List<Map<String, String>> rows = ExcelReaderUtil.readExcel(file);
+        Set<String> exceptionSet = new HashSet<>();
+
+        for (Map<String, String> row : rows) {
+            String customerNo = row.get("Customer No");
+            exceptionSet.add(customerNo);
+        }
+
+        return exceptionSet;
+    }
+}
+
+
+⸻
+
+✅ 3. How You Will Use This (Main Flow)
+
+public class MainApp {
+
+    public static void main(String[] args) throws Exception {
+
+        File sourceFile = new File("source.xlsx");
+        File percentageFile = new File("percentage.xlsx");
+        File categoryFile = new File("category.xlsx");
+        File exceptionFile = new File("exception.xlsx");
+
+        // Load all data
+        List<Map<String, String>> sourceData = DataLoader.loadSource(sourceFile);
+
+        Map<String, Map<String, String>> percentageMap = DataLoader.loadPercentage(percentageFile);
+
+        Map<String, String> categoryMap = DataLoader.loadCategory(categoryFile);
+
+        Set<String> exceptionSet = DataLoader.loadException(exceptionFile);
+
+        // Example usage
+        for (Map<String, String> row : sourceData) {
+
+            String customerNo = row.get("Customer No");
+
+            // Category lookup
+            String category = categoryMap.get(customerNo);
+
+            // Exception check
+            boolean isException = exceptionSet.contains(customerNo);
+
+            // Percentage lookup (example using date)
+            String date = row.get("Date");
+            Map<String, String> percentageRow = percentageMap.get(date);
+
+            // Process logic here
+        }
+
+        System.out.println("All files loaded successfully");
+    }
+}
+
+
+⸻
+
+✅ Key Design (Important)
+
+This matches your IPO tool pattern:
+	•	✔ Header-based dynamic reading
+	•	✔ No hardcoding column index
+	•	✔ Uses Map<String, String>
+	•	✔ Reusable utility
+	•	✔ Supports extra columns automatically
+
+⸻
+
+🔥 Small Improvements (Recommended)
+
+You can enhance:
+	1.	Validation (like your StaticDataLoader)
+	•	Check required columns
+	2.	Config file support
+	•	File paths from properties
+	3.	Logging
+	•	Print row count per file
+
+⸻
+
+❓ Need Next Step?
+
+If you want, I can also:
+
+✅ Add validation like IPO tool
+✅ Add calculation logic (NII / tables)
+✅ Convert this into full project structure (packages + classes)
+✅ Handle large files performance optimization
+
+Just tell 👍
 
   // -------------------End-----------------   
   </code></pre>
