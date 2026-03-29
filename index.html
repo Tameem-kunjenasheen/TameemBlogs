@@ -83,7 +83,30 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
-Hi Hi Hi Hi Mr. Mirza,
+BigDecimal totalBalance = BigDecimal.ZERO;
+
+for (Map<String, String> row : dataList) {
+
+    String val = row.get("ALMVC1");
+
+    if (val != null && !val.trim().isEmpty()) {
+        try {
+            BigDecimal value = new BigDecimal(val);
+            BigDecimal balance = value.divide(new BigDecimal("100"));
+
+            row.put("balance", balance.toString());
+
+            totalBalance = totalBalance.add(balance);
+
+        } catch (Exception e) {
+            row.put("balance", "0");
+        }
+    } else {
+        row.put("balance", "0");
+    }
+}
+
+System.out.println("Total Balance: " + totalBalance); Hi Hi Hi Mr. Mirza,
 
 Hope you are doing well.
 
