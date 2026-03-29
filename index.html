@@ -83,6 +83,47 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+
+public class BalanceCalculator {
+
+    public BigDecimal calculate(List<Map<String, String>> dataList) {
+
+        BigDecimal totalBalance = BigDecimal.ZERO;
+
+        for (Map<String, String> row : dataList) {
+
+            String val = row.get("ALMVC1");
+
+            if (val != null && !val.trim().isEmpty()) {
+                try {
+                    BigDecimal value = new BigDecimal(val);
+
+                    // divide by 100
+                    BigDecimal balance = value.divide(new BigDecimal("100"));
+
+                    // store in map
+                    row.put("balance", balance.toPlainString());
+
+                    // sum
+                    totalBalance = totalBalance.add(balance);
+
+                } catch (Exception e) {
+                    row.put("balance", "0");
+                }
+            } else {
+                row.put("balance", "0");
+            }
+        }
+
+        return totalBalance;
+    }
+}
+
+
+ggg
 import java.util.List;
 import java.util.Map;
 
