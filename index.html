@@ -84,7 +84,109 @@ button{
  // -------------------Start-----------------
 
 
-Got it 👍 — then we should correct the CR properly. It is not about reports, it is about data not getting stored in table.
+Here is your complete CR in simple Indian English (clear, no complex words, no “might”):
+
+⸻
+
+Title
+
+Fix for SAS Job Failure due to Column Length Issue
+
+⸻
+
+Short Description
+
+SAS job ‘VA_REFRESH’ is failing in Production due to column length issue. Fix required to handle data exceeding column size.
+
+⸻
+
+Description
+
+The SAS job ‘VA_REFRESH’ is failing in Production due to column length being smaller than the incoming data.
+
+Error received:
+ORA-12899: value too large for column (column length exceeded).
+
+Because of this error, the job is failing and rollback is happening. Some records are not getting processed.
+
+This change will fix the issue by handling the column length properly so that the job runs successfully.
+
+⸻
+
+Justification
+
+This change is required to fix the SAS job failure in Production.
+
+If not fixed:
+	•	Job will continue to fail
+	•	Data will not be processed
+	•	Reports depending on this job will be incorrect or incomplete
+
+This fix ensures successful job execution and correct data processing.
+
+⸻
+
+Implementation Plan
+	1.	Identify the affected column and table – DB Team
+	2.	Take backup of the table before change – DB Team
+	3.	Modify column length to support required data size – DB Team
+	4.	Validate the change in database – DB Team
+	5.	Re-run the SAS job ‘VA_REFRESH’ – Application Team
+	6.	Verify job completion and data processing – Application Team
+
+⸻
+
+Business Impact
+
+If not fixed:
+	•	Required data will not be available
+	•	Reports will be incorrect or incomplete
+	•	Business users will not get correct information
+
+After fix:
+	•	Job will run successfully
+	•	Data will be processed correctly
+
+No impact to end users during change window.
+
+⸻
+
+Technical Impact
+	•	SAS job will continue to fail due to column size limitation
+	•	Data processing will stop
+	•	Rollback will continue to happen
+	•	Dependent processes will not receive correct data
+
+This change involves database column update only. No application code change.
+
+⸻
+
+Backout Plan
+	1.	Restore table from backup – DB Team
+	2.	Revert column to original size
+	3.	Validate database after rollback
+	4.	Inform stakeholders
+
+⸻
+
+Post Implementation Verification Plan
+	1.	Run SAS job ‘VA_REFRESH’
+	2.	Confirm job completes successfully
+	3.	Verify records are processed correctly
+	4.	Check logs for any errors
+	5.	Confirm with business team
+
+⸻
+
+Urgency (SP Justification)
+
+This issue is impacting Production job execution. Immediate fix is required to ensure data processing and reporting are not affected.
+
+⸻
+
+If you want, I can also give you:
+✅ 1-minute quick CR template for all DB issues
+✅ Better wording for Description (ICR level)👍 — then we should correct the CR properly. It is not about reports, it is about data not getting stored in table.
 
 Here is the corrected full CR in simple words:
 
