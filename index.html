@@ -84,9 +84,349 @@ button{
  // -------------------Start-----------------
 
 
-Here is your complete CR in simple Indian English (clear, no complex words, no “might”):
+Perfect 👍 — now I will give you a complete development plan (high-level) in simple Indian English, exactly how your application works end-to-end.
 
 ⸻
+
+✅ 🧠 APPLICATION OVERVIEW (What we are building)
+
+👉 This tool is used to:
+	•	Read source Excel data
+	•	Apply filters (CUT, SAR, SABB)
+	•	Convert halalas → SAR
+	•	Calculate balances
+	•	Apply financial formulas
+	•	Split into categories (DCC / GC / etc.)
+	•	Generate final NII estimation report
+
+👉 Final output = Excel file with 4 tables
+
+⸻
+
+✅ 📊 INPUT FILES
+
+1. Source File
+
+Contains:
+	•	Product (ALPRIE)
+	•	Currency (ALCYCD)
+	•	Bank (ALDCG)
+	•	Balance (ALMVC1 → in halalas)
+	•	Customer number (ALCS)
+
+⸻
+
+2. Percentage File
+
+Contains:
+
+Field	Purpose
+statReserve	Reserve deduction
+vofRate	VOF calculation
+dpfRate	Deposit fund
+repoRate	Repo
+vatRate	VAT
+niiFactor	NII factor
+days	No. of days
+claimRate	Claim
+hssRate	HSS
+
+👉 Always take latest row
+
+⸻
+
+3. Category File
+
+Contains customer mapping:
+	•	TRUST
+	•	DCC
+	•	GC
+	•	Private Funds
+
+⸻
+
+4. Config (optional)
+	•	ALIMNA customers
+	•	PIF customers
+
+⸻
+
+✅ ⚙️ PROCESS FLOW (STEP BY STEP)
+
+⸻
+
+🔹 STEP 1: Read & Clean Data
+
+✔ Filter:
+	•	ALPRIE = CUT
+	•	ALCYCD = SAR
+	•	ALDCG = SABB
+
+✔ Remove:
+	•	Zero balance rows
+
+✔ Convert:
+
+Balance = ALMVC1 / 100
+
+✔ Sort:
+	•	By ALMVC1 (ascending)
+
+👉 Output: Clean data list
+
+⸻
+
+🔹 STEP 2: TABLE 1 (Customer / Total)
+
+👉 Purpose:
+Calculate balances
+
+✔ Logic:
+	•	Sum all balances → TOTAL
+
+👉 Optional:
+	•	Customer-wise SUM (ALIMNA, PIF)
+
+⸻
+
+🔹 STEP 3: TABLE 2 (MAIN NII CALCULATION)
+
+👉 This is the core business logic
+
+⸻
+
+📌 FORMULAS
+
+1. Eligible Average Balance
+
+= Total Balance
+
+2. Eligible SAR Balance
+
+= Eligible Avg Balance
+
+3. Stat Reserve Deduction
+
+= Eligible Balance × statReserve
+
+4. Eligible Balance
+
+= Eligible Balance - Stat Reserve
+
+
+⸻
+
+5. Computed VOF
+
+= Eligible Balance × vofRate × days / 365
+
+6. Deposit Protection Fund
+
+= Eligible Balance × dpfRate × days / 365
+
+7. HSS Share
+
+= VOF - DPF
+
+
+⸻
+
+8. Total NII
+
+= HSS × niiFactor
+
+9. VAT
+
+= NII × vatRate
+
+10. Claim from SABB
+
+= NII + VAT
+
+
+⸻
+
+🔹 STEP 4: CATEGORY SPLIT
+
+👉 Group balances into:
+	•	TRUST
+	•	DCC
+	•	GC
+	•	Private Funds
+
+✔ Logic:
+
+Category Balance = SUM(customer balances)
+
+
+⸻
+
+🔹 STEP 5: TABLE 3 (SECTOR SPLIT)
+
+👉 Purpose: Split into business sectors
+
+⸻
+
+📌 FORMULAS
+
+DCC:
+
+= TRUST + DCC + Private Funds
+
+GC:
+
+= Total Balance - DCC
+
+Total:
+
+= DCC + GC
+
+
+⸻
+
+🔹 STEP 6: TABLE 4 (VOUCHER / FINAL BOOKING)
+
+👉 Final accounting values
+
+⸻
+
+📌 FORMULAS
+
+NII to be booked:
+
+= Total NII
+
+VAT:
+
+= NII × vatRate
+
+Claim:
+
+= NII + VAT
+
+
+⸻
+
+✅ 📄 OUTPUT FILE
+
+👉 Excel file contains:
+
+✔ Table 1
+	•	Total Balance
+	•	(Optional customer split)
+
+✔ Table 2
+	•	Full NII calculation
+
+✔ Table 3
+	•	Sector (DCC / GC)
+
+✔ Table 4
+	•	Final booking (NII + VAT)
+
+⸻
+
+✅ 🎯 BUSINESS VALUE (Why this tool)
+
+Before:
+❌ Manual Excel work
+❌ Time consuming
+❌ Error prone
+
+After:
+✔ Automatic calculation
+✔ Accurate
+✔ Fast (seconds)
+✔ Easy to validate
+
+⸻
+
+✅ ▶️ HOW TO RUN APPLICATION
+
+Step 1:
+
+Put files in folder:
+
+input/
+  source.xlsx
+  percentage.xlsx
+  category.xlsx
+
+
+⸻
+
+Step 2:
+
+Run Java main class:
+
+MainApp.java
+
+
+⸻
+
+Step 3:
+
+Output generated:
+
+output/output.xlsx
+
+
+⸻
+
+Step 4:
+
+Verify:
+	•	Total balance
+	•	NII
+	•	VAT
+	•	DCC / GC split
+
+⸻
+
+✅ 🧩 COMPLETE FLOW (SIMPLE)
+
+Read Excel
+   ↓
+Filter Data
+   ↓
+Convert Balance (/100)
+   ↓
+Calculate Total
+   ↓
+Apply NII formulas
+   ↓
+Group by Category
+   ↓
+Split DCC / GC
+   ↓
+Final Voucher Calculation
+   ↓
+Generate Output Excel
+
+
+⸻
+
+✅ 🔥 FINAL SUMMARY
+
+👉 You built a system that:
+	•	Reads Excel
+	•	Applies business rules
+	•	Calculates financial metrics
+	•	Produces final report
+
+👉 Fully replaces manual Excel work
+
+⸻
+
+🚀 NEXT STEP
+
+If you want, I can now:
+
+👉 Convert this into CR document (approved format)
+👉 Or give low-level design per class (interview level)
+👉 Or improve code to exact Excel layout
+
+Just tell 👍
 
 Title
 
