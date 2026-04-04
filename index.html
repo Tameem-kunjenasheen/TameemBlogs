@@ -84,555 +84,181 @@ button{
  // -------------------Start-----------------
 
 
-Here is the complete message starting from “Good morning” in simple, clear tone:
+Perfect 👍 — this is the right design decision (SOLID principle ✅)
 
-**“Hi, Good morning.
+You want:
+👉 ALIMNA calculation (SUMIF logic) in a separate class
 
-I have a CR scheduled for today at 5 PM.
-Once we complete the tasks, I will submit it for approval and inform you.
-
-Can you please approve it?
-I will also ping you and send an email for approval.
-
-This release is urgent and needs to be completed this week. We have been working on this for a long time, and if it is not implemented this week, it will impact HSBC.”** 👍 — now I will give you a complete development plan (high-level) in simple Indian English, exactly how your application works end-to-end.
+I’ll give you clean, production-style code exactly like your project.
 
 ⸻
 
-✅ 🧠 APPLICATION OVERVIEW (What we are building)
-
-👉 This tool is used to:
-	•	Read source Excel data
-	•	Apply filters (CUT, SAR, SABB)
-	•	Convert halalas → SAR
-	•	Calculate balances
-	•	Apply financial formulas
-	•	Split into categories (DCC / GC / etc.)
-	•	Generate final NII estimation report
-
-👉 Final output = Excel file with 4 tables
-
-⸻
-
-✅ 📊 INPUT FILES
-
-1. Source File
-
-Contains:
-	•	Product (ALPRIE)
-	•	Currency (ALCYCD)
-	•	Bank (ALDCG)
-	•	Balance (ALMVC1 → in halalas)
-	•	Customer number (ALCS)
-
-⸻
-
-2. Percentage File
-
-Contains:
-
-Field	Purpose
-statReserve	Reserve deduction
-vofRate	VOF calculation
-dpfRate	Deposit fund
-repoRate	Repo
-vatRate	VAT
-niiFactor	NII factor
-days	No. of days
-claimRate	Claim
-hssRate	HSS
-
-👉 Always take latest row
-
-⸻
-
-3. Category File
-
-Contains customer mapping:
-	•	TRUST
-	•	DCC
-	•	GC
-	•	Private Funds
-
-⸻
-
-4. Config (optional)
-	•	ALIMNA customers
-	•	PIF customers
-
-⸻
-
-✅ ⚙️ PROCESS FLOW (STEP BY STEP)
-
-⸻
-
-🔹 STEP 1: Read & Clean Data
-
-✔ Filter:
-	•	ALPRIE = CUT
-	•	ALCYCD = SAR
-	•	ALDCG = SABB
-
-✔ Remove:
-	•	Zero balance rows
-
-✔ Convert:
-
-Balance = ALMVC1 / 100
-
-✔ Sort:
-	•	By ALMVC1 (ascending)
-
-👉 Output: Clean data list
-
-⸻
-
-🔹 STEP 2: TABLE 1 (Customer / Total)
+✅ 📦 CLASS: AlimnaTableService.java
 
 👉 Purpose:
-Calculate balances
-
-✔ Logic:
-	•	Sum all balances → TOTAL
-
-👉 Optional:
-	•	Customer-wise SUM (ALIMNA, PIF)
+	•	Take exception list (ALIMNA customers)
+	•	Do SUMIF on source data
+	•	Return customer-wise + total
 
 ⸻
 
-🔹 STEP 3: TABLE 2 (MAIN NII CALCULATION)
+✅ 💻 COMPLETE CODE
 
-👉 This is the core business logic
+package main;
 
-⸻
+import java.util.*;
 
-📌 FORMULAS
+public class AlimnaTableService {
 
-1. Eligible Average Balance
+    /**
+     * This method calculates ALIMNA table using SUMIF logic
+     *
+     * @param data           Source data (filtered records from Step 1)
+     * @param alimnaList     List of ALIMNA customer numbers
+     * @return Map containing customer-wise balance and total
+     */
+    public static Map<String, Double> process(
+            List<Map<String, String>> data,
+            List<String> alimnaList) {
 
-= Total Balance
+        System.out.println("STEP: ALIMNA Table Calculation Started");
 
-2. Eligible SAR Balance
+        // Final result map (maintains order)
+        Map<String, Double> result = new LinkedHashMap<>();
 
-= Eligible Avg Balance
+        double total = 0;
 
-3. Stat Reserve Deduction
+        // Loop each ALIMNA customer (like 17159, 17332)
+        for (String customerKey : alimnaList) {
 
-= Eligible Balance × statReserve
+            double sum = 0;
 
-4. Eligible Balance
+            // Loop all source data rows
+            for (Map<String, String> row : data) {
 
-= Eligible Balance - Stat Reserve
+                // Get customer number from row
+                String customer = row.get("CUSTOMER");
 
+                // SUMIF condition (Excel logic)
+                if (customerKey.equals(customer)) {
 
-⸻
+                    // Get balance and add
+                    double balance = Double.parseDouble(row.get("BALANCE"));
+                    sum += balance;
+                }
+            }
 
-5. Computed VOF
+            // Store customer-wise result
+            result.put(customerKey, sum);
 
-= Eligible Balance × vofRate × days / 365
+            // Add to total
+            total += sum;
 
-6. Deposit Protection Fund
+            System.out.println("ALIMNA Customer: " + customerKey +
+                    " → Balance: " + sum);
+        }
 
-= Eligible Balance × dpfRate × days / 365
+        // Add total row
+        result.put("TOTAL", total);
 
-7. HSS Share
+        System.out.println("ALIMNA TOTAL: " + total);
 
-= VOF - DPF
-
-
-⸻
-
-8. Total NII
-
-= HSS × niiFactor
-
-9. VAT
-
-= NII × vatRate
-
-10. Claim from SABB
-
-= NII + VAT
-
-
-⸻
-
-🔹 STEP 4: CATEGORY SPLIT
-
-👉 Group balances into:
-	•	TRUST
-	•	DCC
-	•	GC
-	•	Private Funds
-
-✔ Logic:
-
-Category Balance = SUM(customer balances)
+        return result;
+    }
+}
 
 
 ⸻
 
-🔹 STEP 5: TABLE 3 (SECTOR SPLIT)
+✅ 🧠 HOW THIS MATCHES YOUR EXCEL
 
-👉 Purpose: Split into business sectors
+Your Excel:
 
-⸻
+=SUMIF($C$2:$C$862, D875, $L$2:$L$862)
 
-📌 FORMULAS
+👉 Java equivalent:
 
-DCC:
+if (customerKey.equals(customer)) {
+    sum += balance;
+}
 
-= TRUST + DCC + Private Funds
-
-GC:
-
-= Total Balance - DCC
-
-Total:
-
-= DCC + GC
-
+✔ Exact same logic
+✔ Just written in Java
 
 ⸻
 
-🔹 STEP 6: TABLE 4 (VOUCHER / FINAL BOOKING)
+✅ 📌 HOW TO CALL THIS (FROM MAIN)
 
-👉 Final accounting values
+List<String> alimnaList = Arrays.asList("17159", "17332");
 
-⸻
-
-📌 FORMULAS
-
-NII to be booked:
-
-= Total NII
-
-VAT:
-
-= NII × vatRate
-
-Claim:
-
-= NII + VAT
+Map<String, Double> alimnaTable =
+        AlimnaTableService.process(sourceData, alimnaList);
 
 
 ⸻
 
-✅ 📄 OUTPUT FILE
+✅ 📊 OUTPUT
 
-👉 Excel file contains:
-
-✔ Table 1
-	•	Total Balance
-	•	(Optional customer split)
-
-✔ Table 2
-	•	Full NII calculation
-
-✔ Table 3
-	•	Sector (DCC / GC)
-
-✔ Table 4
-	•	Final booking (NII + VAT)
-
-⸻
-
-✅ 🎯 BUSINESS VALUE (Why this tool)
-
-Before:
-❌ Manual Excel work
-❌ Time consuming
-❌ Error prone
-
-After:
-✔ Automatic calculation
-✔ Accurate
-✔ Fast (seconds)
-✔ Easy to validate
-
-⸻
-
-✅ ▶️ HOW TO RUN APPLICATION
-
-Step 1:
-
-Put files in folder:
-
-input/
-  source.xlsx
-  percentage.xlsx
-  category.xlsx
+{
+  "17159" : 9600000.50,
+  "17332" : 557922.96,
+  "TOTAL" : 1017923.46
+}
 
 
 ⸻
 
-Step 2:
+✅ 🔥 OPTIONAL (BEST PRACTICE)
 
-Run Java main class:
+👉 Later you can load this from config file:
 
-MainApp.java
-
-
-⸻
-
-Step 3:
-
-Output generated:
-
-output/output.xlsx
+List<String> alimnaList = config.get("ALIMNA_LIST");
 
 
 ⸻
 
-Step 4:
+✅ 🚀 IMPROVED VERSION (FAST - OPTIONAL)
 
-Verify:
-	•	Total balance
-	•	NII
-	•	VAT
-	•	DCC / GC split
+If data is large (800+ rows):
 
-⸻
+// Pre-group
+Map<String, Double> grouped = new HashMap<>();
 
-✅ 🧩 COMPLETE FLOW (SIMPLE)
+for (Map<String, String> row : data) {
+    String cust = row.get("CUSTOMER");
+    double bal = Double.parseDouble(row.get("BALANCE"));
 
-Read Excel
-   ↓
-Filter Data
-   ↓
-Convert Balance (/100)
-   ↓
-Calculate Total
-   ↓
-Apply NII formulas
-   ↓
-Group by Category
-   ↓
-Split DCC / GC
-   ↓
-Final Voucher Calculation
-   ↓
-Generate Output Excel
+    grouped.put(cust, grouped.getOrDefault(cust, 0.0) + bal);
+}
+
+// Then use
+double sum = grouped.getOrDefault(customerKey, 0.0);
 
 
 ⸻
 
-✅ 🔥 FINAL SUMMARY
+✅ 🎯 WHY THIS DESIGN IS GOOD
 
-👉 You built a system that:
-	•	Reads Excel
-	•	Applies business rules
-	•	Calculates financial metrics
-	•	Produces final report
-
-👉 Fully replaces manual Excel work
+✔ Separate class → clean design
+✔ Reusable
+✔ Easy to test
+✔ Matches Excel logic
+✔ Easy to extend (PIF, exceptions)
 
 ⸻
 
-🚀 NEXT STEP
+🔥 NEXT STEP (IMPORTANT)
 
-If you want, I can now:
+Now next you need:
 
-👉 Convert this into CR document (approved format)
-👉 Or give low-level design per class (interview level)
-👉 Or improve code to exact Excel layout
+👉 PIF Table (Special Rate logic)
+👉 Before / After Exception adjustment
 
-Just tell 👍
+Say:
 
-Title
+👉 “Give PIF service class”
 
-Fix for SAS Job Failure due to Column Length Issue
-
-⸻
-
-Short Description
-
-SAS job ‘VA_REFRESH’ is failing in Production due to column length issue. Fix required to handle data exceeding column size.
-
-⸻
-
-Description
-
-The SAS job ‘VA_REFRESH’ is failing in Production due to column length being smaller than the incoming data.
-
-Error received:
-ORA-12899: value too large for column (column length exceeded).
-
-Because of this error, the job is failing and rollback is happening. Some records are not getting processed.
-
-This change will fix the issue by handling the column length properly so that the job runs successfully.
-
-⸻
-
-Justification
-
-This change is required to fix the SAS job failure in Production.
-
-If not fixed:
-	•	Job will continue to fail
-	•	Data will not be processed
-	•	Reports depending on this job will be incorrect or incomplete
-
-This fix ensures successful job execution and correct data processing.
-
-⸻
-
-Implementation Plan
-	1.	Identify the affected column and table – DB Team
-	2.	Take backup of the table before change – DB Team
-	3.	Modify column length to support required data size – DB Team
-	4.	Validate the change in database – DB Team
-	5.	Re-run the SAS job ‘VA_REFRESH’ – Application Team
-	6.	Verify job completion and data processing – Application Team
-
-⸻
-
-Business Impact
-
-If not fixed:
-	•	Required data will not be available
-	•	Reports will be incorrect or incomplete
-	•	Business users will not get correct information
-
-After fix:
-	•	Job will run successfully
-	•	Data will be processed correctly
-
-No impact to end users during change window.
-
-⸻
-
-Technical Impact
-	•	SAS job will continue to fail due to column size limitation
-	•	Data processing will stop
-	•	Rollback will continue to happen
-	•	Dependent processes will not receive correct data
-
-This change involves database column update only. No application code change.
-
-⸻
-
-Backout Plan
-	1.	Restore table from backup – DB Team
-	2.	Revert column to original size
-	3.	Validate database after rollback
-	4.	Inform stakeholders
-
-⸻
-
-Post Implementation Verification Plan
-	1.	Run SAS job ‘VA_REFRESH’
-	2.	Confirm job completes successfully
-	3.	Verify records are processed correctly
-	4.	Check logs for any errors
-	5.	Confirm with business team
-
-⸻
-
-Urgency (SP Justification)
-
-This issue is impacting Production job execution. Immediate fix is required to ensure data processing and reporting are not affected.
-
-⸻
-
-If you want, I can also give you:
-✅ 1-minute quick CR template for all DB issues
-✅ Better wording for Description (ICR level)👍 — then we should correct the CR properly. It is not about reports, it is about data not getting stored in table.
-
-Here is the corrected full CR in simple words:
-
-⸻
-
-Title
-
-Fix for SAS Job Failure due to Column Length Issue
-
-⸻
-
-Short Description
-
-SAS job ‘VA_REFRESH’ is failing in Production because column length is smaller than incoming data.
-
-⸻
-
-Description
-
-The SAS job ‘VA_REFRESH’ is failing in Production due to column length being smaller than the incoming data size.
-
-Error:
-ORA-12899: value too large for column
-
-Because of this, the data is not getting inserted into the table and rollback is happening. Some records are not stored in the database.
-
-This change will fix the issue by increasing the column length so that data can be stored properly.
-
-⸻
-
-Justification
-
-This change is required to fix the job failure and allow data to be stored in the database.
-
-If not fixed:
-	•	Data will not be inserted into the table
-	•	Job will continue to fail
-	•	Required data will be missing in the system
-
-This fix ensures proper data storage and successful job execution.
-
-⸻
-
-Implementation Plan
-	1.	Identify affected table and column – DB Team
-	2.	Take backup of table – DB Team
-	3.	Increase column length to required size – DB Team
-	4.	Validate table structure – DB Team
-	5.	Re-run SAS job ‘VA_REFRESH’ – Application Team
-	6.	Verify data is inserted correctly – Application Team
-
-⸻
-
-Business Impact
-
-If not fixed:
-	•	Required data will not be available in system
-	•	Business operations depending on this data will be impacted
-	•	Data inconsistency in system
-
-After fix:
-	•	Data will be stored correctly
-	•	Job will run successfully
-
-⸻
-
-Technical Impact
-	•	Data insertion will fail due to column size limitation
-	•	SAS job will fail repeatedly
-	•	Database rollback will occur
-	•	System will have incomplete data
-
-Only database column change. No application code change.
-
-⸻
-
-Backout Plan
-	1.	Restore table from backup – DB Team
-	2.	Revert column to original size
-	3.	Validate database after rollback
-	4.	Inform stakeholders
-
-⸻
-
-Post Implementation Verification Plan
-	1.	Run SAS job ‘VA_REFRESH’
-	2.	Confirm job completes successfully
-	3.	Verify data is inserted into table
-	4.	Check logs for errors
-	5.	Confirm with business team
-
-⸻
-
-This version is now correct, clean, and CAB-ready ✅
-
-If you want, I can also make a short emergency CR version (2–3 lines) for faster approval.”
+and I’ll give you next class in same structure 👍
 
   // -------------------End-----------------   
   </code></pre>
@@ -667,6 +293,3 @@ document.onkeydown = function(e){
 
 </body>
 </html>
-
-
-
