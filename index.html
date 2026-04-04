@@ -84,7 +84,226 @@ button{
  // -------------------Start-----------------
 
 
-Got it 👍 — here is your updated, clean, complete AlimnaTableService class based on your exact requirement:
+Perfect 👍 — now your requirement is very clear and final.
+
+⸻
+
+✅ 🧠 What you want (simple)
+
+You have 5 categories:
+
+TRUST
+DCC
+GC
+PRIVATE FUND
+OTHER / INTERNAL
+
+👉 From category map + source data you want:
+
+✔ 5 separate tables
+
+✔ Each table → customer-wise SUMIF
+
+✔ Each table → TOTAL
+
+⸻
+
+✅ Final Output Structure
+
+TRUST:
+14230 → 1000
+14231 → 2000
+TOTAL → 3000
+
+DCC:
+11160 → 5000
+TOTAL → 5000
+
+GC:
+15476 → 300
+TOTAL → 300
+
+PRIVATE FUND:
+12135 → 700
+TOTAL → 700
+
+OTHER:
+505070 → 900
+TOTAL → 900
+
+
+⸻
+
+✅ ✅ COMPLETE FINAL CLASS (ALL 5 TABLES)
+
+package main;
+
+import java.math.BigDecimal;
+import java.util.*;
+
+public class FullCategoryService {
+
+    public static Map<String, Map<String, BigDecimal>> process(
+            List<Map<String, String>> sourceData,
+            Map<String, String> categoryMap) {
+
+        System.out.println("===== ALL CATEGORY TABLES STARTED =====");
+
+        // Final result → 5 tables
+        Map<String, Map<String, BigDecimal>> finalResult = new LinkedHashMap<>();
+
+        // Step 1: Initialize categories
+        List<String> categories = Arrays.asList(
+                "TRUST",
+                "DCC",
+                "GC",
+                "PRIVATE FUND",
+                "OTHER / INTERNAL"
+        );
+
+        for (String cat : categories) {
+            finalResult.put(cat, new LinkedHashMap<>());
+        }
+
+        // Step 2: Loop category map
+        for (Map.Entry<String, String> entry : categoryMap.entrySet()) {
+
+            String customer = entry.getKey();
+            String category = entry.getValue().toUpperCase();
+
+            // Normalize category name
+            String finalCategory = getCategoryName(category);
+
+            if (finalCategory == null) continue;
+
+            // Calculate SUMIF
+            BigDecimal sum = calculateSum(sourceData, customer);
+
+            finalResult.get(finalCategory).put(customer, sum);
+
+            System.out.println(finalCategory + " → " + customer + " : " + sum);
+        }
+
+        // Step 3: Calculate TOTAL for each category
+        for (String cat : finalResult.keySet()) {
+
+            BigDecimal total = BigDecimal.ZERO;
+
+            for (BigDecimal val : finalResult.get(cat).values()) {
+                total = total.add(val);
+            }
+
+            finalResult.get(cat).put("TOTAL", total);
+
+            System.out.println(cat + " TOTAL: " + total);
+        }
+
+        System.out.println("===== ALL CATEGORY TABLES COMPLETED =====");
+
+        return finalResult;
+    }
+
+    /**
+     * Normalize category names
+     */
+    private static String getCategoryName(String category) {
+
+        if (category.contains("TRUST")) return "TRUST";
+        if (category.contains("DCC")) return "DCC";
+        if (category.contains("GC")) return "GC";
+        if (category.contains("PRIVATE")) return "PRIVATE FUND";
+        if (category.contains("OTHER")) return "OTHER / INTERNAL";
+
+        return null;
+    }
+
+    /**
+     * SUMIF logic
+     */
+    private static BigDecimal calculateSum(
+            List<Map<String, String>> sourceData,
+            String customerKey) {
+
+        BigDecimal sum = BigDecimal.ZERO;
+
+        for (Map<String, String> row : sourceData) {
+
+            try {
+                String customer = row.get("ALDCS");
+
+                if (customerKey.equals(customer)) {
+
+                    String valueStr = row.get("ALMVC1");
+
+                    if (valueStr != null && !valueStr.isEmpty()) {
+
+                        BigDecimal value = new BigDecimal(valueStr);
+
+                        // divide by 100
+                        BigDecimal balance = value.divide(new BigDecimal("100"));
+
+                        sum = sum.add(balance);
+                    }
+                }
+
+            } catch (Exception e) {
+                System.out.println("Error row: " + row);
+            }
+        }
+
+        return sum;
+    }
+}
+
+
+⸻
+
+✅ 🔥 How to call
+
+Map<String, Map<String, BigDecimal>> allTables =
+        FullCategoryService.process(sourceData, categoryMap);
+
+
+⸻
+
+✅ 🧠 What this class is doing
+
+👉 Exactly like Excel:
+
+For each category:
+   For each customer:
+       SUMIF(ALDCS, customer, ALMVC1/100)
+
+
+⸻
+
+✅ Final Understanding
+
+✔ 5 tables created
+✔ Each table → customer-wise data
+✔ Each table → total
+✔ Using BigDecimal
+✔ Same as Excel logic
+
+⸻
+
+🚀 Next Step (Final step of project)
+
+Now you are ready for:
+
+👉 Final NII Calculation
+	•	Eligible Balance
+	•	DCC vs GC split
+	•	Apply VOF %
+	•	VAT calculation
+	•	Final output file
+
+⸻
+
+If you want next:
+
+👉 I will give FINAL MASTER CLASS (end-to-end project code)
+👉 Exactly matching your Excel (production ready) 👍 — here is your updated, clean, complete AlimnaTableService class based on your exact requirement:
 
 ✔ Uses exceptionSet
 ✔ Filters using ALDCS
