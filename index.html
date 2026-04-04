@@ -84,7 +84,173 @@ button{
  // -------------------Start-----------------
 
 
-Perfect 👍 — now I’ll give you complete working code:
+Got it 👍 — here is your updated, clean, complete AlimnaTableService class based on your exact requirement:
+
+✔ Uses exceptionSet
+✔ Filters using ALDCS
+✔ Calculates ALMVC1 / 100
+✔ Splits ALIMNA & PIF
+✔ Returns proper structure
+✔ With logs
+
+⸻
+
+✅ ✅ FINAL UPDATED CLASS: AlimnaTableService.java
+
+package main;
+
+import java.util.*;
+
+public class AlimnaTableService {
+
+    /**
+     * Main method to process ALIMNA & PIF calculations
+     */
+    public static Map<String, Object> process(
+            List<Map<String, String>> sourceData,
+            Map<String, String> exceptionSet) {
+
+        System.out.println("===== ALIMNA TABLE STARTED =====");
+
+        // Result maps
+        Map<String, Double> alimnaMap = new LinkedHashMap<>();
+        Map<String, Double> pifMap = new LinkedHashMap<>();
+
+        double alimnaTotal = 0;
+        double pifTotal = 0;
+
+        // Loop each exception customer
+        for (Map.Entry<String, String> entry : exceptionSet.entrySet()) {
+
+            String customer = entry.getKey();
+            String name = entry.getValue().toUpperCase();
+
+            // Calculate SUMIF logic
+            double sum = calculateSum(sourceData, customer);
+
+            // Split ALIMNA / PIF
+            if (name.contains("ALINMA")) {
+
+                alimnaMap.put(customer, sum);
+                alimnaTotal += sum;
+
+                System.out.println("ALIMNA → " + customer + " : " + sum);
+
+            } else if (name.contains("PUBLIC INVESTMENT")) {
+
+                pifMap.put(customer, sum);
+                pifTotal += sum;
+
+                System.out.println("PIF → " + customer + " : " + sum);
+            }
+        }
+
+        // Add totals
+        alimnaMap.put("TOTAL", alimnaTotal);
+        pifMap.put("TOTAL", pifTotal);
+
+        // Final result
+        Map<String, Object> result = new HashMap<>();
+        result.put("ALIMNA", alimnaMap);
+        result.put("PIF", pifMap);
+
+        System.out.println("ALIMNA TOTAL: " + alimnaTotal);
+        System.out.println("PIF TOTAL: " + pifTotal);
+
+        System.out.println("===== ALIMNA TABLE COMPLETED =====");
+
+        return result;
+    }
+
+    /**
+     * SUMIF logic:
+     * ALDCS = customer
+     * ALMVC1 / 100 = balance
+     */
+    private static double calculateSum(
+            List<Map<String, String>> sourceData,
+            String customerKey) {
+
+        double sum = 0;
+
+        for (Map<String, String> row : sourceData) {
+
+            try {
+                String customer = row.get("ALDCS");
+
+                // Match customer
+                if (customerKey.equals(customer)) {
+
+                    // Get ALMVC1 and convert to balance
+                    String valueStr = row.get("ALMVC1");
+
+                    if (valueStr != null && !valueStr.isEmpty()) {
+
+                        double value = Double.parseDouble(valueStr);
+                        double balance = value / 100;
+
+                        sum += balance;
+                    }
+                }
+
+            } catch (Exception e) {
+                System.out.println("Error processing row: " + row);
+            }
+        }
+
+        return sum;
+    }
+}
+
+
+⸻
+
+✅ 🔥 How to call this (MainApp)
+
+Map<String, Object> alimnaResult =
+        AlimnaTableService.process(sourceData, exceptionSet);
+
+
+⸻
+
+✅ 📊 Output Example
+
+ALIMNA → 17332 : 300
+ALIMNA → 17159 : 300
+PIF → 16482 : 3000
+
+ALIMNA TOTAL: 600
+PIF TOTAL: 3000
+
+
+⸻
+
+✅ 🧠 Final Understanding
+
+👉 This class is doing exactly:
+
+Excel:
+SUMIF(ALDCS, customer, ALMVC1/100)
+
+Java:
+loop + match + divide + sum
+
+
+⸻
+
+🚀 Next Step (Important)
+
+Now this output will be used in:
+
+👉 Before Exception
+👉 Alimna Exemption (NIL NII)
+👉 PIF Removal
+
+⸻
+
+If you want next:
+
+👉 I will give Table 2 (Before/After Exception) full code exactly like your Excel 👍 👍 — now I’ll give you complete working code:
 
 ✔ Uses your exceptionSet
 ✔ Splits ALIMNA & PIF
