@@ -84,12 +84,110 @@ button{
  // -------------------Start-----------------
 
 
-=COUNTIFS('SLA Breached(31 Mar-26)'!C1:C860,"Critical",'SLA Breached(31 Mar-26)'!H1:H860,"KSA-OMS-SA")
-+COUNTIFS('SLA Breached(31 Mar-26)'!C1:C860,"Critical",'SLA Breached(31 Mar-26)'!H1:H860,"KSA-OMS-SA-UAT")
-+COUNTIFS('SLA Breached(31 Mar-26)'!C1:C860,"Critical",'SLA Breached(31 Mar-26)'!H1:H860,"KSA-OMS-SA-CONT") you go — simple, normal Indian English tone 👇
+=Here is your complete CR in simple Indian English, clear and CAB-ready:
 
 ⸻
 
+Title
+
+Firewall Port Opening for Azure App Access to GB Application over HBSA Network
+
+⸻
+
+Short Description
+
+Opening firewall ports and creating proxy rules to allow Azure application access to GB application over HBSA network.
+
+⸻
+
+Description
+
+This change is required to enable connectivity between the Azure application and GB application over the HBSA network.
+
+Currently, the required firewall ports are not open, and access is blocked. To establish communication, we need to open the required firewall ports and create proxy rules for the given URLs.
+
+This will allow the Azure application to access the GB application successfully.
+
+⸻
+
+Justification
+
+This change is required to enable communication between Azure application and GB application.
+
+If not implemented:
+	•	Azure application will not be able to access GB application
+	•	Required services will not function
+	•	Business processes depending on this integration will be impacted
+
+This change ensures proper connectivity and smooth application functioning.
+
+⸻
+
+Implementation Plan
+	1.	Review and confirm firewall port details from the attached firewall form – Network Team
+	2.	Open required firewall ports in HBSA network – Network Team
+	3.	Create proxy rules to allow access for given URLs (UAT and Production) – Network Team
+	4.	Apply changes in firewall and proxy configuration – Network Team
+	5.	Validate connectivity from Azure application to GB application – GB Team
+	6.	Confirm successful access and functionality – Application Team
+
+⸻
+
+Business Impact
+
+If not implemented:
+	•	Azure application cannot connect to GB application
+	•	Business processes depending on this integration will fail
+	•	Users will not be able to use related services
+
+After implementation:
+	•	No negative impact to users
+	•	Connectivity will be established successfully
+
+⸻
+
+Technical Impact
+	•	Network connectivity between Azure and GB will remain blocked
+	•	Application integration will fail
+	•	Services depending on this connection will not work
+	•	No impact to other systems
+
+This change involves firewall and proxy configuration only. No application or database changes.
+
+⸻
+
+Backout Plan
+	1.	Close the opened firewall ports – Network Team
+	2.	Remove proxy rules created for URLs – Network Team
+	3.	Revert firewall and proxy configuration to previous state
+	4.	Validate that system is restored
+
+⸻
+
+Post Implementation Verification Plan
+	1.	Verify connectivity from Azure application to GB application
+	2.	Access the provided URLs (UAT and Production)
+	3.	Confirm reachability and response
+	4.	Validate application functionality
+	5.	Get confirmation from business team
+
+⸻
+
+Urgency (SP Justification)
+
+This change is required to enable application connectivity. Without this, integration between Azure and GB application will not work, impacting business operations.
+
+⸻
+
+Cyber Approval
+
+Cyber approval will be obtained as this change involves firewall port opening and network access.
+
+⸻
+
+If you want, I can also give you:
+✅ Very short CR (2–3 lines)
+✅ Mail to network team with firewall details
 📧 Email Follow-up
 
 Hi Team,
