@@ -84,7 +84,110 @@ button{
  // -------------------Start-----------------
 
 
-Hi Ghusul,
+Hi Here is your fully updated CR with all sections aligned to AI tools / HBSA AI strategy, in simple Indian English:
+
+⸻
+
+Title
+
+Firewall Port Opening for AI Tools Access from HBSA Network for GB Reporting
+
+⸻
+
+Short Description
+
+Open firewall ports and whitelist required URLs to enable access to AI tools from HBSA network for GB business reporting.
+
+⸻
+
+Description
+
+As part of the HBSA AI strategy, GB business team will use AI tools for CEO reporting and business reporting.
+
+Currently, access to these AI tools is blocked from the HBSA network. To enable access, required firewall ports must be opened and URLs must be whitelisted.
+
+This change will allow users to access AI tools from HBSA network and proceed with reporting activities.
+
+⸻
+
+Justification
+
+This change is required to enable access to AI tools as part of HBSA AI strategy.
+
+These tools are required for CEO reporting and business reporting. If access is not enabled, users will not be able to use these tools from HBSA network.
+
+This change ensures smooth adoption of AI tools and supports business reporting requirements.
+
+⸻
+
+Implementation Plan
+	1.	Review required URLs and ports for AI tools – Network Team
+	2.	Open required firewall ports in HBSA network – Network Team
+	3.	Configure proxy and whitelist required URLs – Network Team
+	4.	Apply firewall and proxy changes – Network Team
+	5.	Validate access from HBSA network – Application/Business Team
+	6.	Confirm successful access and functionality – Business Team
+
+⸻
+
+Business Impact
+
+If this change is not implemented:
+	•	GB business team will not be able to access AI tools.
+	•	CEO reporting and business reporting will be impacted.
+	•	HBSA AI strategy implementation will be delayed.
+	•	Business operations depending on these tools will not proceed.
+
+After implementation:
+	•	Users will be able to access AI tools successfully.
+	•	Reporting activities will continue without issue.
+
+⸻
+
+Technical Impact
+
+If this change is not implemented:
+	•	Access to AI tools from HBSA network will remain blocked.
+	•	Required services will not be reachable.
+	•	Reporting tools will not function due to connectivity failure.
+	•	Integration between HBSA network and AI tools will fail.
+
+This change involves only firewall and proxy configuration. No application or database changes.
+
+⸻
+
+Backout Plan
+	1.	Remove whitelisted URLs – Network Team
+	2.	Close opened firewall ports – Network Team
+	3.	Revert firewall and proxy configuration
+	4.	Validate that access is blocked again as per original state
+
+⸻
+
+Post Implementation Verification Plan
+	1.	Verify access to AI tools from HBSA network
+	2.	Open and test required URLs
+	3.	Confirm tools are working properly
+	4.	Validate reporting functionality
+	5.	Get confirmation from GB business team
+
+⸻
+
+Urgency (SP Justification)
+
+This change is required to enable AI tools access for business reporting. Delay will impact CEO reporting and business operations.
+
+⸻
+
+Cyber Approval
+
+Cyber approval will be obtained as this change involves firewall access and external connectivity.
+
+⸻
+
+If you want, I can also make:
+✅ Very short 3-line CR (fast approval)
+✅ Email to CIO/Cyber for approval,
 
 Thank you for your follow-up.
 
