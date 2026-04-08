@@ -83,7 +83,94 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
-Got it 👍 — this is not providing new access, it is enabling Production DB access over VPN as contingency. I corrected it below.
+Got it 👍 — here is your complete CR in simple Indian English tone:
+
+⸻
+
+Title
+
+Open Firewall Ports for PTTP2 Production Connectivity to Tadawul and MSS-GM Applications from BCP Site
+
+⸻
+
+Short Description
+
+Open required firewall ports to enable PTTP2 Production connectivity to Tadawul and MSS-GM (UAT and Production) applications from BCP site.
+
+⸻
+
+Description
+
+This change is required to open firewall ports for PTTP2 Production environment to establish connectivity with Tadawul and MSS-GM applications (UAT and Production) from the BCP site.
+
+Currently, the required ports are not open from the BCP site, which is restricting communication between systems. This change will ensure proper connectivity for business operations during BCP scenarios.
+
+⸻
+
+Justification
+
+This change is required to ensure connectivity from BCP site to Tadawul and MSS-GM systems.
+
+If not implemented:
+	•	Systems will not connect from BCP site
+	•	Business operations during BCP will be impacted
+	•	Trade processing and communication may fail
+
+This is required for business continuity and BCP readiness.
+
+⸻
+
+Implementation Plan
+	1.	Identify required ports and IPs for PTTP2, Tadawul, and MSS-GM – Network Team
+	2.	Configure firewall rules to allow traffic from BCP site – Network Team
+	3.	Apply firewall changes in Production – Network Team
+	4.	Test connectivity from BCP to Tadawul and MSS-GM – Application/Network Team
+	5.	Validate successful communication – Application Team
+
+⸻
+
+Business Impact
+
+If not implemented:
+	•	BCP site will not be able to connect to required systems
+	•	Business operations during DR/BCP will stop
+	•	Trade processing and reporting will be impacted
+
+After implementation:
+	•	No impact during normal operations
+	•	BCP site will be ready for use
+
+⸻
+
+Technical Impact
+
+If not implemented:
+	•	Connectivity from BCP site will remain blocked
+	•	Applications will fail to communicate with Tadawul and MSS-GM
+	•	System failover to BCP will not work
+
+This change involves only firewall configuration. No impact to application or database.
+
+⸻
+
+Backout Plan
+	1.	Remove newly added firewall rules – Network Team
+	2.	Revert firewall configuration
+	3.	Validate that original setup is restored
+
+⸻
+
+Post Implementation Verification Plan
+	1.	Verify port connectivity from BCP site
+	2.	Test connection to Tadawul and MSS-GM systems
+	3.	Validate application functionality
+	4.	Confirm with business team
+
+⸻
+
+If you want, I can also give:
+👉 1-line CAB approval justification (strong line)
+👉 Risk / Urgency answers for this CR👍 — this is not providing new access, it is enabling Production DB access over VPN as contingency. I corrected it below.
 
 ⸻
 
