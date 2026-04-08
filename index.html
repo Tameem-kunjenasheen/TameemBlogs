@@ -83,11 +83,99 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
-We have more people here compared to earlier, and Bloomberg is going on and off due to slowness.
+Got it 👍 — this is not providing new access, it is enabling Production DB access over VPN as contingency. I corrected it below.
 
-So we are waiting to run the checks. In the afternoon, he mentioned that he will be free.
-HiMinutes of Meeting (MOM)
+⸻
 
+Title
+
+Enable Production Database Access over HBSA VPN for MSS-GM Applications (Contingency)
+
+⸻
+
+Short Description
+
+Enable Production database access over HBSA VPN for MSS-GM applications as a contingency solution.
+
+⸻
+
+Description
+
+This change is required to enable Production database access over HBSA VPN for MSS-GM applications as a contingency.
+
+Currently, MSS-GM applications access the Production database through the primary network. This change will allow the same Production database to be accessed through HBSA VPN as a backup option.
+
+This will be used only during network issues or outages to ensure application continuity.
+
+⸻
+
+Justification
+
+This change is required to ensure continuous access to the Production database during network issues.
+
+If not implemented:
+	•	MSS-GM applications will not be able to access the Production database during outages
+	•	There will be no fallback option
+	•	Business operations may stop
+
+This ensures system availability and continuity.
+
+⸻
+
+Implementation Plan
+	1.	Identify Production database servers and required ports – DB/Network Team
+	2.	Configure HBSA VPN routing for Production database access – Network Team
+	3.	Open required firewall ports for VPN access – Network Team
+	4.	Apply network configuration changes – Network Team
+	5.	Test Production database connectivity over VPN – DB/Application Team
+	6.	Confirm successful access – Application Team
+
+⸻
+
+Business Impact
+
+If not implemented:
+	•	No backup access to Production database
+	•	Applications will stop during network failure
+	•	Business operations will be impacted
+
+After implementation:
+	•	No impact during normal operations
+	•	Backup connectivity will be available when required
+
+⸻
+
+Technical Impact
+
+If not implemented:
+	•	No VPN-based access to Production database
+	•	Applications will fail during primary network issues
+	•	No contingency for database connectivity
+
+This change involves network configuration only. No application or database changes.
+
+⸻
+
+Backout Plan
+	1.	Remove VPN routing configuration – Network Team
+	2.	Close opened firewall ports
+	3.	Revert network configuration
+	4.	Validate system stability
+
+⸻
+
+Post Implementation Verification Plan
+	1.	Verify Production database access over HBSA VPN
+	2.	Test application connectivity using VPN
+	3.	Check logs for any errors
+	4.	Confirm with application team
+
+⸻
+
+This version is now accurate and CAB-ready ✅
+
+If you want, I can also make:
+👉 1-line strong justification (very powerful for approval)
 Issue:
 Trader faced slowness issue while placing trades around 10:30 AM.
 
