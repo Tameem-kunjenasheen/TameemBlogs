@@ -83,1075 +83,113 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
-Hi,
 
-I hope you are doing well.
-
-I have raised the SNOW requests for the below users to enable remote (WFH) access, so that we are prepared in case it is required for business continuity.
-
-We are planning to activate an additional continuity plan for traders.
-
-Therefore, kindly request your approval to provide RDP access to the traders.
-
-Details:  
-Waleed Jameel  
-RITM000386560  
-
-Please review and approve the request.
-
-Thanks,  
-[Your Name] it 👍 — here is your complete CR in simple Indian English tone:
+Here is your complete CR in simple Indian English, properly structured and aligned with governance:
 
 ⸻
 
 Title
 
-Open Firewall Ports for PTTP2 Production Connectivity to Tadawul and MSS-GM Applications from BCP Site
+New OMS (CSE) Connectivity with Tadawul UAT for Certification
 
 ⸻
 
 Short Description
 
-Open required firewall ports to enable PTTP2 Production connectivity to Tadawul and MSS-GM (UAT and Production) applications from BCP site.
+Firewall changes to allow connectivity from new OMS UAT servers to Tadawul UAT environment (PXCT2 and PXMR2).
 
 ⸻
 
 Description
 
-This change is required to open firewall ports for PTTP2 Production environment to establish connectivity with Tadawul and MSS-GM applications (UAT and Production) from the BCP site.
+This change is to enable connectivity between new OMS (CSE) UAT environment and Tadawul UAT systems (PXCT2 and PXMR2) for certification.
 
-Currently, the required ports are not open from the BCP site, which is restricting communication between systems. This change will ensure proper connectivity for business operations during BCP scenarios.
+We need to whitelist required IPs and open firewall access from new OMS UAT servers to Tadawul UAT environment (Cash and Derivative Markets).
+
+This connectivity is required to complete OMS certification with Tadawul before production rollout.
 
 ⸻
 
 Justification
 
-This change is required to ensure connectivity from BCP site to Tadawul and MSS-GM systems.
+This change is required for OMS certification with Tadawul.
 
-If not implemented:
-	•	Systems will not connect from BCP site
-	•	Business operations during BCP will be impacted
-	•	Trade processing and communication may fail
+Without this connectivity, testing cannot be completed and certification will not proceed. This will delay onboarding of the new OMS system.
 
-This is required for business continuity and BCP readiness.
+This is a mandatory requirement from Tadawul for certification.
 
 ⸻
 
 Implementation Plan
-	1.	Identify required ports and IPs for PTTP2, Tadawul, and MSS-GM – Network Team
-	2.	Configure firewall rules to allow traffic from BCP site – Network Team
-	3.	Apply firewall changes in Production – Network Team
-	4.	Test connectivity from BCP to Tadawul and MSS-GM – Application/Network Team
-	5.	Validate successful communication – Application Team
+	1.	Review required source and destination IPs and ports – Network Team
+	2.	Configure firewall rules to allow connectivity from OMS UAT servers – Network Team
+	3.	Whitelist Tadawul UAT endpoints (PXCT2 and PXMR2) – Network Team
+	4.	Apply firewall changes in UAT environment – Network Team
+	5.	Perform connectivity testing (telnet/ping/application test) – ITO/MSS Team
+	6.	Confirm connectivity with OMS application – Application Team
 
 ⸻
 
 Business Impact
 
-If not implemented:
-	•	BCP site will not be able to connect to required systems
-	•	Business operations during DR/BCP will stop
-	•	Trade processing and reporting will be impacted
+If this change is not implemented:
+	•	OMS certification with Tadawul will not be completed
+	•	New OMS onboarding will be delayed
+	•	Business cannot proceed with trading readiness
+	•	Project timelines will be impacted
 
-After implementation:
-	•	No impact during normal operations
-	•	BCP site will be ready for use
+During implementation:
+	•	No impact to production systems
+	•	No downtime required
 
 ⸻
 
 Technical Impact
 
-If not implemented:
-	•	Connectivity from BCP site will remain blocked
-	•	Applications will fail to communicate with Tadawul and MSS-GM
-	•	System failover to BCP will not work
+If this change is not implemented:
+	•	OMS UAT servers will not connect to Tadawul systems
+	•	Certification testing will fail
+	•	Required FIX and TIP connectivity will not work
+	•	End-to-end OMS testing will not be completed
 
-This change involves only firewall configuration. No impact to application or database.
+This change is only in UAT environment. No impact to production systems.
 
 ⸻
 
 Backout Plan
-	1.	Remove newly added firewall rules – Network Team
-	2.	Revert firewall configuration
-	3.	Validate that original setup is restored
+	1.	Remove firewall rules added for this change – Network Team
+	2.	Remove whitelisted IPs and endpoints
+	3.	Revert firewall configuration to previous state
+	4.	Validate that connectivity is blocked again
 
 ⸻
 
 Post Implementation Verification Plan
-	1.	Verify port connectivity from BCP site
-	2.	Test connection to Tadawul and MSS-GM systems
-	3.	Validate application functionality
-	4.	Confirm with business team
+	1.	Verify connectivity from OMS UAT servers to Tadawul UAT (PXCT2 and PXMR2)
+	2.	Test FIX and TIP connectivity
+	3.	Validate OMS application connectivity
+	4.	Confirm successful communication with Tadawul systems
+	5.	Get confirmation from application/business team
+
+⸻
+
+Additional Details
+
+Source: New OMS UAT Servers
+
+Destination:
+	•	PXMR2 – FIX (Cash & Derivative Market), TIP
+	•	PXCT2 – FIX (Cash & Derivative Market), TIP
+
+Downtime: Not required
+
+Environment: UAT
 
 ⸻
 
 If you want, I can also give:
-👉 1-line CAB approval justification (strong line)
-👉 Risk / Urgency answers for this CR👍 — this is not providing new access, it is enabling Production DB access over VPN as contingency. I corrected it below.
-
-⸻
-
-Title
-
-Enable Production Database Access over HBSA VPN for MSS-GM Applications (Contingency)
-
-⸻
-
-Short Description
-
-Enable Production database access over HBSA VPN for MSS-GM applications as a contingency solution.
-
-⸻
-
-Description
-
-This change is required to enable Production database access over HBSA VPN for MSS-GM applications as a contingency.
-
-Currently, MSS-GM applications access the Production database through the primary network. This change will allow the same Production database to be accessed through HBSA VPN as a backup option.
-
-This will be used only during network issues or outages to ensure application continuity.
-
-⸻
-
-Justification
-
-This change is required to ensure continuous access to the Production database during network issues.
-
-If not implemented:
-	•	MSS-GM applications will not be able to access the Production database during outages
-	•	There will be no fallback option
-	•	Business operations may stop
-
-This ensures system availability and continuity.
-
-⸻
-
-Implementation Plan
-	1.	Identify Production database servers and required ports – DB/Network Team
-	2.	Configure HBSA VPN routing for Production database access – Network Team
-	3.	Open required firewall ports for VPN access – Network Team
-	4.	Apply network configuration changes – Network Team
-	5.	Test Production database connectivity over VPN – DB/Application Team
-	6.	Confirm successful access – Application Team
-
-⸻
-
-Business Impact
-
-If not implemented:
-	•	No backup access to Production database
-	•	Applications will stop during network failure
-	•	Business operations will be impacted
-
-After implementation:
-	•	No impact during normal operations
-	•	Backup connectivity will be available when required
-
-⸻
-
-Technical Impact
-
-If not implemented:
-	•	No VPN-based access to Production database
-	•	Applications will fail during primary network issues
-	•	No contingency for database connectivity
-
-This change involves network configuration only. No application or database changes.
-
-⸻
-
-Backout Plan
-	1.	Remove VPN routing configuration – Network Team
-	2.	Close opened firewall ports
-	3.	Revert network configuration
-	4.	Validate system stability
-
-⸻
-
-Post Implementation Verification Plan
-	1.	Verify Production database access over HBSA VPN
-	2.	Test application connectivity using VPN
-	3.	Check logs for any errors
-	4.	Confirm with application team
-
-⸻
-
-This version is now accurate and CAB-ready ✅
-
-If you want, I can also make:
-👉 1-line strong justification (very powerful for approval)
-Issue:
-Trader faced slowness issue while placing trades around 10:30 AM.
-
-Details:
-	•	Orders were placed, but it was taking time to appear in the market.
-	•	It looked like a latency issue.
-	•	Network utilisation and international links were checked and found to be under threshold.
-	•	We planned to check system utilisation, but trader was busy, so it could not be done.
-	•	Midhu suggested remediation steps for the slowness issue.
-	•	However, since the trader was occupied, we could not execute the remediation.
-	•	Later, trader confirmed that BBG performance is better now.
-
-Current Status:
-	•	Waiting for HH to be free to check system utilisation.
-	•	Incident has been raised for tracking.
-
-
-Firewall Port Opening for AI Tools Access from HBSA Network for GB Reporting
-
-⸻
-
-Short Description
-
-Open firewall ports and whitelist required URLs to enable access to AI tools from HBSA network for GB business reporting.
-
-⸻
-
-Description
-
-As part of the HBSA AI strategy, GB business team will use AI tools for CEO reporting and business reporting.
-
-Currently, access to these AI tools is blocked from the HBSA network. To enable access, required firewall ports must be opened and URLs must be whitelisted.
-
-This change will allow users to access AI tools from HBSA network and proceed with reporting activities.
-
-⸻
-
-Justification
-
-This change is required to enable access to AI tools as part of HBSA AI strategy.
-
-These tools are required for CEO reporting and business reporting. If access is not enabled, users will not be able to use these tools from HBSA network.
-
-This change ensures smooth adoption of AI tools and supports business reporting requirements.
-
-⸻
-
-Implementation Plan
-	1.	Review required URLs and ports for AI tools – Network Team
-	2.	Open required firewall ports in HBSA network – Network Team
-	3.	Configure proxy and whitelist required URLs – Network Team
-	4.	Apply firewall and proxy changes – Network Team
-	5.	Validate access from HBSA network – Application/Business Team
-	6.	Confirm successful access and functionality – Business Team
-
-⸻
-
-Business Impact
-
-If this change is not implemented:
-	•	GB business team will not be able to access AI tools.
-	•	CEO reporting and business reporting will be impacted.
-	•	HBSA AI strategy implementation will be delayed.
-	•	Business operations depending on these tools will not proceed.
-
-After implementation:
-	•	Users will be able to access AI tools successfully.
-	•	Reporting activities will continue without issue.
-
-⸻
-
-Technical Impact
-
-If this change is not implemented:
-	•	Access to AI tools from HBSA network will remain blocked.
-	•	Required services will not be reachable.
-	•	Reporting tools will not function due to connectivity failure.
-	•	Integration between HBSA network and AI tools will fail.
-
-This change involves only firewall and proxy configuration. No application or database changes.
-
-⸻
-
-Backout Plan
-	1.	Remove whitelisted URLs – Network Team
-	2.	Close opened firewall ports – Network Team
-	3.	Revert firewall and proxy configuration
-	4.	Validate that access is blocked again as per original state
-
-⸻
-
-Post Implementation Verification Plan
-	1.	Verify access to AI tools from HBSA network
-	2.	Open and test required URLs
-	3.	Confirm tools are working properly
-	4.	Validate reporting functionality
-	5.	Get confirmation from GB business team
-
-⸻
-
-Urgency (SP Justification)
-
-This change is required to enable AI tools access for business reporting. Delay will impact CEO reporting and business operations.
-
-⸻
-
-Cyber Approval
-
-Cyber approval will be obtained as this change involves firewall access and external connectivity.
-
-⸻
-
-If you want, I can also make:
-✅ Very short 3-line CR (fast approval)
-✅ Email to CIO/Cyber for approval,
-
-Thank you for your follow-up.
-
-We have arranged the certificate, and the renewal activity is in progress.
-
-We will keep you updated on the status.
-
-Regards,  
-[Your Name]
-
-As discussed, we are raising a CR for Azure app access to GB application.
-
-SM team is asking about the urgency of this change.
-
-Can you please confirm:
-- Why this change is urgent?
-- What will be the impact if we move this to Monday?
-
-This will help us to proceed with the approval.
-
-Thanks,  
-[Your Name],
-
-Good morning.
-
-I have raised the ServiceNow request and it has already been approved. Currently, it is in the fulfilment stage for the past one week.
-
-Could you please check and help to proceed with the fulfilment at the earliest? Kindly let me know if any inputs are required from my side.
-
-Request Number: <Add your SNOW ticket number>
-
-Appreciate your support on this.
-
-Thanks & Regards,  
-<Your Name> is your complete CR in simple Indian English, clear and CAB-ready:
-
-⸻
-
-Title
-
-Firewall Port Opening for Azure App Access to GB Application over HBSA Network
-
-⸻
-
-Short Description
-
-Opening firewall ports and creating proxy rules to allow Azure application access to GB application over HBSA network.
-
-⸻
-
-Description
-
-This change is required to enable connectivity between the Azure application and GB application over the HBSA network.
-
-Currently, the required firewall ports are not open, and access is blocked. To establish communication, we need to open the required firewall ports and create proxy rules for the given URLs.
-
-This will allow the Azure application to access the GB application successfully.
-
-⸻
-
-Justification
-
-This change is required to enable communication between Azure application and GB application.
-
-If not implemented:
-	•	Azure application will not be able to access GB application
-	•	Required services will not function
-	•	Business processes depending on this integration will be impacted
-
-This change ensures proper connectivity and smooth application functioning.
-
-⸻
-
-Implementation Plan
-	1.	Review and confirm firewall port details from the attached firewall form – Network Team
-	2.	Open required firewall ports in HBSA network – Network Team
-	3.	Create proxy rules to allow access for given URLs (UAT and Production) – Network Team
-	4.	Apply changes in firewall and proxy configuration – Network Team
-	5.	Validate connectivity from Azure application to GB application – GB Team
-	6.	Confirm successful access and functionality – Application Team
-
-⸻
-
-Business Impact
-
-If not implemented:
-	•	Azure application cannot connect to GB application
-	•	Business processes depending on this integration will fail
-	•	Users will not be able to use related services
-
-After implementation:
-	•	No negative impact to users
-	•	Connectivity will be established successfully
-
-⸻
-
-Technical Impact
-	•	Network connectivity between Azure and GB will remain blocked
-	•	Application integration will fail
-	•	Services depending on this connection will not work
-	•	No impact to other systems
-
-This change involves firewall and proxy configuration only. No application or database changes.
-
-⸻
-
-Backout Plan
-	1.	Close the opened firewall ports – Network Team
-	2.	Remove proxy rules created for URLs – Network Team
-	3.	Revert firewall and proxy configuration to previous state
-	4.	Validate that system is restored
-
-⸻
-
-Post Implementation Verification Plan
-	1.	Verify connectivity from Azure application to GB application
-	2.	Access the provided URLs (UAT and Production)
-	3.	Confirm reachability and response
-	4.	Validate application functionality
-	5.	Get confirmation from business team
-
-⸻
-
-Urgency (SP Justification)
-
-This change is required to enable application connectivity. Without this, integration between Azure and GB application will not work, impacting business operations.
-
-⸻
-
-Cyber Approval
-
-Cyber approval will be obtained as this change involves firewall port opening and network access.
-
-⸻
-
-If you want, I can also give you:
-✅ Very short CR (2–3 lines)
-✅ Mail to network team with firewall details
-📧 Email Follow-up
-
-Hi Team,
-
-Just following up on the below.
-
-Could you please confirm if the AI tool is covered under the approved DVC? We need this confirmation to proceed further.
-
-Also, please let us know:
-	•	Who we should coordinate with for access
-	•	If we can get the data via case reference for Evolve
-
-Kindly help to expedite this as we need to move forward on priority.
-
-Thanks and Regards,
-[Your Name]—
-
-💬 WhatsApp (simple)
-
-Hi, just checking on the DVC confirmation and data access. Please confirm so we can proceed. It is a bit urgent.
-
-⸻
-
-If you want slightly softer or more strict version, tell me 👍
-✅ 🧠 What you want (simple)
-
-You have 5 categories:
-
-TRUST
-DCC
-GC
-PRIVATE FUND
-OTHER / INTERNAL
-
-👉 From category map + source data you want:
-
-✔ 5 separate tables
-
-✔ Each table → customer-wise SUMIF
-
-✔ Each table → TOTAL
-
-⸻
-
-✅ Final Output Structure
-
-TRUST:
-14230 → 1000
-14231 → 2000
-TOTAL → 3000
-
-DCC:
-11160 → 5000
-TOTAL → 5000
-
-GC:
-15476 → 300
-TOTAL → 300
-
-PRIVATE FUND:
-12135 → 700
-TOTAL → 700
-
-OTHER:
-505070 → 900
-TOTAL → 900
-
-
-⸻
-
-✅ ✅ COMPLETE FINAL CLASS (ALL 5 TABLES)
-
-package main;
-
-import java.math.BigDecimal;
-import java.util.*;
-
-public class FullCategoryService {
-
-    public static Map<String, Map<String, BigDecimal>> process(
-            List<Map<String, String>> sourceData,
-            Map<String, String> categoryMap) {
-
-        System.out.println("===== ALL CATEGORY TABLES STARTED =====");
-
-        // Final result → 5 tables
-        Map<String, Map<String, BigDecimal>> finalResult = new LinkedHashMap<>();
-
-        // Step 1: Initialize categories
-        List<String> categories = Arrays.asList(
-                "TRUST",
-                "DCC",
-                "GC",
-                "PRIVATE FUND",
-                "OTHER / INTERNAL"
-        );
-
-        for (String cat : categories) {
-            finalResult.put(cat, new LinkedHashMap<>());
-        }
-
-        // Step 2: Loop category map
-        for (Map.Entry<String, String> entry : categoryMap.entrySet()) {
-
-            String customer = entry.getKey();
-            String category = entry.getValue().toUpperCase();
-
-            // Normalize category name
-            String finalCategory = getCategoryName(category);
-
-            if (finalCategory == null) continue;
-
-            // Calculate SUMIF
-            BigDecimal sum = calculateSum(sourceData, customer);
-
-            finalResult.get(finalCategory).put(customer, sum);
-
-            System.out.println(finalCategory + " → " + customer + " : " + sum);
-        }
-
-        // Step 3: Calculate TOTAL for each category
-        for (String cat : finalResult.keySet()) {
-
-            BigDecimal total = BigDecimal.ZERO;
-
-            for (BigDecimal val : finalResult.get(cat).values()) {
-                total = total.add(val);
-            }
-
-            finalResult.get(cat).put("TOTAL", total);
-
-            System.out.println(cat + " TOTAL: " + total);
-        }
-
-        System.out.println("===== ALL CATEGORY TABLES COMPLETED =====");
-
-        return finalResult;
-    }
-
-    /**
-     * Normalize category names
-     */
-    private static String getCategoryName(String category) {
-
-        if (category.contains("TRUST")) return "TRUST";
-        if (category.contains("DCC")) return "DCC";
-        if (category.contains("GC")) return "GC";
-        if (category.contains("PRIVATE")) return "PRIVATE FUND";
-        if (category.contains("OTHER")) return "OTHER / INTERNAL";
-
-        return null;
-    }
-
-    /**
-     * SUMIF logic
-     */
-    private static BigDecimal calculateSum(
-            List<Map<String, String>> sourceData,
-            String customerKey) {
-
-        BigDecimal sum = BigDecimal.ZERO;
-
-        for (Map<String, String> row : sourceData) {
-
-            try {
-                String customer = row.get("ALDCS");
-
-                if (customerKey.equals(customer)) {
-
-                    String valueStr = row.get("ALMVC1");
-
-                    if (valueStr != null && !valueStr.isEmpty()) {
-
-                        BigDecimal value = new BigDecimal(valueStr);
-
-                        // divide by 100
-                        BigDecimal balance = value.divide(new BigDecimal("100"));
-
-                        sum = sum.add(balance);
-                    }
-                }
-
-            } catch (Exception e) {
-                System.out.println("Error row: " + row);
-            }
-        }
-
-        return sum;
-    }
-}
-
-
-⸻
-
-✅ 🔥 How to call
-
-Map<String, Map<String, BigDecimal>> allTables =
-        FullCategoryService.process(sourceData, categoryMap);
-
-
-⸻
-
-✅ 🧠 What this class is doing
-
-👉 Exactly like Excel:
-
-For each category:
-   For each customer:
-       SUMIF(ALDCS, customer, ALMVC1/100)
-
-
-⸻
-
-✅ Final Understanding
-
-✔ 5 tables created
-✔ Each table → customer-wise data
-✔ Each table → total
-✔ Using BigDecimal
-✔ Same as Excel logic
-
-⸻
-
-🚀 Next Step (Final step of project)
-
-Now you are ready for:
-
-👉 Final NII Calculation
-	•	Eligible Balance
-	•	DCC vs GC split
-	•	Apply VOF %
-	•	VAT calculation
-	•	Final output file
-
-⸻
-
-If you want next:
-
-👉 I will give FINAL MASTER CLASS (end-to-end project code)
-👉 Exactly matching your Excel (production ready) 👍 — here is your updated, clean, complete AlimnaTableService class based on your exact requirement:
-
-✔ Uses exceptionSet
-✔ Filters using ALDCS
-✔ Calculates ALMVC1 / 100
-✔ Splits ALIMNA & PIF
-✔ Returns proper structure
-✔ With logs
-
-⸻
-
-✅ ✅ FINAL UPDATED CLASS: AlimnaTableService.java
-
-package main;
-
-import java.util.*;
-
-public class AlimnaTableService {
-
-    /**
-     * Main method to process ALIMNA & PIF calculations
-     */
-    public static Map<String, Object> process(
-            List<Map<String, String>> sourceData,
-            Map<String, String> exceptionSet) {
-
-        System.out.println("===== ALIMNA TABLE STARTED =====");
-
-        // Result maps
-        Map<String, Double> alimnaMap = new LinkedHashMap<>();
-        Map<String, Double> pifMap = new LinkedHashMap<>();
-
-        double alimnaTotal = 0;
-        double pifTotal = 0;
-
-        // Loop each exception customer
-        for (Map.Entry<String, String> entry : exceptionSet.entrySet()) {
-
-            String customer = entry.getKey();
-            String name = entry.getValue().toUpperCase();
-
-            // Calculate SUMIF logic
-            double sum = calculateSum(sourceData, customer);
-
-            // Split ALIMNA / PIF
-            if (name.contains("ALINMA")) {
-
-                alimnaMap.put(customer, sum);
-                alimnaTotal += sum;
-
-                System.out.println("ALIMNA → " + customer + " : " + sum);
-
-            } else if (name.contains("PUBLIC INVESTMENT")) {
-
-                pifMap.put(customer, sum);
-                pifTotal += sum;
-
-                System.out.println("PIF → " + customer + " : " + sum);
-            }
-        }
-
-        // Add totals
-        alimnaMap.put("TOTAL", alimnaTotal);
-        pifMap.put("TOTAL", pifTotal);
-
-        // Final result
-        Map<String, Object> result = new HashMap<>();
-        result.put("ALIMNA", alimnaMap);
-        result.put("PIF", pifMap);
-
-        System.out.println("ALIMNA TOTAL: " + alimnaTotal);
-        System.out.println("PIF TOTAL: " + pifTotal);
-
-        System.out.println("===== ALIMNA TABLE COMPLETED =====");
-
-        return result;
-    }
-
-    /**
-     * SUMIF logic:
-     * ALDCS = customer
-     * ALMVC1 / 100 = balance
-     */
-    private static double calculateSum(
-            List<Map<String, String>> sourceData,
-            String customerKey) {
-
-        double sum = 0;
-
-        for (Map<String, String> row : sourceData) {
-
-            try {
-                String customer = row.get("ALDCS");
-
-                // Match customer
-                if (customerKey.equals(customer)) {
-
-                    // Get ALMVC1 and convert to balance
-                    String valueStr = row.get("ALMVC1");
-
-                    if (valueStr != null && !valueStr.isEmpty()) {
-
-                        double value = Double.parseDouble(valueStr);
-                        double balance = value / 100;
-
-                        sum += balance;
-                    }
-                }
-
-            } catch (Exception e) {
-                System.out.println("Error processing row: " + row);
-            }
-        }
-
-        return sum;
-    }
-}
-
-
-⸻
-
-✅ 🔥 How to call this (MainApp)
-
-Map<String, Object> alimnaResult =
-        AlimnaTableService.process(sourceData, exceptionSet);
-
-
-⸻
-
-✅ 📊 Output Example
-
-ALIMNA → 17332 : 300
-ALIMNA → 17159 : 300
-PIF → 16482 : 3000
-
-ALIMNA TOTAL: 600
-PIF TOTAL: 3000
-
-
-⸻
-
-✅ 🧠 Final Understanding
-
-👉 This class is doing exactly:
-
-Excel:
-SUMIF(ALDCS, customer, ALMVC1/100)
-
-Java:
-loop + match + divide + sum
-
-
-⸻
-
-🚀 Next Step (Important)
-
-Now this output will be used in:
-
-👉 Before Exception
-👉 Alimna Exemption (NIL NII)
-👉 PIF Removal
-
-⸻
-
-If you want next:
-
-👉 I will give Table 2 (Before/After Exception) full code exactly like your Excel 👍 👍 — now I’ll give you complete working code:
-
-✔ Uses your exceptionSet
-✔ Splits ALIMNA & PIF
-✔ Applies SUMIF logic
-✔ Separate class (clean design)
-✔ Main method included
-
-⸻
-
-✅ 📦 CLASS: AlimnaTableService.java
-
-package main;
-
-import java.util.*;
-
-public class AlimnaTableService {
-
-    /**
-     * This method:
-     * 1. Splits exceptionSet into ALIMNA & PIF
-     * 2. Calculates SUMIF (customer-wise balance)
-     * 3. Returns result
-     */
-    public static Map<String, Object> process(
-            List<Map<String, String>> sourceData,
-            Map<String, String> exceptionSet) {
-
-        System.out.println("===== ALIMNA TABLE PROCESS STARTED =====");
-
-        // Result maps
-        Map<String, Double> alimnaResult = new LinkedHashMap<>();
-        Map<String, Double> pifResult = new LinkedHashMap<>();
-
-        double alimnaTotal = 0;
-        double pifTotal = 0;
-
-        // Step 1: Split ALIMNA & PIF
-        for (Map.Entry<String, String> entry : exceptionSet.entrySet()) {
-
-            String customer = entry.getKey();
-            String name = entry.getValue().toUpperCase();
-
-            // ALIMNA customers
-            if (name.contains("ALINMA")) {
-
-                double sum = calculateSum(sourceData, customer);
-                alimnaResult.put(customer, sum);
-                alimnaTotal += sum;
-
-                System.out.println("ALIMNA → " + customer + " : " + sum);
-            }
-
-            // PIF customers
-            else if (name.contains("PUBLIC INVESTMENT")) {
-
-                double sum = calculateSum(sourceData, customer);
-                pifResult.put(customer, sum);
-                pifTotal += sum;
-
-                System.out.println("PIF → " + customer + " : " + sum);
-            }
-        }
-
-        // Add totals
-        alimnaResult.put("TOTAL", alimnaTotal);
-        pifResult.put("TOTAL", pifTotal);
-
-        // Final output
-        Map<String, Object> finalResult = new HashMap<>();
-        finalResult.put("ALIMNA", alimnaResult);
-        finalResult.put("PIF", pifResult);
-
-        System.out.println("ALIMNA TOTAL: " + alimnaTotal);
-        System.out.println("PIF TOTAL: " + pifTotal);
-
-        System.out.println("===== ALIMNA TABLE PROCESS COMPLETED =====");
-
-        return finalResult;
-    }
-
-    /**
-     * SUMIF logic
-     */
-    private static double calculateSum(
-            List<Map<String, String>> data,
-            String customerKey) {
-
-        double sum = 0;
-
-        for (Map<String, String> row : data) {
-
-            String customer = row.get("CUSTOMER");
-
-            if (customerKey.equals(customer)) {
-
-                double balance = Double.parseDouble(row.get("BALANCE"));
-                sum += balance;
-            }
-        }
-
-        return sum;
-    }
-}
-
-
-⸻
-
-✅ 📦 MAIN CLASS (CALLING THIS)
-
-package main;
-
-import java.util.*;
-
-public class MainApp {
-
-    public static void main(String[] args) {
-
-        try {
-
-            System.out.println("===== APPLICATION STARTED =====");
-
-            // ---------------------------
-            // STEP 1: MOCK SOURCE DATA
-            // ---------------------------
-            List<Map<String, String>> sourceData = new ArrayList<>();
-
-            sourceData.add(createRow("17159", "1000"));
-            sourceData.add(createRow("17159", "2000"));
-            sourceData.add(createRow("17332", "500"));
-            sourceData.add(createRow("16482", "3000"));
-
-            // ---------------------------
-            // STEP 2: EXCEPTION SET
-            // ---------------------------
-            Map<String, String> exceptionSet = new HashMap<>();
-
-            exceptionSet.put("17332", "ALINMA NOMU MKT EQUITY FUND");
-            exceptionSet.put("16482", "PUBLIC INVESTMENT FUND -EQTY");
-            exceptionSet.put("17159", "ALINMA FREE-STYLE EQ FUND");
-
-            System.out.println("Exception Data: " + exceptionSet);
-
-            // ---------------------------
-            // STEP 3: CALL SERVICE
-            // ---------------------------
-            Map<String, Object> result =
-                    AlimnaTableService.process(sourceData, exceptionSet);
-
-            // ---------------------------
-            // STEP 4: PRINT RESULT
-            // ---------------------------
-            System.out.println("\n===== FINAL RESULT =====");
-
-            Map<String, Double> alimna =
-                    (Map<String, Double>) result.get("ALIMNA");
-
-            Map<String, Double> pif =
-                    (Map<String, Double>) result.get("PIF");
-
-            System.out.println("ALIMNA TABLE: " + alimna);
-            System.out.println("PIF TABLE: " + pif);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Helper method to create row
-    private static Map<String, String> createRow(String cust, String bal) {
-
-        Map<String, String> row = new HashMap<>();
-        row.put("CUSTOMER", cust);
-        row.put("BALANCE", bal);
-
-        return row;
-    }
-}
-
-
-⸻
-
-✅ 🧪 OUTPUT
-
-ALIMNA → 17159 : 3000
-ALIMNA → 17332 : 500
-PIF → 16482 : 3000
-
-ALIMNA TOTAL: 3500
-PIF TOTAL: 3000
-
-
-⸻
-
-✅ 🧠 WHAT THIS SOLVES
-
-✔ No hardcoding
-✔ Uses your exceptionSet
-✔ Matches Excel SUMIF
-✔ Separates ALIMNA & PIF
-✔ Ready for Table 1 integration
-
-⸻
-
-🚀 NEXT STEP
-
-Now next logical step is:
-
-👉 Use this result in Table 2 (Before / After Exception)
-👉 Remove ALIMNA from total balance
-
-Just say:
-
-👉 “Next step apply exception in Table 2””
+✅ Very short version for quick approval
+✅ Email format for approval submission”
 
   // -------------------End-----------------   
   </code></pre>
