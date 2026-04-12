@@ -84,7 +84,46 @@ button{
  // -------------------Start-----------------
 
 
-Here is your complete CR in simple Indian English, properly structured and aligned with governance:
+Since you are running on a **local physical workstation**, we can rule out the common "Citrix lag" or virtualization overhead. On a physical machine, the bottleneck is almost always the **local network stack** or **hardware resource contention.**
+Here is a plan to keep your records and a deeper dive into debugging a physical setup.
+## 1. Professional Issue Log (Template)
+To effectively track and resolve this with your IT team or Bloomberg Help (HELP HELP), keep a spreadsheet with these specific columns. These data points are exactly what a Bloomberg technician will ask for:
+| Date/Time | Incident Type | Active Function | DNET Speed Test | Local CPU % | Action Taken |
+|---|---|---|---|---|---|
+| 12/04 10:30 | Screen Freeze | PORT / G | 45ms (High) | 88% | DNET RESTART |
+| 12/04 14:15 | Conn. Drop | EMSX | No Link | 15% | Re-seated Ethernet |
+## 2. The "5 Whys" for Physical Workstations
+Since you've confirmed it's a physical box, we can get more granular with the root cause analysis:
+**Problem: Screen lag and intermittent "Connection Lost" pop-ups.**
+ 1. **Why is the connection dropping?**
+   * *Answer:* The Bloomberg bb.exe process is losing its heartbeat signal to the Bloomberg router.
+ 2. **Why is the heartbeat signal being lost?**
+   * *Answer:* The local network interface card (NIC) is dropping packets or entering a "Power Save" state.
+ 3. **Why is the NIC dropping packets?**
+   * *Answer:* There is a physical layer mismatch (bad cable) or the workstation's security software (Firewall/EDR) is deep-packet inspecting Bloomberg's encrypted stream.
+ 4. **Why is the security software interrupting the stream?**
+   * *Answer:* The Bloomberg executable paths and specific ports (8194-8198) haven't been "Whitelisted" or excluded from active scanning.
+ 5. **Why were they not whitelisted? (Root Cause)**
+   * *Answer:* **Incomplete IT Security Policy for Trading Desks.** Professional trading apps require specialized bypasses for low-latency data streams that typical office apps (like Word or Outlook) do not.
+## 3. High-Priority Debugging Steps (Local Workstation)
+### A. The "DNET" Diagnostic
+Type **DNET <GO>** on your terminal immediately.
+ * Check the **Latency** and **Packet Loss**.
+ * If you see any red text, click **"Run Repair"** or **"Restart All Services."** This resets the local Bloomberg communications engine without rebooting your PC.
+### B. Windows Power Settings
+On physical workstations, Windows often tries to save power on the Ethernet port.
+ 1. Go to **Device Manager** > **Network Adapters**.
+ 2. Right-click your Controller (e.g., Intel Ethernet) > **Properties** > **Power Management**.
+ 3. **Uncheck** "Allow the computer to turn off this device to save power."
+### C. Resource Monitoring
+Bloomberg is a "Heavy" application. If you have many **Launchpad** monitors or **Live Excel API** links:
+ * Open Task Manager (Ctrl+Shift+Esc).
+ * Look for **bb.exe** and **b-pipe**.
+ * If CPU usage is consistently above 70%, your workstation hardware may be the bottleneck.
+### D. The "Last Resort" Local Fix
+If the screen lag is "visual" (the mouse moves but the data stays still), type:
+**GRAB <GO>** — This takes a screenshot of the system's diagnostic state which you can send directly to Bloomberg Support for a fast-track resolution.
+**How many monitors are you currently driving from this workstation, and are you using a specialized Bloomberg Keyboard?**
 
 ⸻
 
