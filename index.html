@@ -84,18 +84,294 @@ button{
  // -------------------Start-----------------
 
 
-Here is the corrected version in simple English:
+Got it 👍 — I will prepare a proper BRD (Business Requirement Document) for sign-off, in simple English, clean structure, and ready to share with business.
+
+You can copy this into Word and send for approval.
 
 ⸻
 
-Hi Stanly and Pandu,
+📄 BUSINESS REQUIREMENT DOCUMENT (BRD)
 
-Could you please check this portfolio (08900002044) report and let me know the issue?
+Project: NII Estimation Automation
 
-Also, please confirm if the below steps are required for setup.
+⸻
 
-Regards,
-Tameem Kunjansheen
+1. 📌 Purpose
+
+The purpose of this application is to automate the NII (Net Interest Income) estimation process, which is currently done manually in Excel.
+
+This will:
+	•	Reduce manual work
+	•	Avoid errors
+	•	Save time
+	•	Provide consistent output
+
+⸻
+
+2. 📌 Scope
+
+This application will:
+
+✔ Read input data from Excel files
+✔ Filter and process data based on business rules
+✔ Calculate balances and category-wise values
+✔ Apply formulas (same as Excel)
+✔ Generate final NII output
+
+⸻
+
+3. 📌 Input Files
+
+The system will use below input files:
+
+3.1 Source File
+
+Contains raw data with columns:
+	•	Bank (ALDCG)
+	•	Customer Number (ALDCS)
+	•	Product Type (ALPRIE)
+	•	Currency (ALCYCD)
+	•	Balance (ALMVC1 → in Halalas)
+
+⸻
+
+3.2 Category File
+
+Contains customer classification:
+	•	TRUST
+	•	DCC
+	•	GC
+	•	PRIVATE FUND
+	•	OTHER / INTERNAL
+
+⸻
+
+3.3 Exception File
+
+Contains special customers:
+	•	Alimna Exception
+	•	PIF Exception
+
+⸻
+
+3.4 Percentage File
+
+Contains:
+	•	VOF %
+	•	VAT %
+	•	Any other rates
+
+⸻
+
+4. 📌 Data Processing Steps
+
+Step 1: Filter Source Data
+	•	Keep only CUT products
+	•	Keep only SAR currency
+	•	Keep only SABB bank
+	•	Remove rows with zero balance
+
+⸻
+
+Step 2: Convert Balance
+	•	Column ALMVC1 is in Halalas
+	•	Convert to SAR:
+
+Balance = ALMVC1 / 100
+
+
+⸻
+
+Step 3: Total Balance Calculation
+	•	Sum all filtered balances
+	•	This is Total Avg Balance
+
+⸻
+
+Step 4: Category Split (5 Tables)
+
+System will create 5 tables:
+	1.	TRUST
+	2.	DCC
+	3.	GC
+	4.	PRIVATE FUND
+	5.	OTHER / INTERNAL
+
+For each category:
+	•	Pick customer list
+	•	Match with source data (ALDCS)
+	•	Apply SUMIF logic
+	•	Calculate balance per customer
+	•	Calculate total per category
+
+⸻
+
+Step 5: Exception Calculation
+
+5.1 Alimna Exception
+	•	Take customer list from exception file
+	•	Calculate SUMIF
+	•	Store total
+
+5.2 PIF Exception
+	•	Same logic as above
+
+⸻
+
+Step 6: Eligible Balance Calculation
+
+Eligible Balance = Total Balance - Private Fund Balance
+
+
+⸻
+
+Step 7: DCC and GC Split
+	•	DCC includes:
+	•	Trust
+	•	Internal / Other
+	•	GC includes:
+	•	Remaining balance
+
+⸻
+
+Step 8: Apply Financial Formulas
+
+8.1 VOF Calculation
+
+VOF = Eligible Balance × Rate × (Days / 360)
+
+
+⸻
+
+8.2 Deposit Protection Fund
+
+DPF = Eligible Balance × % × (Days / 360)
+
+
+⸻
+
+8.3 HSS Share
+
+HSS Share = VOF - DPF
+
+
+⸻
+
+8.4 VAT Calculation
+
+VAT = NII × VAT %
+
+
+⸻
+
+8.5 Final Claim
+
+Final Claim = NII + VAT
+
+
+⸻
+
+5. 📌 Output
+
+The system will generate:
+
+✔ Category-wise tables (like Excel)
+✔ Total balances
+✔ NII calculation
+✔ VAT and final claim
+
+⸻
+
+6. 📌 Business Rules
+	•	Only CUT products considered
+	•	Only SAR currency
+	•	Only SABB bank
+	•	Balance must be > 0
+	•	All calculations must match Excel
+
+⸻
+
+7. 📌 Assumptions
+	•	Input files are in correct format
+	•	Customer numbers are valid
+	•	Percentages are provided
+
+⸻
+
+8. 📌 Dependencies
+	•	Excel input files availability
+	•	Correct data from business
+	•	Monthly rate updates
+
+⸻
+
+9. 📌 Risks
+	•	Wrong input data → wrong output
+	•	Missing customer mapping
+	•	Incorrect percentage values
+
+⸻
+
+10. 📌 Benefits
+
+✔ Faster processing
+✔ No manual errors
+✔ Easy monthly execution
+✔ Standard output
+
+⸻
+
+11. 📌 Execution Steps
+	1.	Place input files in folder
+	2.	Run application
+	3.	System processes automatically
+	4.	Output file generated
+
+⸻
+
+12. 📌 Validation
+	•	Output must match Excel calculation
+	•	Business will verify sample data
+	•	Sign-off after validation
+
+⸻
+
+13. 📌 Sign-off
+
+Name	Role	Signature	Date
+Business Owner	Finance		
+IT Owner	Application Team		
+
+
+⸻
+
+🔥 Optional (for your email)
+
+You can send like this:
+
+⸻
+
+Hi Team,
+
+Please find the attached BRD for the NII Estimation Automation.
+
+This document explains the full process, calculations, and business rules implemented in the application.
+
+Request you to kindly review and confirm if everything is aligned.
+
+Please provide your sign-off once validated.
+
+Thanks,—
+
+🚀 If you want next
+
+I can also give:
+
+✔ Excel-like output format (auto generated file)
+✔ Test cases document
+✔ UAT checklist for business
+
+Just tell 👍
 
 ⸻
 
