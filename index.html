@@ -84,9 +84,98 @@ button{
  // -------------------Start-----------------
 
 
-Here is a simple message you can send to your development team:
+Here Here is your corrected and improved CR content in simple Indian English, based on your screenshot:
 
-Hi Team,
+⸻
+
+Title
+
+Tadawul DR Connectivity – Firewall Port Opening
+
+⸻
+
+Description
+
+Tadawul IPO service is already being used from HBSA network by GB business.
+
+Now Tadawul has provided a DR environment. To ensure business continuity, we need to open firewall ports and allow connectivity to Tadawul DR environment.
+
+Firewall changes will be done as per the attached firewall form.
+
+⸻
+
+Justification
+
+This change is required to enable connectivity to Tadawul DR environment.
+
+If DR connectivity is not enabled, business will not be able to continue IPO operations when service is moved to DR.
+
+This is required for business continuity and DR readiness.
+
+⸻
+
+Implementation Plan
+	1.	Review firewall form and required ports – Network Team
+	2.	Open required ports on firewall for Tadawul DR – Network Team
+	3.	Configure routing if required – Network Team
+	4.	Apply firewall changes in HBSA network – Network Team
+	5.	Test connectivity from source to Tadawul DR – ITO Team
+
+⸻
+
+Business Impact
+
+If this change is not implemented:
+	•	GB business will not be able to connect to Tadawul DR environment
+	•	IPO processing will stop during DR scenario
+	•	Business operations will be impacted
+
+During implementation:
+	•	No downtime expected
+	•	No impact to existing production services
+
+⸻
+
+Technical Impact
+
+If this change is not implemented:
+	•	Traffic from HBSA network will not reach Tadawul DR environment
+	•	Connectivity to DR services will fail
+	•	Failover to DR will not work
+	•	Network communication to Tadawul DR will be blocked
+
+This is a network-level change. No application or database changes involved.
+
+⸻
+
+Backout Plan
+	1.	Remove firewall rules added for DR connectivity – Network Team
+	2.	Revert firewall configuration to previous state
+	3.	Validate that access to DR is removed
+
+⸻
+
+Post Implementation Verification Plan
+	1.	Test connectivity using telnet from source server to Tadawul DR
+	2.	Verify ports are accessible
+	3.	Confirm connectivity with Tadawul DR environment
+	4.	Get confirmation from business team
+
+⸻
+
+Additional Details
+	•	Change Type: Firewall / Network Change
+	•	Downtime: Not required
+	•	Environment: Production (Network level change)
+	•	Dependency: Firewall approval
+
+⸻
+
+If you want, I can also:
+✅ Make this more strict governance format (for CIO approval)
+✅ Add SP (Service Protection) answers like urgency, risk, approvals
+
+Just tell 👍
 
 The business has confirmed that most of the changes are already completed in UAT and shared earlier.
 
