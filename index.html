@@ -84,346 +84,443 @@ button{
  // -------------------Start-----------------
 
 
-Hi Hi Team,
 
-We need your support to push the below applications to 1233 users.
 
-Applications list:
-- RAD  
-- DB Eiber  
-- SQuirreL SQL Developer  
+Here is a full demo script you can use from start to end for your kickstart meeting.
 
-Please proceed with the installation and confirm once it is completed.
+Kickstart Meeting Demo Script
 
-Let me know if any approvals or additional details are required.
+1. Start the meeting
 
-Thanks,  
-[Your Name]
+You say:
 
-We have raised a CR for releasing the Berrywood changes to production.
+“Good morning everyone. Thank you all for joining.
 
-Could you please update the current development status? We need clarity on the progress so we can plan the release.
+I am hosting today’s kickstart meeting to discuss the new requirements for this change. The purpose of this meeting is to review all enhancement items and bug fixes, understand the requirement clearly, discuss dependencies, and align on the next steps, timelines, and responsibilities.
 
-As discussed, these are small changes and will not take much time. We are planning to complete the release within this week. We want to avoid any escalation from the client and also avoid further delays.
-
-Please confirm:
-- Current development status  
-- When the changes will be ready in UAT  
-- When we can proceed for business sign-off  
-
-As discussed earlier, we are targeting release by Thursday (23rd). Kindly confirm if this timeline is achievable.
-
-Please treat this as priority and share your update at the earliest.
-
-Thanks.
-
-Last time when I discussed, they said Syed will handle the changes. Pandu and Stanley do not have details on this.
-
-For this ANB report, all changes are handled by Syed only.
-
-I will check with Syed and update.,
-
-The port opening activity was implemented on 13th.
-
-Stanley, we need to complete the verification activity by today. The CR is still in the implementation stage, so we need to complete this task from our end.
-
-Please proceed and update the status.
-
-Thanks.
-
-We require your approval for providing bastion access to Keshav for the CRMS Enhancement Project.
-
-Kindly provide both:
-- Email approval  
-- SNOW (ServiceNow) approval  
-
-This will ensure all access is ready and in place for the project activities.
-
-Request you to review and approve at the earliest.
-
-Thanks & Regards,
-Title
-
-Tadawul DR Connectivity – Firewall Port Opening
+Today’s discussion will help us make sure that all teams are on the same page before development starts.”
 
 ⸻
 
-Description
+2. Introduce attendees
 
-Tadawul IPO service is already being used from HBSA network by GB business.
+You say:
 
-Now Tadawul has provided a DR environment. To ensure business continuity, we need to open firewall ports and allow connectivity to Tadawul DR environment.
+“Before we start, let us quickly note the teams present in this meeting.
 
-Firewall changes will be done as per the attached firewall form.
+We have business team members, development team, testing team, and support or infrastructure team.
 
-⸻
-
-Justification
-
-This change is required to enable connectivity to Tadawul DR environment.
-
-If DR connectivity is not enabled, business will not be able to continue IPO operations when service is moved to DR.
-
-This is required for business continuity and DR readiness.
+Thank you everyone for joining and supporting this discussion.”
 
 ⸻
 
-Implementation Plan
-	1.	Review firewall form and required ports – Network Team
-	2.	Open required ports on firewall for Tadawul DR – Network Team
-	3.	Configure routing if required – Network Team
-	4.	Apply firewall changes in HBSA network – Network Team
-	5.	Test connectivity from source to Tadawul DR – ITO Team
+3. Share meeting objective
+
+You say:
+
+“The main objective of this meeting is:
+
+* to review the requirement list
+* to understand which items are enhancements and which are bug fixes
+* to clarify the expected system behaviour
+* to identify dependencies or risks
+* and to agree on the next steps for development and testing”
 
 ⸻
 
-Business Impact
+4. Give project overview
 
-If this change is not implemented:
-	•	GB business will not be able to connect to Tadawul DR environment
-	•	IPO processing will stop during DR scenario
-	•	Business operations will be impacted
+You say:
 
-During implementation:
-	•	No downtime expected
-	•	No impact to existing production services
+“This change includes multiple updates related to KYC, RDD/BDD, client classification, connected parties, search functionality, risk rating, and integration-related requirements.
+
+Some items are policy-driven changes, and some items are system enhancements. We also have a few issues in the current logic which need to be fixed.”
 
 ⸻
 
-Technical Impact
+5. Explain agenda
 
-If this change is not implemented:
-	•	Traffic from HBSA network will not reach Tadawul DR environment
-	•	Connectivity to DR services will fail
-	•	Failover to DR will not work
-	•	Network communication to Tadawul DR will be blocked
+You say:
 
-This is a network-level change. No application or database changes involved.
+“I will quickly walk through the agenda for today.
 
-⸻
-
-Backout Plan
-	1.	Remove firewall rules added for DR connectivity – Network Team
-	2.	Revert firewall configuration to previous state
-	3.	Validate that access to DR is removed
+First, I will give a summary of the requirements.
+Then we will review each item one by one.
+After that, we will discuss dependencies, questions, ownership, timelines, and next steps.”
 
 ⸻
 
-Post Implementation Verification Plan
-	1.	Test connectivity using telnet from source server to Tadawul DR
-	2.	Verify ports are accessible
-	3.	Confirm connectivity with Tadawul DR environment
-	4.	Get confirmation from business team
+6. Requirement walkthrough
+
+Now go item by item.
 
 ⸻
 
-Additional Details
-	•	Change Type: Firewall / Network Change
-	•	Downtime: Not required
-	•	Environment: Production (Network level change)
-	•	Dependency: Firewall approval
+Requirement 1: KYC reason to include RDD / BDD
+
+You say:
+
+“The first requirement is a policy change.
+
+The reason for KYC needs to be updated to include RDD and BDD. The dropdown behaviour should work similar to the maintenance category, which means it should trigger based on the selected risk or KYC condition. Also, this change will require approval flow only for QC and RM.”
+
+Ask:
+“Please confirm whether the dropdown values and approval flow details are final from business side.”
 
 ⸻
 
-If you want, I can also:
-✅ Make this more strict governance format (for CIO approval)
-✅ Add SP (Service Protection) answers like urgency, risk, approvals
+Requirement 2: KYC renewal date calculation
 
-Just tell 👍
+You say:
 
-The business has confirmed that most of the changes are already completed in UAT and shared earlier.
+“The next requirement is an enhancement in the KYC renewal date calculation.
 
-Currently, only a minor change is pending:
-to keep the client (NDBV34) in a separate TRN file.
+Currently the renewal date is calculated based on RM approval date only. This needs to be changed so that the system considers SBM or FCC approval dates as well.
 
-They have asked if we require a BCR for this pending change.
+So this is a logic correction in the existing system behaviour.”
 
-Could you please confirm:
-	1.	Is this change already covered in the existing scope?
-	2.	Do we need to raise a new BCR for this change?
-	3.	Any effort or impact from the development side?
-
-Please confirm so we can update the business accordingly.
-
-ThanksIf you want, I can also prepare a reply back to business once dev team confirms.
-I am proceeding with closing the CTask.
-
-Once Tadawul opens the port, we can test the connection. As you mentioned, the traffic is already moving out.
-
-So, I will proceed with the CTask closure for now.
-
-Thanks., I am checking the reported HSTS issue. It looks related to SSL configuration (self-signed certificate). I am validating and will update you shortly., thank you and Stanley for your support on this.
-
-We have received the client sign-off from Saina Fayaz. Please confirm so we can proceed further.
-
-We are planning to schedule the CR on Tuesday/Thursday, so we need your confirmation.
-
-Also, Stanley will be linking these changes in MS for releasing the enhancement report.
-
-Thanks again.,
-
-The CR is now fully authorized and in the scheduled stage. All approvals are completed.
-
-Please confirm the implementation from both teams and share the planned time.
-
-Also, please confirm once the post-implementation activities are completed.
-
-Kindly keep us informed on the progress.
-
-Thanks.
-
-We need to enable connectivity from BCBSI to the MSJD M application. The application details are listed below, and the firewall request form is attached for your reference.
-
-This is required as part of BCP readiness so that business operations can continue without any interruption. We need to establish connectivity from the BCB office to both UAE and India (Production) environments.
-
-This change will ensure proper connectivity and smooth business operations.
-
-I have raised the CR for this activity. Could you please review the firewall request and provide your approval? Also, request you to provide cyber approval for the same.
-
-Please let me know if any further details are required.
-
-Thanks,  
-[Your Name]
-
-I just checked with Stanley. He said the work is not completed yet because they are waiting for VPN access. The VPN access for Sayyed has been revoked, so we need to check and provide VPN access for him so they can make the changes.
-
-As mentioned earlier, it will not take more than half an hour to complete once access is given. They also confirmed the same.
-
-I will check with Rahman to provide the access as soon as possible. We will complete the work today and get the sign-off today itself. For UAE, I will try to release it on Tuesday.
-
-We completed the report development and released it on 2 April. After the release, we received a few observations.
-
-Syed worked on most of these changes before going on emergency medical leave from Wednesday, 8 April.
-
-The remaining work is very minor and already explained to the CSE team. I have been following up multiple times through Syncophy, emails, and calls. I also explained the business urgency, but we are still waiting for their response as they keep saying they will review and come back.
-
-Because of this, the report closure is getting delayed.
-
-I need your support to help expedite this from the CSE team so we can complete it at the earliest.
-
-Thanks.
-
----
+Ask:
+“Development team, please review whether this change impacts only calculation logic or also downstream reports.”
 
 ⸻
 
-Hi Team,
+Requirement 3: Add connected parties section in RDD / BDD
 
-I want to give an update regarding the delay in the report release.
+You say:
 
-Syed has been on emergency medical leave since Wednesday, 8 April. Before that, he had already completed most of the report development and clearly explained what is pending with the CSE team.
+“The next enhancement is in the RDD and BDD section.
 
-I have been following up multiple times with the CSE team on Syncophy and through emails. I also connected with them on calls and explained the urgency from the business side.
+Currently, connected party details like directors, shareholders, and signatories are not available in this section. The requirement is to include a connected parties section.”
 
-As per Syed’s inputs, the pending work is very minor and should take only a few minutes to complete. However, the CSE team has been saying they will review and come back, but we have not received any response yet.
-
-Because of this, the release is getting delayed.
-
-Request your support to help expedite this from the CSE side so we can proceed with the release.
-
-Thanks.
-
-—If you want, I can make it more strong or more polite based on your situation.👍 — I will prepare a proper BRD (Business Requirement Document) for sign-off, in simple English, clean structure, and ready to share with business.
-
-You can copy this into Word and send for approval.
+Ask:
+“Business team, please confirm which connected party types must be shown and whether all should be editable.”
 
 ⸻
 
-📄 BUSINESS REQUIREMENT DOCUMENT (BRD)
+Requirement 4: Remove redundant fields
 
-Project: NII Estimation Automation
+You say:
 
-⸻
+“The next item is a policy-based cleanup.
 
-1. 📌 Purpose
+Some data capture fields are no longer required as per the updated policy. These fields need to be removed from CRMS.”
 
-The purpose of this application is to automate the NII (Net Interest Income) estimation process, which is currently done manually in Excel.
-
-This will:
-	•	Reduce manual work
-	•	Avoid errors
-	•	Save time
-	•	Provide consistent output
+Ask:
+“Please confirm whether these fields must be removed completely from screen only, or from reports and backend also.”
 
 ⸻
 
-2. 📌 Scope
+Requirement 5: Client classification categories
 
-This application will:
+You say:
 
-✔ Read input data from Excel files
-✔ Filter and process data based on business rules
-✔ Calculate balances and category-wise values
-✔ Apply formulas (same as Excel)
-✔ Generate final NII output
+“The next requirement is related to client classification.
 
-⸻
+As per the new policy, client classification now has only 3 categories. Existing categories need to be decommissioned, and the waterfall logic must be updated to match only these 3 categories.”
 
-3. 📌 Input Files
-
-The system will use below input files:
-
-3.1 Source File
-
-Contains raw data with columns:
-	•	Bank (ALDCG)
-	•	Customer Number (ALDCS)
-	•	Product Type (ALPRIE)
-	•	Currency (ALCYCD)
-	•	Balance (ALMVC1 → in Halalas)
+Ask:
+“Please confirm the final 3 categories and whether existing old records need any data mapping.”
 
 ⸻
 
-3.2 Category File
+Requirement 6: Separate section for current SCC classification
 
-Contains customer classification:
-	•	TRUST
-	•	DCC
-	•	GC
-	•	PRIVATE FUND
-	•	OTHER / INTERNAL
+You say:
+
+“The next enhancement is to keep current SCC classification in a separate section and add a document saving section under RAM risk assessment.”
 
 ⸻
 
-3.3 Exception File
+Requirement 7: RAM risk rating header change
 
-Contains special customers:
-	•	Alimna Exception
-	•	PIF Exception
+You say:
 
-⸻
+“There is also a display change required.
 
-3.4 Percentage File
+RAM risk rating shown on the profile header should be updated to show final risk rating.”
 
-Contains:
-	•	VOF %
-	•	VAT %
-	•	Any other rates
+Ask:
+“Please confirm whether this is only a label change or whether the source field also changes.”
 
 ⸻
 
-4. 📌 Data Processing Steps
+Requirement 8: Trading as field for connected parties
 
-Step 1: Filter Source Data
-	•	Keep only CUT products
-	•	Keep only SAR currency
-	•	Keep only SABB bank
-	•	Remove rows with zero balance
+You say:
 
-⸻
+“The next policy requirement is that the ‘Trading As’ field should be available for all connected parties.”
 
-Step 2: Convert Balance
-	•	Column ALMVC1 is in Halalas
-	•	Convert to SAR:
-
-Balance = ALMVC1 / 100
-
+Ask:
+“Please confirm if this field is mandatory or optional.”
 
 ⸻
 
-Step 3: Total Balance Calculation
-	•	Sum all filtered balances
-	•	This is Total Avg Balance
+Requirement 9: SoW and SoF questions alignment
+
+You say:
+
+“The SoW and SoF questions need to be aligned with the new approach. This also reduces the number of questions in the current setup.”
+
+Ask:
+“Please confirm the final questionnaire and whether any old questions should remain for historical records.”
+
+⸻
+
+Requirement 10: Authorized person details section update
+
+You say:
+
+“The authorized person details section needs to be changed to ‘Other related parties’, and it should also reflect connected party table fields.”
+
+Ask:
+“Please confirm whether this is only a rename with field mapping, or a full structure change.”
+
+⸻
+
+Requirement 11: Defense sector controls
+
+You say:
+
+“The next policy requirement is to add defense sector controls.
+
+A new field should be added to evaluate the sector and percentage contribution. Based on the value:
+
+* if it is 100 percent, stop KYC
+* if it is between 50 and 100, additional approval is required”
+
+Ask:
+“Please confirm the exact validation rule and approval owner.”
+
+⸻
+
+Requirement 12: Search functionality enhancement
+
+You say:
+
+“The next enhancement is related to search.
+
+Some reduced or baseline CDD fields are not currently part of the search function. Full legal name should be searchable. Also, the system should avoid showing duplicate hits for the same user search.”
+
+Ask:
+“Please confirm which fields must be included in search and whether search applies only to active records.”
+
+⸻
+
+Requirement 13: Watq integration
+
+You say:
+
+“The final requirement in this list is Watq integration.
+
+An API connection with Watq is required. A user should be able to raise an enquiry using CR number, and the responses must be saved for one month. This enquiry should also be available to read-only users.”
+
+Ask:
+“Please confirm API owner, expected response format, and access control details.”
+
+⸻
+
+7. Bug fix summary
+
+You say:
+
+“From the above list, some items are enhancements and some are bug fixes or corrections in current logic.
+
+The key bug fix or correction areas are:
+
+* KYC renewal date logic
+* missing connected party visibility
+* search functionality gaps
+* current display or label issues
+* existing policy-related field cleanup
+
+These need to be treated carefully because they may affect existing data and current process flow.”
+
+⸻
+
+8. Ask for overall clarification
+
+You say:
+
+“At this stage, I request the business team to confirm whether all listed requirements are final and whether any supporting BRD, field mapping, or sample scenarios will be shared.”
+
+⸻
+
+9. Discuss dependencies
+
+You say:
+
+“Now let us discuss dependencies.
+
+From initial review, the following dependencies are visible:
+
+* approval flow confirmation from business
+* field mapping confirmation
+* UI changes in multiple sections
+* possible reporting impact
+* API dependency for Watq integration
+* testing support for policy logic changes”
+
+Ask:
+“Please highlight if any team sees additional dependency or concern.”
+
+⸻
+
+10. Discuss impact
+
+You say:
+
+“These changes may impact:
+
+* KYC processing flow
+* approval routing
+* user input screens
+* search behaviour
+* profile display
+* connected party data visibility
+* integration behaviour
+
+So it is important that development and QA review all impacted areas properly before release.”
+
+⸻
+
+11. Assign ownership
+
+You say:
+
+“To move forward clearly, let us align on ownership.
+
+Business team will confirm final requirement details and rule validation.
+Development team will review effort, design, and implementation approach.
+QA team will prepare test scenarios based on the confirmed requirements.
+Infra or support team will support deployment or integration changes if required.”
+
+⸻
+
+12. Ask for timelines
+
+You say:
+
+“Can the development team review these requirements and provide the effort estimate and tentative timeline for build completion?
+
+Also, QA team, please confirm how much time will be needed for testing once deployment is done in the test environment.”
+
+⸻
+
+13. Discuss risks
+
+You say:
+
+“The key risks I see at this stage are:
+
+* unclear field-level requirement
+* approval logic mismatch
+* impact on existing KYC records
+* search result inconsistency
+* integration dependency delays
+* missing test scenarios for policy rules”
+
+Ask:
+“Please let me know if any additional risks need to be recorded.”
+
+⸻
+
+14. Final next steps
+
+You say:
+
+“To summarize the next steps:
+
+1. Business team to confirm pending requirement details
+2. Development team to review feasibility and effort
+3. QA team to prepare test planning
+4. Any open clarification to be closed before development starts
+5. Timeline to be shared after technical review”
+
+⸻
+
+15. Close the meeting
+
+You say:
+
+“Thank you everyone for your time and inputs.
+
+We have reviewed the requirement list covering enhancements and bug fixes. We will now capture the discussion points and action items and share the MOM with all stakeholders.
+
+Please share any pending clarification after the meeting so that we can close them before starting development.
+
+Thanks everyone.”
+
+⸻
+
+Very Simple Host Version
+
+If you want a more natural and easy version, use this:
+
+“Good morning everyone. Thank you for joining.
+
+Today’s kickstart meeting is to discuss the new requirements for this change. We have a mix of enhancements and bug fixes. The purpose is to review each requirement, understand the expected system changes, identify any dependency or risk, and align on timeline and ownership.
+
+I will walk through the requirements one by one.
+
+First, we have KYC reason changes to include RDD and BDD.
+Second, KYC renewal date calculation needs to consider SBM and FCC approval dates.
+Third, connected parties section needs to be added in RDD and BDD.
+We also have removal of redundant fields, change in client classification logic, updates in risk rating display, SoW and SoF alignment, related party changes, defense sector controls, search enhancement, and Watq integration.
+
+Some of these are policy-driven changes, and some are corrections in the current system logic.
+
+I request business team to confirm the final requirement details wherever needed.
+Development team, please review the impact and provide estimate.
+QA team, please note the changes for test planning.
+
+Let us also discuss if there are any dependencies or concerns before moving to the next step.
+
+Thank you everyone. Once this meeting is completed, I will share the MOM and action items.”
+
+⸻
+
+Sample MOM format after meeting
+
+Subject: MOM – Kickstart Meeting for CRMS Enhancements and Bug Fixes
+
+Date: [Date]
+Attendees: [Names / Teams]
+
+Discussion Summary:
+
+* Reviewed all enhancement and bug fix requirements
+* Discussed KYC, RDD/BDD, connected parties, client classification, search, and Watq integration changes
+* Identified need for business confirmation on some fields and approval rules
+* Development team to review effort and impact
+* QA team to prepare test scenarios
+
+Action Items:
+
+* Business team to confirm pending requirement details
+* Development team to provide effort estimate
+* QA team to prepare test cases
+* Follow-up discussion to close open points
+
+⸻
+
+I can also make this into a proper meeting speech in simple spoken English for 5-minute or 10-minute presentation.
+
+
+⸻
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
 
 ⸻
 
