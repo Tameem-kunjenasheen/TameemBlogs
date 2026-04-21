@@ -86,7 +86,114 @@ button{
 
 
 
-Hi Got it — you want the same simple tone and sentence style like in the image. Here it is:
+Got it 👍 — based on your screenshot (email notification correction for CRMS to OMS failures), here is your complete CR in simple Indian English:
+
+⸻
+
+Title
+
+Update Email Distribution for CRMS to OMS Integration Failure Notifications
+
+⸻
+
+Short Description
+
+Update email IDs for CRMS to OMS failure notifications to ensure alerts are sent to correct teams.
+
+⸻
+
+Description
+
+This change is required to update the email distribution list for CRMS to OMS integration failure notifications.
+
+Currently, failure notifications are being sent to incorrect or limited email IDs (BSU DL and IT). As per requirement, notifications must be sent to correct Operations team and ITSO team mailboxes.
+
+This change will update the email IDs and ensure notifications clearly provide details like CRMS ID, failure reason, and update status.
+
+⸻
+
+Justification
+
+This change is required to ensure failure notifications are received by the correct teams.
+
+If not implemented:
+
+* Notifications will go to incorrect recipients
+* Operations team may not be aware of failures
+* Delay in issue resolution
+* Impact in tracking and reporting (DIM updates)
+
+This ensures proper communication and faster issue handling.
+
+⸻
+
+Implementation Plan
+
+1. Identify correct email IDs for Operations and ITSO teams – Operations Team
+2. Share updated email IDs with Technology team – Operations Team
+3. Update email configuration in CRMS system – Technology Team
+4. Modify notification content if required (CRMS ID, failure reason) – Technology Team
+5. Test failure notification trigger – Technology Team
+6. Validate email delivery to correct recipients – Operations Team
+
+⸻
+
+Business Impact
+
+If not implemented:
+
+* Operations team will not receive correct failure alerts
+* Delay in resolving integration issues
+* Reporting and tracking will be impacted
+* Business operations may face delays
+
+After implementation:
+
+* Correct teams will receive notifications
+* Faster issue resolution
+* No negative impact to users
+
+⸻
+
+Technical Impact
+
+If not implemented:
+
+* Notifications will continue going to wrong email IDs
+* Failure alerts may be missed
+* Monitoring and tracking will not work properly
+* Delay in identifying integration issues
+
+This change involves only email configuration. No impact to application or database.
+
+⸻
+
+Backout Plan
+
+1. Revert to previous email configuration – Technology Team
+2. Restore old distribution list
+3. Validate notification flow
+
+⸻
+
+Post Implementation Verification Plan
+
+1. Trigger test failure scenario
+2. Verify email is received by correct teams
+3. Check email content (CRMS ID, failure reason)
+4. Confirm with Operations and ITSO teams
+
+⸻
+
+Urgency (SP Justification)
+
+This change is required to ensure correct failure notifications. Delay will impact issue tracking and resolution.
+
+⸻
+
+If you want, I can also give:
+👉 Very strong 1-line justification for CAB approval
+👉 Mail format to collect email IDs from operationsou want the same simple tone and sentence style like in the image. Here it is:
 
 ⸻
 
