@@ -86,7 +86,16 @@ button{
 
 
 
-Got it 👍 — based on your screenshot (email notification correction for CRMS to OMS failures), here is your complete CR in simple Indian English:
+SELECT 
+    notificationbody AS msg,
+    mobile_number,
+    mail_id,
+    customer_number
+FROM 
+    your_table_name
+WHERE 
+    id_number = 11
+    AND alertMsg IN ('key30', 'kyc90', 'kyc60');— based on your screenshot (email notification correction for CRMS to OMS failures), here is your complete CR in simple Indian English:
 
 ⸻
 
