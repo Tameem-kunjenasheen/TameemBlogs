@@ -84,7 +84,61 @@ button{
  // -------------------Start-----------------
 
 
-Here is your message corrected in simple and clear English:
+To check the column length in an Oracle database, you can use the data dictionary views. The most common and simple way is using USER_TAB_COLUMNS.
+
+✅ Basic Query
+
+SELECT column_name, data_type, data_length
+FROM user_tab_columns
+WHERE table_name = 'YOUR_TABLE_NAME';
+
+👉 Replace YOUR_TABLE_NAME with your table name (in uppercase).
+
+⸻
+
+🔹 Example
+
+SELECT column_name, data_type, data_length
+FROM user_tab_columns
+WHERE table_name = 'EMPLOYEES';
+
+⸻
+
+📌 What each column means:
+
+* COLUMN_NAME → Name of the column
+* DATA_TYPE → Type (VARCHAR2, NUMBER, etc.)
+* DATA_LENGTH → Length in bytes
+
+⸻
+
+🔹 If you want character length (important for VARCHAR)
+
+SELECT column_name, data_type, char_length
+FROM user_tab_columns
+WHERE table_name = 'YOUR_TABLE_NAME';
+
+⸻
+
+🔹 If table is in another schema
+
+Use ALL_TAB_COLUMNS:
+
+SELECT owner, column_name, data_type, data_length
+FROM all_tab_columns
+WHERE table_name = 'YOUR_TABLE_NAME';
+
+⸻
+
+🔹 If you have DBA access
+
+SELECT owner, table_name, column_name, data_type, data_length
+FROM dba_tab_columns
+WHERE table_name = 'YOUR_TABLE_NAME';
+
+⸻
+
+If you want, tell me your table name and column, I can give you exact query 👍 is your message corrected in simple and clear English:
 
 ⸻
 
