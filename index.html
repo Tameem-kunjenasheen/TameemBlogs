@@ -84,9 +84,132 @@ button{
  // -------------------Start-----------------
 
 
-I reviewed your table content. The meaning is clear, but the sentences are repeated and not structured well. Below is a clean and simple version you can use in your table.
+Got it. You want to include two more columns:
+
+1. Notification Format
+2. Descriptive Reason
+
+Below is your updated and clean table content with these added, in simple and clear English.
 
 ⸻
+
+✅ Final Improved Table Format
+
+1. Full Name Length Issue
+
+* Issue: Full name length is more than 50 characters
+* System Limit (OMS): 50 characters
+
+Notification Format:
+Full Name exceeds maximum allowed length (50 characters)
+
+Descriptive Reason:
+The full name value is longer than the OMS field limit, so the transaction failed during integration.
+
+Action Plan:
+
+* Increase field size in OMS to match CRMS (more than 1200 characters)
+
+⸻
+
+2. NIN Length Issue
+
+* Issue: NIN length is more than 15 characters
+* System Limit: 15 characters
+
+Notification Format:
+Invalid NIN length. Maximum allowed is 15 digits
+
+Descriptive Reason:
+Alphanumeric or longer value was entered, which exceeds the allowed limit and caused integration failure.
+
+Action Plan:
+
+1. Restrict input to numeric only
+2. Limit length to 15 characters
+3. Increase size only if required
+
+⸻
+
+3. Address Length Issue
+
+* Issue: Address length is more than 50 characters
+* System Limit (OMS): 50 characters
+
+Notification Format:
+Address exceeds maximum allowed length (50 characters)
+
+Descriptive Reason:
+The address value is longer than the OMS limit, so the message was rejected.
+
+Action Plan:
+
+* Increase field size in OMS to align with CRMS (more than 1200 characters)
+
+⸻
+
+4. Postal Code Length Issue
+
+* Issue: Postal code length is more than 8 characters
+* System Limit (OMS): 8 characters
+
+Notification Format:
+Postal Code exceeds maximum allowed length (8 characters)
+
+Descriptive Reason:
+The postal code value is longer than the allowed length, causing validation failure.
+
+Action Plan:
+
+* Increase field size or restrict input to 8 characters
+
+⸻
+
+5. Customer Name (Arabic) Length Issue
+
+* Issue: Customer name (Arabic) exceeds 50 characters
+* System Limit (OMS): 50 characters
+
+Notification Format:
+Customer Name (Arabic) exceeds maximum allowed length (50 characters)
+
+Descriptive Reason:
+The Arabic name is longer than the OMS limit, so the system rejected the value.
+
+Action Plan:
+
+* Increase field size in OMS to match CRMS
+
+⸻
+
+6. Email Length Issue
+
+* Issue: Email length is more than 50 characters
+* System Limit (OMS): 50 characters
+
+Notification Format:
+Email exceeds maximum allowed length (50 characters)
+
+Descriptive Reason:
+The email address is longer than the OMS field limit, causing integration failure.
+
+Action Plan:
+
+* Increase field size in OMS to support longer email addresses
+
+⸻
+
+✔️ What is improved
+
+* Added Notification Format (what user/system will see)
+* Added Descriptive Reason (clear explanation of failure)
+* Removed repeated wording
+* Simple and clear English for business users
+
+⸻
+
+If you want, I can convert this into a proper Excel table with columns like:
+Issue | Field | Limit | Notification | Reason | Action Plan 👍
 
 ✅ Corrected & Simplified Table Content
 
