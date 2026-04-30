@@ -84,7 +84,61 @@ button{
  // -------------------Start-----------------
 
 
-Hi [Manager Name],
+Hi [Here is your MoM (Minutes of Meeting) in simple and clear English:
+
+⸻
+
+📌 Minutes of Meeting (MoM)
+
+Topic: VSMS SMS Text Length Issue
+Date: [Add Date]
+Participants: Team Discussion
+
+⸻
+
+🔹 Discussion Summary
+
+* The issue is related to VSMS SMS text length mismatch.
+* The SMS text length is 5376 characters, which is more than the allowed limit.
+* The variable defined in the Oracle package supports only 4000 characters.
+* Because of this mismatch, the process is failing (KVC00 errors).
+* The issue is identified as a code-level bug.
+
+⸻
+
+🔹 Root Cause
+
+* In the database table Alert Definition, the Arabic text field contains more than 5000 characters.
+* However, in the program/package, the variable is defined with a maximum length of 4000 characters.
+* This mismatch is causing the failure.
+
+⸻
+
+🔹 Analysis Done
+
+* Checked the Cicero Log table to identify the error details.
+* Verified the line number 571 where the issue is occurring.
+* Traced the data source to the Alert Definition table.
+* Confirmed that the Arabic text exceeds the allowed variable size.
+
+⸻
+
+🔹 Action Items
+
+1. Increase the variable length in the Oracle package to support more than 4000 characters.
+2. Review if any other fields are impacted with similar issues.
+3. Fix the code to handle larger text values properly.
+
+⸻
+
+🔹 Conclusion
+
+* This is confirmed as a bug in the code.
+* The fix is required to increase the variable length to resolve the issue.
+
+⸻
+
+If you want, I can also convert this into a professional email format or CR document. Name],
 
 This is a quick update on the KYC message failure issue.
 
