@@ -84,7 +84,25 @@ button{
  // -------------------Start-----------------
 
 
-Hi Maha,
+Hi [Manager Name],
+
+This is a quick update on the KYC message failure issue.
+
+We have identified the root cause. The failure is happening due to a variable length limitation in the Oracle procedure. The variable is defined with a maximum size of 4000 characters, but in this specific case, the data (Arabic/SMS text) is more than 5000 characters. Because of this, the process failed.
+
+However, this issue is observed only for this case (KYC00), even though the KYC message format is the same for other cases.
+
+We need to investigate further to understand why this case has larger data compared to others. It could be due to specific input data such as longer text or additional content.
+
+Next steps:
+
+* We will continue analysis to find the exact reason for this difference.
+* We will also work on increasing the variable size to avoid such failures.
+
+I will keep you updated on further findings.
+
+Thanks,
+[Your Name]
 
 Good morning.
 
