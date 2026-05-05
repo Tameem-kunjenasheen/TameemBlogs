@@ -84,9 +84,27 @@ button{
  // -------------------Start-----------------
 
 
-Hi Here is the corrected version in simple English:
+Hi SELECT 
+    LIVE.CASE_RK AS CASE_ID,
+    UCHAR.UDF_VALUE AS KYC_EXPIRY_DATE,
+    UCHAR2.X_RAM_CATEGORY,
+    UCHAR2.X_SCC_CUSTOMER
 
-Hi Feras,
+FROM CASE_LIVE LIVE
+
+LEFT JOIN CASE_UDF_DATE_VALUE UCHAR 
+ON LIVE.CASE_RK = UCHAR.CASE_RK 
+AND LIVE.VALID_FROM_DTTM = UCHAR.VALID_FROM_DTTM
+
+-- ADD THIS JOIN
+LEFT JOIN CASE_UDF_CHAR_VALUE UCHAR2
+ON LIVE.CASE_RK = UCHAR2.CASE_RK
+AND LIVE.VALID_FROM_DTTM = UCHAR2.VALID_FROM_DTTM
+
+WHERE 
+UCHAR.UDF_NM = 'X_KYC_EXPIRY_DATE'
+AND LIVE.CASE_RK IN (115866, 115985, ...)
+ORDER BY LIVE.CASE_RK;
 
 This is a dynamic setup/configuration setting. If the end user wants to remove it, they can do so.
 I can arrange a meeting to explain it clearly. If needed, I will schedule it. Team,
