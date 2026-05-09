@@ -83,6 +83,344 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
+/**
+
+- Jawaad17.java
+- Banking Finance Calculator — SAR Balance Sheet
+- 
+- All inputs are passed into calculate(), which returns a
+- BalanceSheetResult object holding every intermediate and
+- final value. main() calls calculate() and prints the table.
+  */
+  public class Jawaad17 {
+  
+  // =========================================================
+  //  INPUT PARAMETERS — change these at the top, nowhere else
+  // =========================================================
+  static final double L863              = 5_000_000.00;  // Eligible Average Balances reference
+  static final double C885_INPUT        = 4_800_000.00;  // Eligible SAR Balance (input)
+  static final double STAT_RESERVE_RATE = 0.07;          // 7%    stat reserve deduction
+  static final double VOF_ANNUAL_RATE   = 3.75 / 100.0;  // 3.75% VOF annual rate
+  static final double DPF_ANNUAL_RATE   = 0.05 / 100.0;  // 0.05% Deposit Protection Fund rate
+  static final double NII_SHARE_RATE    = 0.88;          // 88%   NII share
+  static final double VAT_RATE          = 0.15;          // 15%   VAT rate
+  static final double PIF_SPECIAL_RATE  = 0.15 / 100.0;  // 0.15% PIF Special Rate (pa)
+  static final int    DAYS_IN_PERIOD    = 28;             // days in the current period
+  static final int    DAYS_IN_YEAR      = 365;            // days in a year
+  
+  // =========================================================
+  //  RESULT  — every computed value stored as a public field
+  // =========================================================
+  static class BalanceSheetResult {
+  
+  ```
+   // ---- Inputs echoed back ----
+   final double eligibleAvgBalance;    // L863
+   final double sarBalance;            // C885
+  
+   // ---- Before Exceptions (C column) ----
+   final double c_statReserve;         // C887  = sarBalance * 7%
+   final double c_eligibleBalNet;      // C888  = sarBalance - c_statReserve
+   final double c_vof;                 // C891  = (c_eligibleBalNet * VOF / 365) * days
+   final double c_dpf;                 // C892  = (sarBalance * DPF / 365) * days
+   final double c_hssShare;            // C893  = c_vof - c_dpf
+   final double c_totalNII;            // C894  = c_hssShare * 88%
+   final double c_vatCost;             // C896  = c_hssShare * 15%
+   final double c_claimFromSABB;       // SUM(C894:C896)
+  
+   // ---- Alinma Exemption / NIL NII (D column) ----
+   final double d_statReserve;
+   final double d_eligibleBalNet;
+   final double d_vof;
+   final double d_dpf;
+   final double d_hssShare;
+   final double d_totalNII;
+   final double d_vatCost;
+   final double d_claimFromSABB;
+  
+   // ---- After Exceptions (F column) = C + D ----
+   final double f_sarBalance;
+   final double f_eligibleBalNet;
+   final double f_vof;
+   final double f_dpf;
+   final double f_hssShare;
+   final double f_totalNII;
+   final double f_vatCost;
+   final double f_claimFromSABB;
+  
+   BalanceSheetResult(
+           double eligibleAvgBalance, double sarBalance,
+           double c_statReserve,  double c_eligibleBalNet,
+           double c_vof,          double c_dpf,
+           double c_hssShare,     double c_totalNII,
+           double c_vatCost,      double c_claimFromSABB,
+           double d_statReserve,  double d_eligibleBalNet,
+           double d_vof,          double d_dpf,
+           double d_hssShare,     double d_totalNII,
+           double d_vatCost,      double d_claimFromSABB,
+           double f_sarBalance,   double f_eligibleBalNet,
+           double f_vof,          double f_dpf,
+           double f_hssShare,     double f_totalNII,
+           double f_vatCost,      double f_claimFromSABB) {
+  
+       this.eligibleAvgBalance = eligibleAvgBalance;
+       this.sarBalance         = sarBalance;
+       this.c_statReserve      = c_statReserve;
+       this.c_eligibleBalNet   = c_eligibleBalNet;
+       this.c_vof              = c_vof;
+       this.c_dpf              = c_dpf;
+       this.c_hssShare         = c_hssShare;
+       this.c_totalNII         = c_totalNII;
+       this.c_vatCost          = c_vatCost;
+       this.c_claimFromSABB    = c_claimFromSABB;
+       this.d_statReserve      = d_statReserve;
+       this.d_eligibleBalNet   = d_eligibleBalNet;
+       this.d_vof              = d_vof;
+       this.d_dpf              = d_dpf;
+       this.d_hssShare         = d_hssShare;
+       this.d_totalNII         = d_totalNII;
+       this.d_vatCost          = d_vatCost;
+       this.d_claimFromSABB    = d_claimFromSABB;
+       this.f_sarBalance       = f_sarBalance;
+       this.f_eligibleBalNet   = f_eligibleBalNet;
+       this.f_vof              = f_vof;
+       this.f_dpf              = f_dpf;
+       this.f_hssShare         = f_hssShare;
+       this.f_totalNII         = f_totalNII;
+       this.f_vatCost          = f_vatCost;
+       this.f_claimFromSABB    = f_claimFromSABB;
+   }
+  
+   /** Prints every returned field with its name and value. */
+   @Override
+   public String toString() {
+       StringBuilder sb = new StringBuilder();
+       sb.append("BalanceSheetResult {\n");
+       sb.append(String.format("  %-30s = %,15.2f%n", "eligibleAvgBalance",  eligibleAvgBalance));
+       sb.append(String.format("  %-30s = %,15.2f%n", "sarBalance",          sarBalance));
+       sb.append("  -- Before Exceptions (C) --------\n");
+       sb.append(String.format("  %-30s = %,15.2f%n", "c_statReserve",       c_statReserve));
+       sb.append(String.format("  %-30s = %,15.2f%n", "c_eligibleBalNet",    c_eligibleBalNet));
+       sb.append(String.format("  %-30s = %,15.2f%n", "c_vof",               c_vof));
+       sb.append(String.format("  %-30s = %,15.2f%n", "c_dpf",               c_dpf));
+       sb.append(String.format("  %-30s = %,15.2f%n", "c_hssShare",          c_hssShare));
+       sb.append(String.format("  %-30s = %,15.2f%n", "c_totalNII",          c_totalNII));
+       sb.append(String.format("  %-30s = %,15.2f%n", "c_vatCost",           c_vatCost));
+       sb.append(String.format("  %-30s = %,15.2f%n", "c_claimFromSABB",     c_claimFromSABB));
+       sb.append("  -- Alinma Exemption / NIL NII (D)\n");
+       sb.append(String.format("  %-30s = %,15.2f%n", "d_statReserve",       d_statReserve));
+       sb.append(String.format("  %-30s = %,15.2f%n", "d_eligibleBalNet",    d_eligibleBalNet));
+       sb.append(String.format("  %-30s = %,15.2f%n", "d_vof",               d_vof));
+       sb.append(String.format("  %-30s = %,15.2f%n", "d_dpf",               d_dpf));
+       sb.append(String.format("  %-30s = %,15.2f%n", "d_hssShare",          d_hssShare));
+       sb.append(String.format("  %-30s = %,15.2f%n", "d_totalNII",          d_totalNII));
+       sb.append(String.format("  %-30s = %,15.2f%n", "d_vatCost",           d_vatCost));
+       sb.append(String.format("  %-30s = %,15.2f%n", "d_claimFromSABB",     d_claimFromSABB));
+       sb.append("  -- After Exceptions (F = C + D) --\n");
+       sb.append(String.format("  %-30s = %,15.2f%n", "f_sarBalance",        f_sarBalance));
+       sb.append(String.format("  %-30s = %,15.2f%n", "f_eligibleBalNet",    f_eligibleBalNet));
+       sb.append(String.format("  %-30s = %,15.2f%n", "f_vof",               f_vof));
+       sb.append(String.format("  %-30s = %,15.2f%n", "f_dpf",               f_dpf));
+       sb.append(String.format("  %-30s = %,15.2f%n", "f_hssShare",          f_hssShare));
+       sb.append(String.format("  %-30s = %,15.2f%n", "f_totalNII",          f_totalNII));
+       sb.append(String.format("  %-30s = %,15.2f%n", "f_vatCost",           f_vatCost));
+       sb.append(String.format("  %-30s = %,15.2f%n", "f_claimFromSABB",     f_claimFromSABB));
+       sb.append("}");
+       return sb.toString();
+   }
+  ```
+  
+  }
+  
+  // =========================================================
+  //  CORE FUNCTION — accepts all inputs, returns all outputs
+  // =========================================================
+  /**
+  - Calculates the full SAR Balance Sheet.
+  - 
+  - @param eligibleAvgBalance  L863  — reference eligible average balance
+  - @param sarBalance          C885  — eligible SAR balance
+  - @param statReserveRate     0.07  for 7%
+  - @param vofAnnualRate       0.0375 for 3.75%
+  - @param dpfAnnualRate       0.0005 for 0.05%
+  - @param niiShareRate        0.88  for 88%
+  - @param vatRate             0.15  for 15%
+  - @param daysInPeriod        e.g. 28
+  - @param daysInYear          e.g. 365
+  - @return BalanceSheetResult holding every intermediate and final computed value
+    */
+    static BalanceSheetResult calculate(
+    double eligibleAvgBalance,
+    double sarBalance,
+    double statReserveRate,
+    double vofAnnualRate,
+    double dpfAnnualRate,
+    double niiShareRate,
+    double vatRate,
+    int    daysInPeriod,
+    int    daysInYear) {
+    
+    // ––––– Before Exceptions (C column) –––––
+    double c_statReserve    = sarBalance * statReserveRate;
+    double c_eligibleBalNet = sarBalance - c_statReserve;
+    double c_vof            = (c_eligibleBalNet * vofAnnualRate / daysInYear) * daysInPeriod;
+    double c_dpf            = (sarBalance        * dpfAnnualRate / daysInYear) * daysInPeriod;
+    double c_hssShare       = c_vof - c_dpf;
+    double c_totalNII       = c_hssShare * niiShareRate;
+    double c_vatCost        = c_hssShare * vatRate;
+    double c_claimFromSABB  = c_totalNII + c_hssShare + c_vatCost;
+    
+    // ––––– Alinma Exemption / NIL NII (D column) –––––
+    double d_statReserve    = sarBalance * statReserveRate;
+    double d_eligibleBalNet = sarBalance - d_statReserve;
+    double d_vof            = (d_eligibleBalNet * vofAnnualRate / daysInYear) * daysInPeriod;
+    double d_dpf            = (sarBalance        * dpfAnnualRate / daysInYear) * daysInPeriod;
+    double d_hssShare       = d_vof - d_dpf;
+    double d_totalNII       = d_hssShare * niiShareRate;
+    double d_vatCost        = d_hssShare * vatRate;
+    double d_claimFromSABB  = d_totalNII + d_hssShare + d_vatCost;
+    
+    // ––––– After Exceptions (F column) = C + D –––––
+    double f_sarBalance     = sarBalance       + sarBalance;
+    double f_eligibleBalNet = c_eligibleBalNet  + d_eligibleBalNet;
+    double f_vof            = c_vof             + d_vof;
+    double f_dpf            = c_dpf             + d_dpf;
+    double f_hssShare       = c_hssShare        + d_hssShare;
+    double f_totalNII       = c_totalNII        + d_totalNII;
+    double f_vatCost        = c_vatCost         + d_vatCost;
+    double f_claimFromSABB  = c_claimFromSABB   + d_claimFromSABB;
+    
+    return new BalanceSheetResult(
+    eligibleAvgBalance, sarBalance,
+    c_statReserve,  c_eligibleBalNet, c_vof, c_dpf, c_hssShare, c_totalNII, c_vatCost, c_claimFromSABB,
+    d_statReserve,  d_eligibleBalNet, d_vof, d_dpf, d_hssShare, d_totalNII, d_vatCost, d_claimFromSABB,
+    f_sarBalance,   f_eligibleBalNet,  f_vof, f_dpf, f_hssShare, f_totalNII, f_vatCost, f_claimFromSABB
+    );
+    }
+  
+  // =========================================================
+  //  TABLE PRINTER
+  // =========================================================
+  static final int    W0  = 34, W1 = 18, W2 = 20, W3 = 24, W4 = 20, W5 = 20;
+  static final String SEP = “+”
+  + “-”.repeat(W0 + 2) + “+” + “-”.repeat(W1 + 2) + “+”
+  + “-”.repeat(W2 + 2) + “+” + “-”.repeat(W3 + 2) + “+”
+  + “-”.repeat(W4 + 2) + “+” + “-”.repeat(W5 + 2) + “+”;
+  
+  static String f(double v) { return String.format(”%,18.2f”, v); }
+  
+  static void row(String desc, String c0, String c1, String c2, String c3, String c4) {
+  System.out.printf(”| %-” + W0 + “s | %” + W1 + “s | %” + W2
+  + “s | %” + W3 + “s | %” + W4 + “s | %” + W5 + “s |%n”,
+  desc, c0.trim(), c1.trim(), c2.trim(), c3.trim(), c4.trim());
+  }
+  
+  static void printTable(BalanceSheetResult r,
+  double statReserveRate, double vofAnnualRate,
+  double dpfAnnualRate,   double vatRate,
+  double pifSpecialRate,  int daysInPeriod, int daysInYear) {
+  
+  ```
+   int totalW = W0 + W1 + W2 + W3 + W4 + W5 + 15;
+  
+   System.out.println("\n" + "=".repeat(totalW));
+   System.out.println("  JAWAAD 17 — SAR Balance Sheet Calculator  (amounts in SAR)");
+   System.out.println("=".repeat(totalW));
+   System.out.println(SEP);
+   System.out.printf("| %-" + W0 + "s | %-" + W1 + "s | %-" + W2 + "s | %-" + W3
+           + "s | %-" + W4 + "s | %-" + W5 + "s |%n",
+           "Description", "SAR Ref",
+           "Before Exceptions", "Alinma Exempt (NIL NII)",
+           "PIF Exempt (Remove)", "After Exceptions");
+   System.out.println(SEP);
+  
+   // Section 1 — Eligible Balances
+   row("Eligible Average Balances", f(r.eligibleAvgBalance), "",             "",             "", "");
+   row("Eligible SAR Balance",      "",  f(r.sarBalance),  f(r.sarBalance),  "", f(r.f_sarBalance));
+   System.out.println(SEP);
+  
+   // Section 2 — Reserve
+   row("Less: Stat Reserve (" + pct(statReserveRate) + ")",
+       "", f(r.c_statReserve), f(r.d_statReserve), "", "");
+   row("Eligible Balances (after reserve)",
+       "", f(r.c_eligibleBalNet), f(r.d_eligibleBalNet), "", f(r.f_eligibleBalNet));
+   System.out.println(SEP);
+  
+   // Section 3 — VOF / DPF / HSS
+   row("Computed VOF VOF",        "", f(r.c_vof),      f(r.d_vof),      "", f(r.f_vof));
+   row("Deposit Protection Fund", "", f(r.c_dpf),      f(r.d_dpf),      "", f(r.f_dpf));
+   row("HSS Share (VOF - DPF)",   "", f(r.c_hssShare), f(r.d_hssShare), "", f(r.f_hssShare));
+   System.out.println(SEP);
+  
+   // Section 4 — Totals
+   row("Total NII to be Booked",         "", f(r.c_totalNII), f(r.d_totalNII), "", f(r.f_totalNII));
+   row("VAT Cost (" + pct(vatRate) + ")", "", f(r.c_vatCost),  f(r.d_vatCost),  "", f(r.f_vatCost));
+   System.out.println(SEP);
+   row("*** CLAIM FROM SABB ***",
+       "", f(r.c_claimFromSABB), f(r.d_claimFromSABB), "", f(r.f_claimFromSABB));
+   System.out.println(SEP);
+  
+   // Rate summary footer
+   System.out.println("\n" + "=".repeat(totalW));
+   System.out.println("  RATE / CONSTANT SUMMARY");
+   System.out.println("=".repeat(totalW));
+   System.out.printf("  %-42s %s%n",      "Stat Reserve Rate:",            pct(statReserveRate));
+   System.out.printf("  %-42s %s%n",      "VOF Annual Rate:",              pct(vofAnnualRate));
+   System.out.printf("  %-42s %s%n",      "Deposit Protection Fund Rate:", pct(dpfAnnualRate));
+   System.out.printf("  %-42s %s%n",      "NII Share Rate:",               pct(0.88));
+   System.out.printf("  %-42s %s%n",      "VAT Rate:",                     pct(vatRate));
+   System.out.printf("  %-42s %s%n",      "PIF Special Rate (pa):",        pct(pifSpecialRate));
+   System.out.printf("  %-42s %d days%n", "Period Days:",                  daysInPeriod);
+   System.out.printf("  %-42s %d days%n", "Days in Year:",                 daysInYear);
+   System.out.println("=".repeat(totalW) + "\n");
+  ```
+  
+  }
+  
+  static String pct(double rate) {
+  // Trim trailing zeros but keep at least one decimal
+  String s = String.format(”%.4f”, rate * 100);
+  s = s.replaceAll(“0+$”, “”).replaceAll(”\.$”, “.0”);
+  return s + “%”;
+  }
+  
+  // =========================================================
+  //  MAIN — calls calculate(), receives result, prints table
+  // =========================================================
+  public static void main(String[] args) {
+  
+  ```
+   // ---- Step 1: call calculate() with all inputs ----
+   BalanceSheetResult result = calculate(
+           L863,
+           C885_INPUT,
+           STAT_RESERVE_RATE,
+           VOF_ANNUAL_RATE,
+           DPF_ANNUAL_RATE,
+           NII_SHARE_RATE,
+           VAT_RATE,
+           DAYS_IN_PERIOD,
+           DAYS_IN_YEAR
+   );
+  
+   // ---- Step 2: print formatted balance-sheet table ----
+   printTable(result,
+           STAT_RESERVE_RATE, VOF_ANNUAL_RATE,
+           DPF_ANNUAL_RATE,   VAT_RATE,
+           PIF_SPECIAL_RATE,  DAYS_IN_PERIOD, DAYS_IN_YEAR);
+  
+   // ---- Step 3: print every individual returned value ----
+   System.out.println("ALL RETURNED VALUES (via BalanceSheetResult.toString()):");
+   System.out.println(result);
+  ```
+  
+  }
+  }
+
+
+
+
+jjjj
 
 /**
 
