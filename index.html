@@ -81,10 +81,73 @@ button{
 <div class="code-container" id="codeBox">
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
- // -------------------Start-----------------
+ // -------------------Start---------------
 
 
-package service;
+package main;
+
+import service.BalanceSheetService;
+import service.BalanceSheetService.BalanceSheetResult;
+
+public class MainClass {
+
+    public static void main(String[] args) {
+
+        // Create object
+        BalanceSheetService service =
+                new BalanceSheetService();
+
+        // Call method
+        BalanceSheetResult result =
+                service.calculateBalanceSheet(
+
+                        5000000,     // eligibleAvgBalance
+                        4800000,     // sarBalance
+                        0.07,        // statReserveRate
+                        3.75 / 100,  // vofRate
+                        0.05 / 100,  // dpfRate
+                        0.88,        // niiFactor
+                        0.15,        // vatRate
+                        28,          // days
+                        365          // yearDays
+                );
+
+        // ===============================
+        // PRINT VALUES
+        // ===============================
+
+        System.out.println("AFTER EXCEPTION TOTAL NII : "
+                + result.getgTotalNii());
+
+        System.out.println("AFTER EXCEPTION VAT : "
+                + result.getgVatCost());
+
+        System.out.println("AFTER EXCEPTION CLAIM : "
+                + result.getgClaimFromSabb());
+
+        System.out.println("BEFORE EXCEPTION VOF : "
+                + result.getcVof());
+
+        System.out.println("ALINMA EXCEPTION CLAIM : "
+                + result.getdClaimFromSabb());
+
+        System.out.println("PIF EXCEPTION CLAIM : "
+                + result.geteClaimFromSabb());
+
+        System.out.println("PIF SPECIAL CLAIM : "
+                + result.getfClaimFromSabb());
+    }
+}
+
+
+
+
+jjjjmmmnngf
+
+
+
+
+ service;
 
 public class BalanceSheetService {
 
