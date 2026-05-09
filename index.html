@@ -82,7 +82,259 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
+tammmm
 
+package service;
+/**
+ * =========================================================
+ * VoucherBookingService.java
+ * =========================================================
+ *
+ * Voucher Booking Table Calculation Service
+ *
+ * Excel Mapping:
+ *
+ * ---------------------------------------------------------
+ * ROW   DESCRIPTION
+ * ---------------------------------------------------------
+ * 904   DCC
+ * 905   GC
+ * 906   Total
+ * 907   VAT
+ * ---------------------------------------------------------
+ *
+ * FORMULAS FROM EXCEL
+ * =========================================================
+ *
+ * B904 = AB875
+ * B905 = AB876
+ * B906 = B904 + B905
+ * B907 = B906 - L863
+ *
+ * C904 = B904
+ * C905 = B905 - E877
+ * C906 = SUM(C904:C905)
+ * C907 = C906 - G885
+ *
+ * E904 = C904 / C906 * G893
+ * E905 = C905 / C906 * G893
+ * E906 = SUM(E904:E905)
+ * E907 = E906 - G893
+ *
+ * F904 = E904 * 0.88
+ * F905 = E905 * 0.88
+ * F906 = SUM(F904:F905)
+ * F907 = F906 - G895
+ *
+ * G904 = F904 * 0.15
+ * G905 = F905 * 0.15
+ * G906 = SUM(G904:G905)
+ * G907 = G906 - G896
+ *
+ * =========================================================
+ */
+public class VoucherBookingService {
+    // =====================================================
+    // CONSTANTS
+    // =====================================================
+    public static final double NII_FACTOR = 0.88;
+    public static final double VAT_RATE   = 0.15;
+    // =====================================================
+    // RESULT CLASS
+    // =====================================================
+    public static class VoucherBookingResult {
+        // -------------------------------------------------
+        // INPUT VALUES
+        // -------------------------------------------------
+        public double ab875;
+        public double ab876;
+        public double l863;
+        public double e877;
+        public double g885;
+        public double g893;
+        public double g895;
+        public double g896;
+        // -------------------------------------------------
+        // COLUMN B
+        // Avg Balance Before Exceptions
+        // -------------------------------------------------
+        public double b904;
+        public double b905;
+        public double b906;
+        public double b907;
+        // -------------------------------------------------
+        // COLUMN C
+        // Avg Balance After Exceptions
+        // -------------------------------------------------
+        public double c904;
+        public double c905;
+        public double c906;
+        public double c907;
+        // -------------------------------------------------
+        // COLUMN E
+        // Vatable NII
+        // -------------------------------------------------
+        public double e904;
+        public double e905;
+        public double e906;
+        public double e907;
+        // -------------------------------------------------
+        // COLUMN F
+        // NII Estimate to be Booked
+        // -------------------------------------------------
+        public double f904;
+        public double f905;
+        public double f906;
+        public double f907;
+        // -------------------------------------------------
+        // COLUMN G
+        // VAT
+        // -------------------------------------------------
+        public double g904;
+        public double g905;
+        public double g906;
+        public double g907;
+        @Override
+        public String toString() {
+            return "\n=============================="
+                    + "\nVoucher Booking Result"
+                    + "\n=============================="
+                    + "\n\nB904 : " + b904
+                    + "\nB905 : " + b905
+                    + "\nB906 : " + b906
+                    + "\nB907 : " + b907
+                    + "\n\nC904 : " + c904
+                    + "\nC905 : " + c905
+                    + "\nC906 : " + c906
+                    + "\nC907 : " + c907
+                    + "\n\nE904 : " + e904
+                    + "\nE905 : " + e905
+                    + "\nE906 : " + e906
+                    + "\nE907 : " + e907
+                    + "\n\nF904 : " + f904
+                    + "\nF905 : " + f905
+                    + "\nF906 : " + f906
+                    + "\nF907 : " + f907
+                    + "\n\nG904 : " + g904
+                    + "\nG905 : " + g905
+                    + "\nG906 : " + g906
+                    + "\nG907 : " + g907;
+        }
+    }
+    // =====================================================
+    // MAIN CALCULATION METHOD
+    // =====================================================
+    public VoucherBookingResult calculateVoucherBooking(
+            double ab875,
+            double ab876,
+            double l863,
+            double e877,
+            double g885,
+            double g893,
+            double g895,
+            double g896
+    ) {
+        VoucherBookingResult r =
+                new VoucherBookingResult();
+        // =================================================
+        // STORE INPUTS
+        // =================================================
+        r.ab875 = ab875;
+        r.ab876 = ab876;
+        r.l863 = l863;
+        r.e877 = e877;
+        r.g885 = g885;
+        r.g893 = g893;
+        r.g895 = g895;
+        r.g896 = g896;
+        // =================================================
+        // COLUMN B
+        // =================================================
+        r.b904 = ab875;
+        r.b905 = ab876;
+        r.b906 = r.b904 + r.b905;
+        r.b907 = r.b906 - l863;
+        // =================================================
+        // COLUMN C
+        // =================================================
+        r.c904 = r.b904;
+        r.c905 = r.b905 - e877;
+        r.c906 = r.c904 + r.c905;
+        r.c907 = r.c906 - g885;
+        // =================================================
+        // COLUMN E
+        // =================================================
+        r.e904 =
+                (r.c904 / r.c906) * g893;
+        r.e905 =
+                (r.c905 / r.c906) * g893;
+        r.e906 =
+                r.e904 + r.e905;
+        r.e907 =
+                r.e906 - g893;
+        // =================================================
+        // COLUMN F
+        // =================================================
+        r.f904 =
+                r.e904 * NII_FACTOR;
+        r.f905 =
+                r.e905 * NII_FACTOR;
+        r.f906 =
+                r.f904 + r.f905;
+        r.f907 =
+                r.f906 - g895;
+        // =================================================
+        // COLUMN G
+        // =================================================
+        r.g904 =
+                r.f904 * VAT_RATE;
+        r.g905 =
+                r.f905 * VAT_RATE;
+        r.g906 =
+                r.g904 + r.g905;
+        r.g907 =
+                r.g906 - g896;
+        return r;
+    }
+}
+
+⸻
+
+Main.java
+
+import service.VoucherBookingService;
+import service.VoucherBookingService.VoucherBookingResult;
+public class Main {
+    // =====================================================
+    // RANDOM SAMPLE INPUT VALUES
+    // =====================================================
+    static final double AB875 = 10_000.00;
+    static final double AB876 = 25_000.00;
+    static final double L863  = 5_000.00;
+    static final double E877  = 2_500.00;
+    static final double G885  = 30_000.00;
+    static final double G893  = 8_000.00;
+    static final double G895  = 7_040.00;
+    static final double G896  = 1_056.00;
+    public static void main(String[] args) {
+        VoucherBookingService service =
+                new VoucherBookingService();
+        VoucherBookingResult result =
+                service.calculateVoucherBooking(
+                        AB875,
+                        AB876,
+                        L863,
+                        E877,
+                        G885,
+                        G893,
+                        G895,
+                        G896
+                );
+        System.out.println(result);
+    }
+}
+
+jjjjjjnnnwhshsggs
 
 /**
 
