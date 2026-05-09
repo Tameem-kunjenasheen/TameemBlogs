@@ -82,1004 +82,212 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-Here’s a simple meeting mail:
 
-Hi Hi Maha,
 
-Just following up regarding the pending response from Wathq.
-Could you please check and let us know if there is any update?
-
-Please find the attached previous email for reference.
-
-Best regards,
-[Your Name],
-
-Scheduling a call to discuss the connectivity issue with the CRMS UAT DB server using DBeaver.
-
-Issue Details:
-
-* We are able to connect to the Production DB with the same configuration.
-* Connection to the UAT DB is failing with a connectivity timeout error.
-* Earlier, the UAT connection was working normally.
-* We tested the same configuration from another VDI, and it worked successfully.
-* We suspect this could be a network-related issue.
-
-An incident has already been raised for the same.
-
-Please join the call for further troubleshooting and discussion.
-
-Thanks,
-Akram
-
-Hi HANOK is not coming. He said that if anything is urgent, he will connect remotely. He will come later.,
-
-After yesterday’s clarification call, could you please provide the sign-off?
-
-If you still have any doubts or need further clarification, please let me know. We can arrange another call to discuss it.
-
-Thanks & Regards,
-[Your Name] 
-    LIVE.CASE_RK AS CASE_ID,
-    UCHAR.UDF_VALUE AS KYC_EXPIRY_DATE,
-    RAM.UDF_VALUE AS X_RAM_CATEGORY,
-    SCC.UDF_VALUE AS X_SCC_CUSTOMER
-
-FROM CASE_LIVE LIVE
-
--- Date table
-LEFT JOIN CASE_UDF_DATE_VALUE UCHAR
-ON LIVE.CASE_RK = UCHAR.CASE_RK
-AND LIVE.VALID_FROM_DTTM = UCHAR.VALID_FROM_DTTM
-AND UCHAR.UDF_NM = 'X_KYC_EXPIRY_DATE'
-
--- Char table for RAM
-LEFT JOIN CASE_UDF_CHAR_VALUE RAM
-ON LIVE.CASE_RK = RAM.CASE_RK
-AND LIVE.VALID_FROM_DTTM = RAM.VALID_FROM_DTTM
-AND RAM.UDF_NM = 'X_RAM_CATEGORY'
-
--- Char table for SCC
-LEFT JOIN CASE_UDF_CHAR_VALUE SCC
-ON LIVE.CASE_RK = SCC.CASE_RK
-AND LIVE.VALID_FROM_DTTM = SCC.VALID_FROM_DTTM
-AND SCC.UDF_NM = 'X_SCC_CUSTOMER'
-
-WHERE LIVE.CASE_RK IN (115866, 115985, 116373, 148108, 163760, 163936, 164777, 167201, 167228, 168105, 168107, 168291, 171625, 300606)
-
-ORDER BY LIVE.CASE_RK;
-......
-Hi RK
-AND LIVE.VALID_FROM_DTTM = UCHAR2.VALID_FROM_DTTM
-
-WHERE 
-UCHAR.UDF_NM = 'X_KYC_EXPIRY_DATE'
-AND LIVE.CASE_RK IN (115866, 115985, ...)
-ORDER BY LIVE.CASE_RK;
-
-This is a dynamic setup/configuration setting. If the end user wants to remove it, they can do so.
-I can arrange a meeting to explain it clearly. If needed, I will schedule it. Team,
-
-Good morning.
-
-UAT for the change/request has been completed. Kindly review and confirm your sign-off so that we can proceed with the production release.
-
-Please let us know if any issues or changes are required. If everything is fine, request you to share the approval at the earliest.
-
-Regards,
-[Your Name],
-
-As part of the service decommission activity, we have already unlinked the servers associated with TTS.
-
-We request you to proceed with deactivation of the related FQDNs (domains) and revoke the associated certificates.
-
-Kindly confirm once the activity is completed. Also, please let us know if any CR is required from our side to proceed.
-
-Regards,
-[Your Name] is the corrected version in simple English:
-
-⸻
-
-Good Morning!!
-
-Could you please provide the Case IDs for the below scenarios:
-
-1. Open cases where KYC expired today
-    Provide cases that are open and under QA
-2. Closed cases where KYC expired today
-    Provide cases that are in closed status
-3. Open cases where the 30-day KYC alert is triggered today
-    Provide cases that are open and under QA
-4. Closed cases where the 30-day KYC alert is triggered today
-    Provide cases that are in closed status
-
-Next Step:
-We will update the expiry dates and email ID through the backend and run the jobs.
-
-Regards,
-Tameem Kunjansheen
-
-⸻
-
-If you want, I can also make it more formal or shorter. logs for notifications that were sent.
-However, for these cases, logs are not available in the RM Info table.
-The logs are present only in the SMS Alert table, not in the RM Info table.
-
-⸻
-
-If you want a slightly more formal update (for email or report):
-
-We have verified that notification logs are available.
-However, for the mentioned cases, no records are found in the RM Info table.
-The logs are available only in the SMS Alert table.
-⸻
-
-📌 Here is the corrected version in simple and clear English:
-
-We can add her email address for KYC notification UAT testing.
-Do we need to add her email ID in the database?
-
-As per Keshav, for open cases, notifications are sent only after the case is closed and the KYC date is updated in Oracle.
-The notification will be sent based on the updated KYC expiry date. of Meeting (MoM)
-
-Topic: VSMS SMS Text Length Issue
-Date: [Add Date]
-Participants: Team Discussion
-
-⸻
-
-🔹 Discussion Summary
-
-* The issue is related to VSMS SMS text length mismatch.
-* The SMS text length is 5376 characters, which is more than the allowed limit.
-* The variable defined in the Oracle package supports only 4000 characters.
-* Because of this mismatch, the process is failing (KVC00 errors).
-* The issue is identified as a code-level bug.
-
-⸻
-
-🔹 Root Cause
-
-* In the database table Alert Definition, the Arabic text field contains more than 5000 characters.
-* However, in the program/package, the variable is defined with a maximum length of 4000 characters.
-* This mismatch is causing the failure.
-
-⸻
-
-🔹 Analysis Done
-
-* Checked the Cicero Log table to identify the error details.
-* Verified the line number 571 where the issue is occurring.
-* Traced the data source to the Alert Definition table.
-* Confirmed that the Arabic text exceeds the allowed variable size.
-
-⸻
-
-🔹 Action Items
-
-1. Increase the variable length in the Oracle package to support more than 4000 characters.
-2. Review if any other fields are impacted with similar issues.
-3. Fix the code to handle larger text values properly.
-
-⸻
-
-🔹 Conclusion
-
-* This is confirmed as a bug in the code.
-* The fix is required to increase the variable length to resolve the issue.
-
-⸻
-
-If you want, I can also convert this into a professional email format or CR document. Name],
-
-This is a quick update on the KYC message failure issue.
-
-We have identified the root cause. The failure is happening due to a variable length limitation in the Oracle procedure. The variable is defined with a maximum size of 4000 characters, but in this specific case, the data (Arabic/SMS text) is more than 5000 characters. Because of this, the process failed.
-
-However, this issue is observed only for this case (KYC00), even though the KYC message format is the same for other cases.
-
-We need to investigate further to understand why this case has larger data compared to others. It could be due to specific input data such as longer text or additional content.
-
-Next steps:
-
-* We will continue analysis to find the exact reason for this difference.
-* We will also work on increasing the variable size to avoid such failures.
-
-I will keep you updated on further findings.
-
-Thanks,
-[Your Name]
-
-Good morning.
-
-Is there any update from the water team regarding the issue we discussed earlier?
-
-We are still not able to add the application, and the option for adding the application is not visible.
-
-Could you please check with the team and update us on this issue?
-
-Thanks and regards,  
-[Your Name] is a clear and professional email in simple English:
-
-⸻
-
-Hi All,
-
-This is regarding CHG0050881 – Open Firewall Ports for PTP2 Production Connectivity to Tadawul and MSS-GM applications from BCP site.
-
-Please find the summary below:
-
-* Firewall change was implemented by the SAB Domain team on 15 April 2026.
-* Initial connectivity test from BCP site failed.
-* On 16 April, SAB team confirmed that traffic was reaching their DR site and requested routing adjustment for destination IPs.
-* SAB Network team and Branch ATM network team were engaged for routing changes.
-* Traffic was later shifted to the SALAM link.
-* However, connectivity test from BCP site is still failing.
-* SAB team confirmed that traffic is now passing from PROD site.
-
-Current Status:
-
-* Telnet is failing from BCP site.
-* Telnet is working from KAFD LAN for the same IPs.
-
-Business Impact:
-
-* PROD Derivatives and all GM DR applications are not working from BCP.
-* If traders move to BCP site, it will impact business operations.
-
-This issue is urgent and requires immediate resolution. I have been following up on this daily.
-
-Kindly check and resolve this at the earliest.
-
-Best Regards,
-Tameem Kunjansheen
-
-⸻
-
-If you want, I can also make it more strict/escalation tone or add action owners., I will give you everything properly in PM standard, in simple and clear English.
-
-⸻
-
-📧 1. Corrected Email (Ready to Send)
-
-Hi All,
-
-Thank you for joining the call.
-
-Discussion Summary:
-
-* All business and technical queries raised by Keshav were discussed and clarified in detail.
-* We reviewed each requirement step by step for better understanding.
-* Imran will share a detailed document with all fields, screens, and mappings.
-* CRMS to OMS integration (API calls) and CMA upload are currently on hold until confirmation from Imran and IT team.
-* Wathq integration needs further detailed discussion.
-* Pending software installation on Keshav’s VDI.
-* Target is to complete requirement finalization by 1st week of May.
-* Enhancements and fixes include:
-    * Connected Parties implementation
-    * Client classification updates
-    * Defence / ESG checks
-    * SoW and SoF alignment
-    * Authorized → Other Connected Parties changes
-    * CRMS to OMS API improvements
-    * CMA upload integration
-
-⸻
-
-Action Items:
-
-Imran:
-
-* Share detailed document with all fields and screens
-* Confirm connected parties table structure and fields
-* Provide field list and location for:
-    * Redundant field removal
-    * SoW and SoF updates
-* Clarify Defence / ESG structure
-* Provide confirmation on pending requirements and data points
-
-Keshav:
-
-* Review all discussed requirements and confirm understanding
-* Share new resource documents for onboarding
-
-Iyaz:
-
-* Review and confirm CRMS to OMS API and CMA upload requirements
-
-IT Team:
-
-* Proceed with API and development once confirmation is received
-* Support CMA upload implementation
-
-⸻
-
-Dependencies:
-
-* Imran → Document and field confirmation
-* IT Team → Development and integration
-* Keshav → Review and sign-off
-
-⸻
-
-Next Steps:
-
-* Complete all pending confirmations before next meeting
-* Target to finalize requirements by 1st week of May
-
-Regards,
-Tameem
-
-⸻
-
-📊 2. Clean Tracker Table (You can copy to Excel)
-
-Activity	Details	Owner	Start Date	End Date	Status
-Requirement Finalization	Requirement discussion & closure	All	20-Apr	07-May	In Progress
-Design Finalization	Final design based on requirements	IT / Imran	05-May	10-May	Pending
-Development (Policy Changes)	Client classification, Defence/ESG, SoW/SoF	IT	10-May	25-May	Pending
-Development (Enhancements)	Connected parties, UI changes, workflow	IT	10-May	28-May	Pending
-API Development	CRMS to OMS integration fixes	IT	On Hold	On Hold	On Hold
-CMA Upload	Data upload to CRMS	IT / Imran	On Hold	On Hold	On Hold
-Integration Testing	End-to-end testing	IT / QA	28-May	05-Jun	Pending
-UAT	Business validation	Keshav	05-Jun	10-Jun	Pending
-Production Deployment	Go-live	IT	12-Jun	12-Jun	Pending
-
-⸻
-
-📅 3. Milestone-Based Timeline (Important for PM)
-
-Add these milestones in your tracker:
-
-* Requirement Sign-off → 7 May
-* Design Sign-off → 10 May
-* Development Complete → End of May
-* UAT Start → 5 June
-* UAT Sign-off → 10 June
-* Go-Live → 12 June
-
-⸻
-
-✅ Final Guidance (Important)
-
-* ✔ Your email is now PM standard
-* ✔ Tracker is now clear and structured
-* ✔ Enhancements & fixes are clearly defined
-* ✔ Dependencies and ownership are visible
-* ✔ On-hold items clearly highlighted
-
-⸻
-
-If you want next level:
-👉 I can convert this into proper Excel file format
-👉 Or create a Gantt chart view like your screenshot
-
-Just tell me 👍
-
-Discussion Summary
-
-* RDD/BDD section needs to be enhanced to include Connected Parties.
-* Changes required in Reduced Baseline:
-    * Remove fields related to connected parties.
-    * Add a linking key for connected parties.
-    * Create a separate table for connected parties.
-    * Add a dropdown option to capture connected party details.
-* Common table structure and fields will be shared by Imran.
-* Fields required for OWS sync will be defined for both:
-    * Existing Reduced Baseline table
-    * New RDD Connected Parties table
-* Redundant fields need to be removed due to policy changes.
-* Client classification updated:
-    * Only 3 categories allowed in new policy.
-    * Remove old categories and incorrect sections.
-    * Keep only APLE or Non-APLE.
-    * Update historical data accordingly.
-* SoW and SoF questions must be aligned with the new approach.
-* “Authorized Person” section changes:
-    * Rename to Other Connected Parties.
-    * Replace existing table with a new structure.
-* Defence sector controls to be added:
-    * Add new tab under Screening and Other Risk Factors.
-    * Include Defence Check.
-    * If required, merge under ESG and rename accordingly.
-* Watchlist integration to be discussed separately.
-* CRMS to OMS integration:
-    * Recheck API data completeness.
-    * Ensure missing data is handled.
-    * Implement failure email alert (old system feature missing now).
-    * CMA list to be uploaded in CRMS for OWS usage.
-
-⸻
-
-Action Items
-
-Imran
-
-* Share detailed document with fields and screens.
-* Confirm connected parties table structure and fields.
-* Provide field list and location for:
-    * Redundant field removal
-    * SoW and SoF updates
-* Share OWS sync field details.
-* Clarify Defence/ESG structure.
-* Review and confirm API data requirements.
-
-Keshav
-
-* Review requirements and confirm understanding.
-* Support implementation of new structure and field changes.
-
-Iyaz
-
-* Assist with integration validation and API checks.
-
-Tameem
-
-* Provide required data extractions.
-* Support CMA list upload into CRMS.
-
-IT Team
-
-* Implement:
-    * New tables and field changes
-    * API fixes and validation
-    * Email trigger for integration failure
-
-⸻
-
-If you want, I can convert this into a proper email (MOM format) or table format for Excel. is the updated Discussion Summary and Action Items in simple and clear words:
-
-⸻
-
-Discussion Summary
-
-* We discussed all requirements in detail during the call.
-* All functional and technical queries raised by Keshav were reviewed and clarified.
-* Each requirement was explained step by step for better understanding.
-* Imran needs to share a detailed document with all fields, screens, and mappings.
-* PRMS to OOMS integration API calls were discussed, but currently on hold until confirmation from Imran and IT team.
-* DMA upload list activity is also on hold and will proceed after inputs from Imran and IT.
-* Overall, the team aligned on the requirements, but some items are pending confirmation and inputs.
-
-⸻
-
-Action Items
-
-Imran
-
-* Share detailed document with all fields, screens, and mappings.
-* Provide confirmation on pending requirements and data points.
-* Support on PRMS to OOMS API clarification.
-
-Keshav
-
-* Review all discussed requirements.
-* Confirm if any additional clarification is needed.
-
-IT Team
-
-* Review PRMS to OOMS integration API.
-* Proceed with implementation once confirmation is received.
-* Support DMA upload once inputs are finalized.
-
-Imran & IT Team
-
-* Resume work on:
-    * PRMS to OOMS API (currently on hold)
-    * DMA upload list (currently on hold)
-
-⸻
-
-If you want, I can also make this into a proper email format ready to send.
-
-Please find below the details for error remarks, notification, descriptive reason, and action plan.
-
-I have attached the Excel file for your reference. The file includes all OMS fields along with their field length details and the complete list across all applications.
-
-Kindly review and let me know if you need any clarification.
-
-Thanks and regards,
-Akram
-
-1. Notification Format
-2. Descriptive Reason
-
-Below is your updated and clean table content with these added, in simple and clear English.
-
-⸻
-
-✅ Final Improved Table Format
-
-1. Full Name Length Issue
-
-* Issue: Full name length is more than 50 characters
-* System Limit (OMS): 50 characters
-
-Notification Format:
-Full Name exceeds maximum allowed length (50 characters)
-
-Descriptive Reason:
-The full name value is longer than the OMS field limit, so the transaction failed during integration.
-
-Action Plan:
-
-* Increase field size in OMS to match CRMS (more than 1200 characters)
-
-⸻
-
-2. NIN Length Issue
-
-* Issue: NIN length is more than 15 characters
-* System Limit: 15 characters
-
-Notification Format:
-Invalid NIN length. Maximum allowed is 15 digits
-
-Descriptive Reason:
-Alphanumeric or longer value was entered, which exceeds the allowed limit and caused integration failure.
-
-Action Plan:
-
-1. Restrict input to numeric only
-2. Limit length to 15 characters
-3. Increase size only if required
-
-⸻
-
-3. Address Length Issue
-
-* Issue: Address length is more than 50 characters
-* System Limit (OMS): 50 characters
-
-Notification Format:
-Address exceeds maximum allowed length (50 characters)
-
-Descriptive Reason:
-The address value is longer than the OMS limit, so the message was rejected.
-
-Action Plan:
-
-* Increase field size in OMS to align with CRMS (more than 1200 characters)
-
-⸻
-
-4. Postal Code Length Issue
-
-* Issue: Postal code length is more than 8 characters
-* System Limit (OMS): 8 characters
-
-Notification Format:
-Postal Code exceeds maximum allowed length (8 characters)
-
-Descriptive Reason:
-The postal code value is longer than the allowed length, causing validation failure.
-
-Action Plan:
-
-* Increase field size or restrict input to 8 characters
-
-⸻
-
-5. Customer Name (Arabic) Length Issue
-
-* Issue: Customer name (Arabic) exceeds 50 characters
-* System Limit (OMS): 50 characters
-
-Notification Format:
-Customer Name (Arabic) exceeds maximum allowed length (50 characters)
-
-Descriptive Reason:
-The Arabic name is longer than the OMS limit, so the system rejected the value.
-
-Action Plan:
-
-* Increase field size in OMS to match CRMS
-
-⸻
-
-6. Email Length Issue
-
-* Issue: Email length is more than 50 characters
-* System Limit (OMS): 50 characters
-
-Notification Format:
-Email exceeds maximum allowed length (50 characters)
-
-Descriptive Reason:
-The email address is longer than the OMS field limit, causing integration failure.
-
-Action Plan:
-
-* Increase field size in OMS to support longer email addresses
-
-⸻
-
-✔️ What is improved
-
-* Added Notification Format (what user/system will see)
-* Added Descriptive Reason (clear explanation of failure)
-* Removed repeated wording
-* Simple and clear English for business users
-
-⸻
-
-If you want, I can convert this into a proper Excel table with columns like:
-Issue | Field | Limit | Notification | Reason | Action Plan 👍
-
-✅ Corrected & Simplified Table Content
-
-1. Full Name Length Issue
-
-* Issue: Full name length is more than 50 characters
-* Current System Limit (OMS): 50 characters
-* Reason: Value exceeds allowed field length, so integration fails
-
-Action Plan:
-
-* Increase field size in OMS to match CRMS (more than 1200 characters)
-
-⸻
-
-2. NIN Length Issue
-
-* Issue: NIN value length is more than 15 characters
-* Current System Limit: 15 characters
-* Reason: Alphanumeric value entered exceeds allowed length
-
-Action Plan:
-
-1. Restrict input in CRMS to only numeric values
-2. Limit input length to 15 characters
-3. (Optional) Increase field size if business requires longer values
-
-⸻
-
-3. Address Length Issue
-
-* Issue: Address length is more than 50 characters
-* Current System Limit (OMS): 50 characters
-* Reason: Address value exceeds limit, causing failure
-
-Action Plan:
-
-* Increase field size in OMS to align with CRMS (more than 1200 characters)
-
-⸻
-
-4. Postal Code Length Issue
-
-* Issue: Postal code length is more than 8 characters
-* Current System Limit (OMS): 8 characters
-* Reason: Value exceeds allowed length
-
-Action Plan:
-
-* Increase field size OR restrict input to 8 characters based on requirement
-
-⸻
-
-5. Customer Name (Arabic) Length Issue
-
-* Issue: Customer name (Arabic) exceeds 50 characters
-* Current System Limit (OMS): 50 characters
-* Reason: Value exceeds allowed limit
-
-Action Plan:
-
-* Increase field size in OMS to match CRMS
-
-⸻
-
-6. Email Length Issue
-
-* Issue: Email length is more than 50 characters
-* Current System Limit (OMS): 50 characters
-* Reason: Email exceeds allowed length
-
-Action Plan:
-
-* Increase field size in OMS to support longer email addresses
-
-⸻
-
-✔️ Key Improvement Done
-
-* Removed repeated sentences
-* Used simple and clear English
-* Structured as: Issue → Limit → Reason → Action
-* Made it easy for business and technical teams to understand
-
-⸻
-
-If you want, I can convert this into a proper Excel format or CR document format also.,
-
-We need to understand the issue and respond proactively. Please provide answers to the below queries:
-
-* Is there any alert configured for space consumption?
-* Who receives these alerts?
-* The GM IT team did not receive any alerts when space reached 100%.
-* Why was the space consumed?
-* If there is a maintenance process to clear space, how did this situation occur?
-
-Regards,
-Tameem Kunjasheen
-eeting MOM (Bullet Points)
-
-* All folders are up to date.
-* System investigation details have been shared with the business.
-* Total 5 cases were reviewed.
-* Two cases were already open, so the system did not generate alerts.
-* This is as per system design.
-* One case was already available in the system.
-* No issue was identified.
-* For the other two cases, no problem was found during investigation.
-* PRD has been provided to the business.
-* Business needs to highlight which cases (out of 5) require action.
-* Business needs to modify or enhance the system if required.
-* System is currently working as per the design.
-
-* All folders are up to date.
-
-Discussion Summary
-
-* The system investigation details have been shared with the business.
-* Total 5 cases were reviewed.
-* 2 cases:
-    * The cases were already open.
-    * As per system design, no alert was generated.
-    * This is expected system behavior.
-* 1 case:
-    * The alert was already available in the system.
-    * No issue was found.
-* Remaining 2 cases:
-    * No issues were identified during investigation.
-    * PRD has been shared with the business for further clarification.
-
-Action Items
-
-* Business team needs to review and confirm which cases (out of the 5) require further action.
-* If any change is required, the business must request system modification or enhancement.
-* Current system is working as per the defined design.
-
-⸻
-
-If you want, I can also convert this into a formal email or add names, dates, and owners.
-
-Hi Tameem,
-
-The issue was identified at the global service provider level and has now been resolved by them.
-
-Since this was an external dependency, we do not have direct control over their systems. However, we have taken the following steps to avoid delay in future:
-
-* We will closely monitor international call services.
-* We have aligned with the service provider for quicker escalation and response.
-* Immediate checks will be performed if any similar issue is reported.
-
-Currently, services are working fine. Please let us know if you face any further issues.
-
-Regards,
-[Your Name]
-
-If you want, I can make it more formal or stronger (management-level reply).
-
-SELECT column_name, data_type, data_length
-FROM user_tab_columns
-WHERE table_name = 'YOUR_TABLE_NAME';
-
-👉 Replace YOUR_TABLE_NAME with your table name (in uppercase).
-
-⸻
-
-🔹 Example
-
-SELECT column_name, data_type, data_length
-FROM user_tab_columns
-WHERE table_name = 'EMPLOYEES';
-
-⸻
-
-📌 What each column means:
-
-* COLUMN_NAME → Name of the column
-* DATA_TYPE → Type (VARCHAR2, NUMBER, etc.)
-* DATA_LENGTH → Length in bytes
-
-⸻
-
-🔹 If you want character length (important for VARCHAR)
-
-SELECT column_name, data_type, char_length
-FROM user_tab_columns
-WHERE table_name = 'YOUR_TABLE_NAME';
-
-⸻
-
-🔹 If table is in another schema
-
-Use ALL_TAB_COLUMNS:
-
-SELECT owner, column_name, data_type, data_length
-FROM all_tab_columns
-WHERE table_name = 'YOUR_TABLE_NAME';
-
-⸻
-
-🔹 If you have DBA access
-
-SELECT owner, table_name, column_name, data_type, data_length
-FROM dba_tab_columns
-WHERE table_name = 'YOUR_TABLE_NAME';
-
-⸻
-
-If you want, tell me your table name and column, I can give you exact query 👍 is your message corrected in simple and clear English:
-
-⸻
-
-Hi Syed,
-
-Based on your email, we agreed on the VAT release date as 23 April. Today is already 27 April. If we do not release it by tomorrow (28 April), there will be an impact.
-
-If we miss tomorrow’s release, a service protection period will start from 29 April, and it will be difficult to get approvals during that time.
-
-Also, if we do not complete UAT and get sign-off today, we will not be able to proceed with the 28 April release.
-
-@Majid – we need CIO approval in SNOW as well.
-
-Please treat this as high priority. I have followed up multiple times.
-
-⸻
-
-If you want, I can make it more formal or more strict. is the corrected email in simple and clear English:
-
-⸻
-
-Hi Feras,
-
-Could you please share the BRD document again? We need it for commercial approval.
-
-We have already started working on the report, and Inshallah we will release it by this week.
-
-If this is an urgent release, once we get the approval, we will proceed with the release. We have some service protection in place, but we will try our best to complete it within this week.
-
-Kindly share the BRD for our reference and approval process.
-
-Thanks,
-
-⸻
-
-If you want, I can make it more formal or more strict depending on your situation. is the corrected email in simple and clear English:
-
-⸻
-
-Hi Keshav,
-
-I have scheduled the meeting for tomorrow. We will discuss your queries for each requirement and clarify them.
-
-Also, please share the new resource details for the onboarding process.
-
-⸻
-
-If you want, I can make it more formal or add meeting time details. is a clear and corrected version of your message:
-
-⸻
-
-Hi,
-
-We need to provide two users for CRM for the penetration testing activity. However, CRM is linked to AD.
-
-I discussed this with Iyaz, and he mentioned that we need to provide service account credentials. Last time also, service account details were shared for the same purpose.
-
-Could you please confirm if we should proceed with providing the service account credentials again?
-
-⸻
-
-If you want, I can also make it more formal or add justification for security/compliance. is your CR in simple Indian English, based on the content in your image (pool account settlement issue):
-
-⸻
-
-Title
-
-Fix for Pool Account Settlement Issue in OMS
-
-⸻
-
-Short Description
-
-System change to handle settlement correctly when trades are done using pool accounts.
-
-⸻
-
-Description
-
-Currently, when trades are executed using pool accounts in OMS, settlement is completed in OMS but not properly handled in the local OMS system.
-
-When a settlement instruction is received for a portfolio using a pool account, multiple settlement messages are generated (for portfolio and pool account). The system is not handling these duplicate settlement messages correctly.
-
-Because of this, settlement is not processed properly for pool account trades.
-
-This change will fix the issue so that when a pool account is used, the system correctly processes settlement instructions without duplication issues.
-
-⸻
-
-Justification
-
-This fix is required to ensure proper settlement processing for pool account trades.
-
-If not fixed, settlement will remain incorrect for trades using pool accounts, which will impact business operations and reconciliation.
-
-This is required to support correct trade lifecycle and avoid settlement mismatch.
-
-⸻
-
-Implementation Plan
-
-1. Analyze current settlement handling for pool accounts – Application Team
-2. Update logic to handle pool account settlement correctly – Development Team
-3. Ensure duplicate settlement messages are handled properly
-4. Deploy changes to target environment – Release Team
-5. Perform validation testing after deployment – ITO/Application Team
-
-⸻
-
-Business Impact
-
-If this change is not implemented:
-
-* Settlement will not be completed correctly for pool account trades
-* Business will face reconciliation issues
-* Trade processing will be impacted
-* Manual intervention may be required
-
-During implementation:
-
-* No downtime expected
-* Minimal or no impact to ongoing operations
-
-⸻
-
-Technical Impact
-
-If this change is not implemented:
-
-* System will continue to generate duplicate settlement instructions
-* Settlement processing logic will fail for pool accounts
-* Data inconsistency between OMS and local system
-* Errors in settlement flow will continue
-
-This is an application-level change. No infrastructure impact.
-
-⸻
-
-Backout Plan
-
-1. Revert application changes to previous version – Release Team
-2. Restore previous settlement logic
-3. Validate system behavior after rollback
-
-⸻
-
-Post Implementation Verification Plan
-
-1. Execute test trades using pool accounts
-2. Verify settlement instructions are generated correctly
-3. Ensure no duplicate settlement messages
-4. Validate settlement completion in OMS and local system
-5. Confirm with business team
-
-⸻
-
-Additional Details
-
-* Change Type: Application Fix
-* Environment: Production / UAT (as applicable)
-* Downtime: Not required
-
-⸻
-
-If you want, I can also:
-✅ Make it more business-friendly for approval
-✅ Add UAT justification (if skipping testing)
-✅ Give very short summary for CAB”
+/**
+
+- Jawaad17.java
+- Banking Finance Calculator - SAR Balance Sheet
+- Calculates NIL/NII, exemptions, special rates, and totals
+- with all variables defined at the top for easy configuration.
+  */
+  public class Jawaad17 {
+  
+  // =========================================================
+  //  CONFIGURABLE VARIABLES — Edit these values as needed
+  // =========================================================
+  
+  // Core balance inputs (SAR)
+  static double L863 = 5_000_000.00;   // Eligible Average Balances reference
+  static double C885 = 4_800_000.00;   // Eligible SAR Balance
+  static double C888 = 336_000.00;     // Stat reserve deduction (C886 * 0.07)
+  static double C889 = 4_464_000.00;   // Eligible balances (C886 - C888)
+  
+  // Percentages — hard-coded values replaced with named constants
+  static double STAT_RESERVE_RATE      = 0.07;          // 7%   stat reserve deduction
+  static double VOF_ANNUAL_RATE        = 3.75 / 100.0;  // 3.75% VOF annual rate
+  static double DPF_ANNUAL_RATE        = 0.05 / 100.0;  // 0.05% Deposit Protection Fund
+  static double VAT_RATE               = 0.15;          // 15%  VAT
+  static double PIF_SPECIAL_RATE       = 0.15 / 100.0;  // 0.15%pa PIF Special Rate
+  static int    DAYS_IN_PERIOD         = 28;            // number of days in period
+  static int    DAYS_IN_YEAR           = 365;           // days in a year
+  
+  // Alinma Exemption adjustment (NIL NII)
+  static double E877 = -120_000.00;    // Alinma Exemption (negative = deduction)
+  static double D885 = C885;           // mirrors C885 after exemption column
+  
+  // =========================================================
+  //  DERIVED / CALCULATED VARIABLES
+  // =========================================================
+  
+  // — Before Exceptions column (C) —
+  static double C886 = C885;                                        // Eligible SAR Balance
+  static double C887 = C886 * STAT_RESERVE_RATE;                   // Less: Stat reserve
+  // C888 = C886 - C887  (eligible balances after reserve)
+  static double eligibleBalC = C886 - C887;
+  
+  // VOF / Deposit Protection Fund / HSS (Before Exceptions)
+  static double C891 = (C889 * VOF_ANNUAL_RATE / DAYS_IN_YEAR) * DAYS_IN_PERIOD;   // Computed VOF VOF
+  static double C892 = (C885 * DPF_ANNUAL_RATE / DAYS_IN_YEAR) * DAYS_IN_PERIOD;  // Deposit Protection Fund
+  static double C893 = C891 - C892;                                                 // HSS share (C891 - C892)
+  
+  // Total NII to be booked (Before Exceptions)
+  static double C894 = C893 * 0.88;    // Total NII * 0.88
+  static double C895 = C893;           // base for VAT calc
+  static double C896 = C895 * VAT_RATE; // VAT cost (15%)
+  static double claimFromSABB_C = sumRange(C894, C895, C896); // =SUM(C894:C896) — Claim from SABB
+  
+  // — Alinma Exemption column (D) —
+  static double D886 = D885;
+  static double D887 = D886 * STAT_RESERVE_RATE;
+  static double eligibleBalD = D886 - D887;
+  
+  static double D889 = eligibleBalD;
+  static double D891 = (D889 * VOF_ANNUAL_RATE / DAYS_IN_YEAR) * DAYS_IN_PERIOD;
+  static double D892 = (D885 * DPF_ANNUAL_RATE / DAYS_IN_YEAR) * DAYS_IN_PERIOD;
+  static double D893 = D891 - D892;
+  
+  static double D894 = D893 * 0.88;
+  static double D895 = D893;
+  static double D896 = D895 * VAT_RATE;
+  static double claimFromSABB_D = sumRange(D894, D895, D896);
+  
+  // — After Exceptions column (F) = SUM across columns —
+  static double F885 = sumRange(C885, D885);
+  static double F886 = sumRange(C886, D886);
+  static double F888 = sumRange(eligibleBalC, eligibleBalD);
+  static double F889 = sumRange(C889, D889);
+  static double F891 = sumRange(C891, D891);
+  static double F892 = sumRange(C892, D892);
+  static double F893 = sumRange(C893, D893);
+  static double F894 = sumRange(C894, D894);
+  static double F895 = sumRange(C895, D895);
+  static double F896 = sumRange(C896, D896);
+  static double claimFromSABB_F = sumRange(claimFromSABB_C, claimFromSABB_D);
+  
+  // =========================================================
+  //  HELPER
+  // =========================================================
+  static double sumRange(double… values) {
+  double total = 0;
+  for (double v : values) total += v;
+  return total;
+  }
+  
+  // =========================================================
+  //  FORMATTING HELPERS
+  // =========================================================
+  static String fmt(double v) {
+  return String.format(”%,15.2f”, v);
+  }
+  
+  static String col(String text, int width) {
+  if (text.length() > width) text = text.substring(0, width - 1);
+  return String.format(”%-” + width + “s”, text);
+  }
+  
+  static String colR(String text, int width) {
+  if (text.length() > width) text = text.substring(0, width - 1);
+  return String.format(”%” + width + “s”, text);
+  }
+  
+  // =========================================================
+  //  MAIN
+  // =========================================================
+  public static void main(String[] args) {
+  
+  ```
+   int w0 = 30, w1 = 20, w2 = 22, w3 = 22, w4 = 22, w5 = 22;
+   int totalWidth = w0 + w1 + w2 + w3 + w4 + w5 + 13;
+   String sep = "+" + "-".repeat(w0 + 2)
+                  + "+" + "-".repeat(w1 + 2)
+                  + "+" + "-".repeat(w2 + 2)
+                  + "+" + "-".repeat(w3 + 2)
+                  + "+" + "-".repeat(w4 + 2)
+                  + "+" + "-".repeat(w5 + 2) + "+";
+  
+   System.out.println("\n" + "=".repeat(totalWidth));
+   System.out.println("  JAWAAD 17 — SAR Balance Sheet Calculator (All amounts in SAR)");
+   System.out.println("=".repeat(totalWidth));
+  
+   // Header row
+   System.out.println(sep);
+   System.out.printf("| %-" + w0 + "s | %-" + w1 + "s | %-" + w2 + "s | %-" + w3 + "s | %-" + w4 + "s | %-" + w5 + "s |%n",
+           "Description", "SAR (Ref)", "Before Exceptions",
+           "Alinma Exempt (NIL NII)", "PIF Exempt (Remove)", "After Exceptions");
+   System.out.println(sep);
+  
+   // ---- Section 1: Eligible Balances ----
+   printRow(sep, w0, w1, w2, w3, w4, w5,
+           "Eligible Average Balances",
+           fmt(L863), "", "", "", "");
+   printRow(sep, w0, w1, w2, w3, w4, w5,
+           "Eligible SAR Balance",
+           "", fmt(C885), fmt(D885), "", fmt(F885));
+   System.out.println(sep);
+  
+   // ---- Section 2: Reserve Deduction ----
+   printRow(sep, w0, w1, w2, w3, w4, w5,
+           "Less: Stat Reserve (" + (int)(STAT_RESERVE_RATE*100) + "%)",
+           "", fmt(C887), fmt(D887), "", "");
+   printRow(sep, w0, w1, w2, w3, w4, w5,
+           "Eligible Balances (after reserve)",
+           "", fmt(eligibleBalC), fmt(eligibleBalD), "", fmt(F888));
+   System.out.println(sep);
+  
+   // ---- Section 3: VOF / DPF / HSS ----
+   printRow(sep, w0, w1, w2, w3, w4, w5,
+           "Computed VOF VOF",
+           "", fmt(C891), fmt(D891), "", fmt(F891));
+   printRow(sep, w0, w1, w2, w3, w4, w5,
+           "Deposit Protection Fund",
+           "", fmt(C892), fmt(D892), "", fmt(F892));
+   printRow(sep, w0, w1, w2, w3, w4, w5,
+           "HSS Share (VOF - DPF)",
+           "", fmt(C893), fmt(D893), "", fmt(F893));
+   System.out.println(sep);
+  
+   // ---- Section 4: Totals / VAT / Claim ----
+   printRow(sep, w0, w1, w2, w3, w4, w5,
+           "Total NII to be Booked",
+           "", fmt(C894), fmt(D894), "", fmt(F894));
+   printRow(sep, w0, w1, w2, w3, w4, w5,
+           "VAT Cost (" + (int)(VAT_RATE*100) + "%)",
+           "", fmt(C896), fmt(D896), "", fmt(F896));
+  
+   // Claim from SABB highlighted
+   System.out.println(sep);
+   System.out.printf("| %-" + w0 + "s | %-" + w1 + "s | %-" + w2 + "s | %-" + w3 + "s | %-" + w4 + "s | %-" + w5 + "s |%n",
+           "*** CLAIM FROM SABB ***",
+           "",
+           fmt(claimFromSABB_C),
+           fmt(claimFromSABB_D),
+           "",
+           fmt(claimFromSABB_F));
+   System.out.println(sep);
+  
+   // ---- Rate Summary ----
+   System.out.println("\n" + "=".repeat(totalWidth));
+   System.out.println("  RATE / CONSTANT SUMMARY");
+   System.out.println("=".repeat(totalWidth));
+   System.out.printf("  %-40s %s%n", "Stat Reserve Rate:", STAT_RESERVE_RATE * 100 + " %");
+   System.out.printf("  %-40s %s%n", "VOF Annual Rate:", VOF_ANNUAL_RATE * 100 + " %");
+   System.out.printf("  %-40s %s%n", "Deposit Protection Fund Rate:", DPF_ANNUAL_RATE * 100 + " %");
+   System.out.printf("  %-40s %s%n", "VAT Rate:", VAT_RATE * 100 + " %");
+   System.out.printf("  %-40s %s%n", "PIF Special Rate (pa):", PIF_SPECIAL_RATE * 100 + " %");
+   System.out.printf("  %-40s %d days%n", "Period Days:", DAYS_IN_PERIOD);
+   System.out.printf("  %-40s %d days%n", "Days in Year:", DAYS_IN_YEAR);
+   System.out.println("=".repeat(totalWidth) + "\n");
+  ```
+  
+  }
+  
+  static void printRow(String sep, int w0, int w1, int w2, int w3, int w4, int w5,
+  String desc, String c0, String c1, String c2, String c3, String c4) {
+  System.out.printf(”| %-” + w0 + “s | %” + w1 + “s | %” + w2 + “s | %” + w3 + “s | %” + w4 + “s | %” + w5 + “s |%n”,
+  desc, c0.trim(), c1.trim(), c2.trim(), c3.trim(), c4.trim());
+  }
+  }
 
   // -------------------End-----------------   
   </code></pre>
