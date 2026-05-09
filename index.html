@@ -84,7 +84,325 @@ button{
  // -------------------Start---------------
 
 
-package main;
+/**
+
+- =========================================================
+- Main.java
+- =========================================================
+- 
+- Entry point for the SAR Balance Sheet Calculator.
+- 
+- Responsibilities:
+- 1. Define all input values
+- 1. Call BalanceSheetService.calculateBalanceSheet()
+- 1. Receive BalanceSheetResult
+- 1. Print formatted table to console
+- 
+- Java Version : 1.8
+- 
+- =========================================================
+  */
+
+import service.BalanceSheetService;
+import service.BalanceSheetService.BalanceSheetResult;
+
+public class Main {
+
+```
+// =========================================================
+// INPUT VALUES
+// Define your actual data here — all other logic is in
+// BalanceSheetService.java
+// =========================================================
+
+// C — Before Exceptions
+static final double C_ELIGIBLE_AVG_BALANCE = 5_000_000.00;  // L863
+static final double C_SAR_BALANCE          = 4_800_000.00;  // C885
+
+// D — Alinma Exemption (NIL NII)
+// In Excel: =-E877  (negative of E877)
+static final double D_ELIGIBLE_AVG_BALANCE = -120_000.00;   // -E877
+static final double D_SAR_BALANCE          = 4_800_000.00;  // D885
+
+// E — PIF Exemption (Remove)
+// Blank in Excel — set to 0.0 unless data is provided
+static final double E_ELIGIBLE_AVG_BALANCE = 0.00;
+static final double E_SAR_BALANCE          = 0.00;
+
+// F — PIF Special Rate (0.15%pa)
+// Blank in Excel — set to 0.0 unless data is provided
+static final double F_ELIGIBLE_AVG_BALANCE = 0.00;
+static final double F_SAR_BALANCE          = 0.00;
+
+// =========================================================
+// TABLE LAYOUT CONSTANTS
+// =========================================================
+
+// Column widths
+private static final int W_LABEL = 30;
+private static final int W_COL   = 18;
+
+// Separator line
+private static final String SEP = "+"
+        + dash(W_LABEL + 2) + "+"
+        + dash(W_COL   + 2) + "+"
+        + dash(W_COL   + 2) + "+"
+        + dash(W_COL   + 2) + "+"
+        + dash(W_COL   + 2) + "+"
+        + dash(W_COL   + 2) + "+";
+
+private static final int TOTAL_WIDTH =
+        W_LABEL + (W_COL * 5) + 17;
+
+// =========================================================
+// MAIN
+// =========================================================
+
+public static void main(String[] args) {
+
+    // --------------------------------------------------
+    // STEP 1 : Create service instance
+    // --------------------------------------------------
+    BalanceSheetService service =
+            new BalanceSheetService();
+
+    // --------------------------------------------------
+    // STEP 2 : Call calculation — pass inputs, get result
+    // --------------------------------------------------
+    BalanceSheetResult result =
+            service.calculateBalanceSheet(
+
+                    // C — Before Exceptions
+                    C_ELIGIBLE_AVG_BALANCE,
+                    C_SAR_BALANCE,
+
+                    // D — Alinma Exemption
+                    D_ELIGIBLE_AVG_BALANCE,
+                    D_SAR_BALANCE,
+
+                    // E — PIF Exemption
+                    E_ELIGIBLE_AVG_BALANCE,
+                    E_SAR_BALANCE,
+
+                    // F — PIF Special Rate
+                    F_ELIGIBLE_AVG_BALANCE,
+                    F_SAR_BALANCE
+            );
+
+    // --------------------------------------------------
+    // STEP 3 : Print formatted table
+    // --------------------------------------------------
+    printTable(result);
+
+    // --------------------------------------------------
+    // STEP 4 : Print all raw values via toString()
+    // --------------------------------------------------
+    System.out.println(result);
+}
+
+// =========================================================
+// TABLE PRINTER
+// =========================================================
+
+/**
+ * Prints the full balance sheet in a formatted table
+ * that mirrors the Excel layout:
+ *
+ *   Col C = Before Exceptions
+ *   Col D = Alinma Exemption
+ *   Col E = PIF Exemption
+ *   Col F = PIF Special Rate
+ *   Col G = After Exceptions
+ */
+private static void printTable(BalanceSheetResult r) {
+
+    // ---- Title ----------------------------------------
+    System.out.println();
+    System.out.println(repeat("=", TOTAL_WIDTH));
+    System.out.printf(
+        "  JAWAAD 17 — SAR Balance Sheet Calculator" +
+        "  |  Period: %d days  |  Year: %d days%n",
+        BalanceSheetService.PERIOD_DAYS,
+        BalanceSheetService.YEAR_DAYS);
+    System.out.printf(
+        "  Rates: VOF=%.2f%%  DPF=%.4f%%  " +
+        "StatRes=%.0f%%  NII=%.0f%%  VAT=%.0f%%%n",
+        BalanceSheetService.VOF_RATE  * 100,
+        BalanceSheetService.DPF_RATE  * 100,
+        BalanceSheetService.STAT_RESERVE_RATE * 100,
+        BalanceSheetService.NII_FACTOR * 100,
+        BalanceSheetService.VAT_RATE   * 100);
+    System.out.println(repeat("=", TOTAL_WIDTH));
+
+    // ---- Header row -----------------------------------
+    System.out.println(SEP);
+    System.out.printf(
+        "| %-" + W_LABEL + "s " +
+        "| %" + W_COL + "s " +
+        "| %" + W_COL + "s " +
+        "| %" + W_COL + "s " +
+        "| %" + W_COL + "s " +
+        "| %" + W_COL + "s |%n",
+        "Description (SAR)",
+        "C: Before Except.",
+        "D: Alinma Exempt.",
+        "E: PIF Exempt.",
+        "F: PIF Spec.Rate",
+        "G: After Except.");
+    System.out.println(SEP);
+
+    // ---- Section 1 : Eligible Balances ---------------
+    printSectionHeader("ELIGIBLE BALANCES");
+    printRow("Eligible Avg Balance",
+            r.cEligibleAvgBalance,
+            r.dEligibleAvgBalance,
+            r.eEligibleAvgBalance,
+            r.fEligibleAvgBalance,
+            r.gEligibleAvgBalance);
+
+    printRow("Eligible SAR Balance",
+            r.cSarBalance,
+            r.dSarBalance,
+            r.eSarBalance,
+            r.fSarBalance,
+            r.gSarBalance);
+
+    System.out.println(SEP);
+
+    // ---- Section 2 : Reserve & Net Balance -----------
+    printSectionHeader("RESERVE & NET BALANCE");
+    printRow("Less: Stat Reserve (7%)",
+            r.cStatReserve,
+            r.dStatReserve,
+            r.eStatReserve,
+            r.fStatReserve,
+            r.gStatReserve);
+
+    printRow("Eligible Balance Net",
+            r.cEligibleBalNet,
+            r.dEligibleBalNet,
+            r.eEligibleBalNet,
+            r.fEligibleBalNet,
+            r.gEligibleBalNet);
+
+    System.out.println(SEP);
+
+    // ---- Section 3 : VOF / DPF / HSS -----------------
+    printSectionHeader("VOF / DPF / HSS SHARE");
+    printRow("Computed VOF VOF (3.75%)",
+            r.cVof,
+            r.dVof,
+            r.eVof,
+            r.fVof,
+            r.gVof);
+
+    printRow("Deposit Protection Fund",
+            r.cDpf,
+            r.dDpf,
+            r.eDpf,
+            r.fDpf,
+            r.gDpf);
+
+    printRow("HSS Share (VOF - DPF)",
+            r.cHssShare,
+            r.dHssShare,
+            r.eHssShare,
+            r.fHssShare,
+            r.gHssShare);
+
+    System.out.println(SEP);
+
+    // ---- Section 4 : NII / VAT / Claim ---------------
+    printSectionHeader("NII / VAT / CLAIM FROM SABB");
+    printRow("Total NII to be Booked",
+            r.cTotalNii,
+            r.dTotalNii,
+            r.eTotalNii,
+            r.fTotalNii,
+            r.gTotalNii);
+
+    printRow("VAT Cost (15%)",
+            r.cVatCost,
+            r.dVatCost,
+            r.eVatCost,
+            r.fVatCost,
+            r.gVatCost);
+
+    System.out.println(SEP);
+
+    // ---- Final row : Claim from SABB -----------------
+    System.out.printf(
+        "| %-" + W_LABEL + "s " +
+        "| %" + W_COL + "s " +
+        "| %" + W_COL + "s " +
+        "| %" + W_COL + "s " +
+        "| %" + W_COL + "s " +
+        "| %" + W_COL + "s |%n",
+        "*** CLAIM FROM SABB ***",
+        fmt(r.cClaimFromSabb),
+        fmt(r.dClaimFromSabb),
+        fmt(r.eClaimFromSabb),
+        fmt(r.fClaimFromSabb),
+        fmt(r.gClaimFromSabb));
+
+    System.out.println(SEP);
+    System.out.println();
+}
+
+// =========================================================
+// HELPER METHODS
+// =========================================================
+
+/** Prints a section header row spanning all columns */
+private static void printSectionHeader(String title) {
+    int innerWidth = TOTAL_WIDTH - 2;
+    System.out.printf(
+        "| %-" + innerWidth + "s|%n",
+        "  " + title);
+}
+
+/** Prints one data row with label + 5 numeric columns */
+private static void printRow(
+        String label,
+        double c, double d, double e,
+        double f, double g) {
+
+    System.out.printf(
+        "| %-" + W_LABEL + "s " +
+        "| %" + W_COL + "s " +
+        "| %" + W_COL + "s " +
+        "| %" + W_COL + "s " +
+        "| %" + W_COL + "s " +
+        "| %" + W_COL + "s |%n",
+        label,
+        fmt(c), fmt(d), fmt(e), fmt(f), fmt(g));
+}
+
+/** Formats a double as comma-separated SAR amount */
+private static String fmt(double v) {
+    return String.format("%,.2f", v);
+}
+
+/** Builds a string of n dashes */
+private static String dash(int n) {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < n; i++) sb.append('-');
+    return sb.toString();
+}
+
+/** Repeats a character n times */
+private static String repeat(String ch, int n) {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < n; i++) sb.append(ch);
+    return sb.toString();
+}
+```
+
+}
+
+
+
+... main;
 
 import service.BalanceSheetService;
 import service.BalanceSheetService.BalanceSheetResult;
@@ -139,8 +457,500 @@ public class MainClass {
     }
 }
 
+-----
+package service;
 
+/**
 
+- =========================================================
+- BalanceSheetService.java
+- =========================================================
+- 
+- Pure calculation service for SAR Balance Sheet (Table 2).
+- 
+- Calculates:
+- C = Before Exceptions
+- D = Alinma Exemption  (NIL NII)
+- E = PIF Exemption     (Remove)
+- F = PIF Special Rate  (0.15%pa)
+- G = After Exceptions  (SUM of C:F)
+- 
+- Formulas sourced directly from Excel:
+- Row 888 : =C886*0.07
+- Row 889 : =C886-C888
+- Row 891 : =(C889*3.75%/365*28)
+- Row 892 : =C885*0.05%/365*28
+- Row 893 : =C891-C892
+- Row 895 : =C893*0.88
+- Row 896 : =C895*15%
+- Row 897 : =SUM(C895:C896)   <– Claim from SABB
+- Col G   : =SUM(C:F) for each row
+- 
+- Java Version : 1.8
+- 
+- =========================================================
+  */
+  public class BalanceSheetService {
+  
+  // =========================================================
+  // CONSTANTS  (match Excel hard-coded values exactly)
+  // =========================================================
+  
+  /** Stat reserve deduction rate — Excel: *0.07 */
+  public static final double STAT_RESERVE_RATE = 0.07;
+  
+  /** VOF annual rate — Excel: 3.75% */
+  public static final double VOF_RATE = 3.75 / 100.0;
+  
+  /** Deposit Protection Fund annual rate — Excel: 0.05% */
+  public static final double DPF_RATE = 0.05 / 100.0;
+  
+  /** NII factor (HSS share) — Excel: *0.88 */
+  public static final double NII_FACTOR = 0.88;
+  
+  /** VAT rate — Excel: *15% */
+  public static final double VAT_RATE = 0.15;
+  
+  /** Days in the period — Excel: 28 */
+  public static final int PERIOD_DAYS = 28;
+  
+  /** Days in a year — Excel: 365 */
+  public static final int YEAR_DAYS = 365;
+  
+  // =========================================================
+  // RESULT CLASS
+  // =========================================================
+  
+  /**
+  - Holds every computed value from the balance sheet.
+  - 
+  - Prefix legend:
+  - c = Before Exceptions      (Excel col C)
+  - d = Alinma Exemption       (Excel col D)
+  - e = PIF Exemption          (Excel col E)
+  - f = PIF Special Rate       (Excel col F)
+  - g = After Exceptions       (Excel col G = SUM C:F)
+    */
+    public static class BalanceSheetResult {
+  
+  ```
+   // -------------------------------------------------
+   // C — Before Exceptions
+   // -------------------------------------------------
+   public double cEligibleAvgBalance;   // Row 885 =L863
+   public double cSarBalance;           // Row 886 =C885
+   public double cStatReserve;          // Row 888 =C886*0.07
+   public double cEligibleBalNet;       // Row 889 =C886-C888
+   public double cVof;                  // Row 891 =(C889*3.75%/365*28)
+   public double cDpf;                  // Row 892 =C885*0.05%/365*28
+   public double cHssShare;             // Row 893 =C891-C892
+   public double cTotalNii;             // Row 895 =C893*0.88
+   public double cVatCost;              // Row 896 =C895*15%
+   public double cClaimFromSabb;        // Row 897 =SUM(C895:C896)
+  
+   // -------------------------------------------------
+   // D — Alinma Exemption (NIL NII)
+   // -------------------------------------------------
+   public double dEligibleAvgBalance;   // Row 885 =-E877
+   public double dSarBalance;           // Row 886 =D885
+   public double dStatReserve;          // Row 888 =D886*0.07
+   public double dEligibleBalNet;       // Row 889 =D886-D888
+   public double dVof;                  // Row 891 =(D889*3.75%/365*28)
+   public double dDpf;                  // Row 892 =D885*0.05%/365*28
+   public double dHssShare;             // Row 893 =D891-D892
+   public double dTotalNii;             // Row 895 =D893*0.88
+   public double dVatCost;              // Row 896 =D895*15%
+   public double dClaimFromSabb;        // Row 897 =SUM(D895:D896)
+  
+   // -------------------------------------------------
+   // E — PIF Exemption (Remove)
+   // -------------------------------------------------
+   public double eEligibleAvgBalance;
+   public double eSarBalance;
+   public double eStatReserve;
+   public double eEligibleBalNet;
+   public double eVof;
+   public double eDpf;
+   public double eHssShare;
+   public double eTotalNii;
+   public double eVatCost;
+   public double eClaimFromSabb;
+  
+   // -------------------------------------------------
+   // F — PIF Special Rate (0.15%pa)
+   // -------------------------------------------------
+   public double fEligibleAvgBalance;
+   public double fSarBalance;
+   public double fStatReserve;
+   public double fEligibleBalNet;
+   public double fVof;
+   public double fDpf;
+   public double fHssShare;
+   public double fTotalNii;
+   public double fVatCost;
+   public double fClaimFromSabb;
+  
+   // -------------------------------------------------
+   // G — After Exceptions  (Excel: =SUM(C:F) per row)
+   // -------------------------------------------------
+   public double gEligibleAvgBalance;
+   public double gSarBalance;
+   public double gStatReserve;
+   public double gEligibleBalNet;
+   public double gVof;
+   public double gDpf;
+   public double gHssShare;
+   public double gTotalNii;
+   public double gVatCost;
+   public double gClaimFromSabb;
+  
+   // -------------------------------------------------
+   // toString — prints every field for easy debugging
+   // -------------------------------------------------
+   @Override
+   public String toString() {
+       StringBuilder sb = new StringBuilder();
+       sb.append("\n========================================")
+         .append("========================================\n")
+         .append("  BalanceSheetResult — All Values\n")
+         .append("========================================")
+         .append("========================================\n");
+  
+       appendSection(sb, "C — Before Exceptions",
+               cEligibleAvgBalance, cSarBalance, cStatReserve,
+               cEligibleBalNet, cVof, cDpf, cHssShare,
+               cTotalNii, cVatCost, cClaimFromSabb);
+  
+       appendSection(sb, "D — Alinma Exemption (NIL NII)",
+               dEligibleAvgBalance, dSarBalance, dStatReserve,
+               dEligibleBalNet, dVof, dDpf, dHssShare,
+               dTotalNii, dVatCost, dClaimFromSabb);
+  
+       appendSection(sb, "E — PIF Exemption (Remove)",
+               eEligibleAvgBalance, eSarBalance, eStatReserve,
+               eEligibleBalNet, eVof, eDpf, eHssShare,
+               eTotalNii, eVatCost, eClaimFromSabb);
+  
+       appendSection(sb, "F — PIF Special Rate (0.15%pa)",
+               fEligibleAvgBalance, fSarBalance, fStatReserve,
+               fEligibleBalNet, fVof, fDpf, fHssShare,
+               fTotalNii, fVatCost, fClaimFromSabb);
+  
+       appendSection(sb, "G — After Exceptions (SUM C:F)",
+               gEligibleAvgBalance, gSarBalance, gStatReserve,
+               gEligibleBalNet, gVof, gDpf, gHssShare,
+               gTotalNii, gVatCost, gClaimFromSabb);
+  
+       return sb.toString();
+   }
+  
+   private void appendSection(StringBuilder sb, String title,
+           double eligibleAvg, double sarBal, double statRes,
+           double eligibleNet, double vof, double dpf, double hss,
+           double totalNii, double vat, double claim) {
+  
+       sb.append(String.format("%n  [ %s ]%n", title));
+       sb.append(String.format("    %-30s : %,15.2f%n", "Eligible Avg Balance",  eligibleAvg));
+       sb.append(String.format("    %-30s : %,15.2f%n", "SAR Balance",           sarBal));
+       sb.append(String.format("    %-30s : %,15.2f%n", "Stat Reserve",          statRes));
+       sb.append(String.format("    %-30s : %,15.2f%n", "Eligible Balance Net",  eligibleNet));
+       sb.append(String.format("    %-30s : %,15.2f%n", "VOF",                   vof));
+       sb.append(String.format("    %-30s : %,15.2f%n", "DPF",                   dpf));
+       sb.append(String.format("    %-30s : %,15.2f%n", "HSS Share",             hss));
+       sb.append(String.format("    %-30s : %,15.2f%n", "Total NII",             totalNii));
+       sb.append(String.format("    %-30s : %,15.2f%n", "VAT Cost",              vat));
+       sb.append(String.format("    %-30s : %,15.2f%n", "Claim from SABB",       claim));
+   }
+  ```
+  
+  }
+  
+  // =========================================================
+  // MAIN CALCULATION METHOD
+  // =========================================================
+  
+  /**
+  - Calculates all columns of the SAR Balance Sheet.
+  - 
+  - All rates and day counts are taken from the constants
+  - defined at the top of this class (matching Excel exactly).
+  - 
+  - @param cEligibleAvgBalance   Row 885 Col C  =L863
+  - @param cSarBalance           Row 886 Col C  =C885
+  - @param dEligibleAvgBalance   Row 885 Col D  =-E877
+  - @param dSarBalance           Row 886 Col D  =D885
+  - @param eEligibleAvgBalance   Row 885 Col E  (PIF Exemption input)
+  - @param eSarBalance           Row 886 Col E  (PIF Exemption input)
+  - @param fEligibleAvgBalance   Row 885 Col F  (PIF Special Rate input)
+  - @param fSarBalance           Row 886 Col F  (PIF Special Rate input)
+  - @return BalanceSheetResult   object with all 50 computed values
+    */
+    public BalanceSheetResult calculateBalanceSheet(
+    
+    ```
+     // C — Before Exceptions inputs
+     double cEligibleAvgBalance,
+     double cSarBalance,
+    
+     // D — Alinma Exemption inputs
+     double dEligibleAvgBalance,
+     double dSarBalance,
+    
+     // E — PIF Exemption inputs
+     double eEligibleAvgBalance,
+     double eSarBalance,
+    
+     // F — PIF Special Rate inputs
+     double fEligibleAvgBalance,
+     double fSarBalance
+    ```
+  
+  ) {
+  
+  ```
+   // ---- Input Validation --------------------------------
+   if (YEAR_DAYS <= 0) {
+       throw new IllegalArgumentException(
+               "YEAR_DAYS must be > 0");
+   }
+   if (PERIOD_DAYS < 0) {
+       throw new IllegalArgumentException(
+               "PERIOD_DAYS must be >= 0");
+   }
+  
+   // ---- Create result object ----------------------------
+   BalanceSheetResult r = new BalanceSheetResult();
+  
+   // =====================================================
+   // C — BEFORE EXCEPTIONS
+   // Excel col C, rows 885-897
+   // =====================================================
+  
+   // Row 885 : =L863
+   r.cEligibleAvgBalance = cEligibleAvgBalance;
+  
+   // Row 886 : =C885
+   r.cSarBalance = cSarBalance;
+  
+   // Row 888 : =C886*0.07
+   r.cStatReserve =
+           r.cSarBalance * STAT_RESERVE_RATE;
+  
+   // Row 889 : =C886-C888
+   r.cEligibleBalNet =
+           r.cSarBalance - r.cStatReserve;
+  
+   // Row 891 : =(C889*3.75%/365*28)
+   r.cVof =
+           (r.cEligibleBalNet * VOF_RATE
+                   / YEAR_DAYS) * PERIOD_DAYS;
+  
+   // Row 892 : =C885*0.05%/365*28
+   r.cDpf =
+           (r.cSarBalance * DPF_RATE
+                   / YEAR_DAYS) * PERIOD_DAYS;
+  
+   // Row 893 : =C891-C892
+   r.cHssShare =
+           r.cVof - r.cDpf;
+  
+   // Row 895 : =C893*0.88
+   r.cTotalNii =
+           r.cHssShare * NII_FACTOR;
+  
+   // Row 896 : =C895*15%
+   r.cVatCost =
+           r.cTotalNii * VAT_RATE;
+  
+   // Row 897 : =SUM(C895:C896)
+   r.cClaimFromSabb =
+           r.cTotalNii + r.cVatCost;
+  
+   // =====================================================
+   // D — ALINMA EXEMPTION (NIL NII)
+   // Excel col D, rows 885-897
+   // =====================================================
+  
+   // Row 885 : =-E877
+   r.dEligibleAvgBalance = dEligibleAvgBalance;
+  
+   // Row 886 : =D885
+   r.dSarBalance = dSarBalance;
+  
+   // Row 888 : =D886*0.07
+   r.dStatReserve =
+           r.dSarBalance * STAT_RESERVE_RATE;
+  
+   // Row 889 : =D886-D888
+   r.dEligibleBalNet =
+           r.dSarBalance - r.dStatReserve;
+  
+   // Row 891 : =(D889*3.75%/365*28)
+   r.dVof =
+           (r.dEligibleBalNet * VOF_RATE
+                   / YEAR_DAYS) * PERIOD_DAYS;
+  
+   // Row 892 : =D885*0.05%/365*28
+   r.dDpf =
+           (r.dSarBalance * DPF_RATE
+                   / YEAR_DAYS) * PERIOD_DAYS;
+  
+   // Row 893 : =D891-D892
+   r.dHssShare =
+           r.dVof - r.dDpf;
+  
+   // Row 895 : =D893*0.88
+   r.dTotalNii =
+           r.dHssShare * NII_FACTOR;
+  
+   // Row 896 : =D895*15%
+   r.dVatCost =
+           r.dTotalNii * VAT_RATE;
+  
+   // Row 897 : =SUM(D895:D896)
+   r.dClaimFromSabb =
+           r.dTotalNii + r.dVatCost;
+  
+   // =====================================================
+   // E — PIF EXEMPTION (Remove)
+   // Excel col E, rows 885-897
+   // =====================================================
+  
+   r.eEligibleAvgBalance = eEligibleAvgBalance;
+  
+   r.eSarBalance = eSarBalance;
+  
+   r.eStatReserve =
+           r.eSarBalance * STAT_RESERVE_RATE;
+  
+   r.eEligibleBalNet =
+           r.eSarBalance - r.eStatReserve;
+  
+   r.eVof =
+           (r.eEligibleBalNet * VOF_RATE
+                   / YEAR_DAYS) * PERIOD_DAYS;
+  
+   r.eDpf =
+           (r.eSarBalance * DPF_RATE
+                   / YEAR_DAYS) * PERIOD_DAYS;
+  
+   r.eHssShare =
+           r.eVof - r.eDpf;
+  
+   r.eTotalNii =
+           r.eHssShare * NII_FACTOR;
+  
+   r.eVatCost =
+           r.eTotalNii * VAT_RATE;
+  
+   r.eClaimFromSabb =
+           r.eTotalNii + r.eVatCost;
+  
+   // =====================================================
+   // F — PIF SPECIAL RATE (0.15%pa)
+   // Excel col F, rows 885-897
+   // =====================================================
+  
+   r.fEligibleAvgBalance = fEligibleAvgBalance;
+  
+   r.fSarBalance = fSarBalance;
+  
+   r.fStatReserve =
+           r.fSarBalance * STAT_RESERVE_RATE;
+  
+   r.fEligibleBalNet =
+           r.fSarBalance - r.fStatReserve;
+  
+   r.fVof =
+           (r.fEligibleBalNet * VOF_RATE
+                   / YEAR_DAYS) * PERIOD_DAYS;
+  
+   r.fDpf =
+           (r.fSarBalance * DPF_RATE
+                   / YEAR_DAYS) * PERIOD_DAYS;
+  
+   r.fHssShare =
+           r.fVof - r.fDpf;
+  
+   r.fTotalNii =
+           r.fHssShare * NII_FACTOR;
+  
+   r.fVatCost =
+           r.fTotalNii * VAT_RATE;
+  
+   r.fClaimFromSabb =
+           r.fTotalNii + r.fVatCost;
+  
+   // =====================================================
+   // G — AFTER EXCEPTIONS
+   // Excel col G: =SUM(C:F) for every row
+   // =====================================================
+  
+   r.gEligibleAvgBalance =
+           r.cEligibleAvgBalance
+                   + r.dEligibleAvgBalance
+                   + r.eEligibleAvgBalance
+                   + r.fEligibleAvgBalance;
+  
+   r.gSarBalance =
+           r.cSarBalance
+                   + r.dSarBalance
+                   + r.eSarBalance
+                   + r.fSarBalance;
+  
+   r.gStatReserve =
+           r.cStatReserve
+                   + r.dStatReserve
+                   + r.eStatReserve
+                   + r.fStatReserve;
+  
+   r.gEligibleBalNet =
+           r.cEligibleBalNet
+                   + r.dEligibleBalNet
+                   + r.eEligibleBalNet
+                   + r.fEligibleBalNet;
+  
+   r.gVof =
+           r.cVof
+                   + r.dVof
+                   + r.eVof
+                   + r.fVof;
+  
+   r.gDpf =
+           r.cDpf
+                   + r.dDpf
+                   + r.eDpf
+                   + r.fDpf;
+  
+   r.gHssShare =
+           r.cHssShare
+                   + r.dHssShare
+                   + r.eHssShare
+                   + r.fHssShare;
+  
+   r.gTotalNii =
+           r.cTotalNii
+                   + r.dTotalNii
+                   + r.eTotalNii
+                   + r.fTotalNii;
+  
+   r.gVatCost =
+           r.cVatCost
+                   + r.dVatCost
+                   + r.eVatCost
+                   + r.fVatCost;
+  
+   r.gClaimFromSabb =
+           r.cClaimFromSabb
+                   + r.dClaimFromSabb
+                   + r.eClaimFromSabb
+                   + r.fClaimFromSabb;
+  
+   return r;
+  ```
+  
+  }
+  }
 
 jjjjmmmnngf
 
