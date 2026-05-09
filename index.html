@@ -84,6 +84,353 @@ button{
  // -------------------Start-----------------
 
 
+package service;
+
+public class BalanceSheetService {
+
+    public static class BalanceSheetResult {
+
+        // BEFORE EXCEPTION
+        private double cEligibleAvgBalance;
+        private double cSarBalance;
+        private double cStatReserve;
+        private double cEligibleBalNet;
+        private double cVof;
+        private double cDpf;
+        private double cHssShare;
+        private double cTotalNii;
+        private double cVatCost;
+        private double cClaimFromSabb;
+
+        // ALINMA EXCEPTION
+        private double dEligibleAvgBalance;
+        private double dSarBalance;
+        private double dStatReserve;
+        private double dEligibleBalNet;
+        private double dVof;
+        private double dDpf;
+        private double dHssShare;
+        private double dTotalNii;
+        private double dVatCost;
+        private double dClaimFromSabb;
+
+        // PIF EXCEPTION
+        private double eEligibleAvgBalance;
+        private double eSarBalance;
+        private double eStatReserve;
+        private double eEligibleBalNet;
+        private double eVof;
+        private double eDpf;
+        private double eHssShare;
+        private double eTotalNii;
+        private double eVatCost;
+        private double eClaimFromSabb;
+
+        // PIF SPECIAL RATE
+        private double fEligibleAvgBalance;
+        private double fSarBalance;
+        private double fStatReserve;
+        private double fEligibleBalNet;
+        private double fVof;
+        private double fDpf;
+        private double fHssShare;
+        private double fTotalNii;
+        private double fVatCost;
+        private double fClaimFromSabb;
+
+        // AFTER EXCEPTION
+        private double gEligibleAvgBalance;
+        private double gSarBalance;
+        private double gStatReserve;
+        private double gEligibleBalNet;
+        private double gVof;
+        private double gDpf;
+        private double gHssShare;
+        private double gTotalNii;
+        private double gVatCost;
+        private double gClaimFromSabb;
+
+        // GETTERS
+        public double getcEligibleAvgBalance() { return cEligibleAvgBalance; }
+        public double getcSarBalance() { return cSarBalance; }
+        public double getcStatReserve() { return cStatReserve; }
+        public double getcEligibleBalNet() { return cEligibleBalNet; }
+        public double getcVof() { return cVof; }
+        public double getcDpf() { return cDpf; }
+        public double getcHssShare() { return cHssShare; }
+        public double getcTotalNii() { return cTotalNii; }
+        public double getcVatCost() { return cVatCost; }
+        public double getcClaimFromSabb() { return cClaimFromSabb; }
+
+        public double getdEligibleAvgBalance() { return dEligibleAvgBalance; }
+        public double getdSarBalance() { return dSarBalance; }
+        public double getdStatReserve() { return dStatReserve; }
+        public double getdEligibleBalNet() { return dEligibleBalNet; }
+        public double getdVof() { return dVof; }
+        public double getdDpf() { return dDpf; }
+        public double getdHssShare() { return dHssShare; }
+        public double getdTotalNii() { return dTotalNii; }
+        public double getdVatCost() { return dVatCost; }
+        public double getdClaimFromSabb() { return dClaimFromSabb; }
+
+        public double geteEligibleAvgBalance() { return eEligibleAvgBalance; }
+        public double geteSarBalance() { return eSarBalance; }
+        public double geteStatReserve() { return eStatReserve; }
+        public double geteEligibleBalNet() { return eEligibleBalNet; }
+        public double geteVof() { return eVof; }
+        public double geteDpf() { return eDpf; }
+        public double geteHssShare() { return eHssShare; }
+        public double geteTotalNii() { return eTotalNii; }
+        public double geteVatCost() { return eVatCost; }
+        public double geteClaimFromSabb() { return eClaimFromSabb; }
+
+        public double getfEligibleAvgBalance() { return fEligibleAvgBalance; }
+        public double getfSarBalance() { return fSarBalance; }
+        public double getfStatReserve() { return fStatReserve; }
+        public double getfEligibleBalNet() { return fEligibleBalNet; }
+        public double getfVof() { return fVof; }
+        public double getfDpf() { return fDpf; }
+        public double getfHssShare() { return fHssShare; }
+        public double getfTotalNii() { return fTotalNii; }
+        public double getfVatCost() { return fVatCost; }
+        public double getfClaimFromSabb() { return fClaimFromSabb; }
+
+        public double getgEligibleAvgBalance() { return gEligibleAvgBalance; }
+        public double getgSarBalance() { return gSarBalance; }
+        public double getgStatReserve() { return gStatReserve; }
+        public double getgEligibleBalNet() { return gEligibleBalNet; }
+        public double getgVof() { return gVof; }
+        public double getgDpf() { return gDpf; }
+        public double getgHssShare() { return gHssShare; }
+        public double getgTotalNii() { return gTotalNii; }
+        public double getgVatCost() { return gVatCost; }
+        public double getgClaimFromSabb() { return gClaimFromSabb; }
+    }
+
+    public BalanceSheetResult calculateBalanceSheet(
+
+            double eligibleAvgBalance,
+            double sarBalance,
+            double statReserveRate,
+            double vofRate,
+            double dpfRate,
+            double niiFactor,
+            double vatRate,
+            int days,
+            int yearDays
+
+    ) {
+
+        BalanceSheetResult r = new BalanceSheetResult();
+
+        // =====================================================
+        // BEFORE EXCEPTION
+        // =====================================================
+
+        r.cEligibleAvgBalance = eligibleAvgBalance;
+        r.cSarBalance = sarBalance;
+
+        r.cStatReserve =
+                sarBalance * statReserveRate;
+
+        r.cEligibleBalNet =
+                sarBalance - r.cStatReserve;
+
+        r.cVof =
+                (r.cEligibleBalNet * vofRate / yearDays)
+                        * days;
+
+        r.cDpf =
+                (sarBalance * dpfRate / yearDays)
+                        * days;
+
+        r.cHssShare =
+                r.cVof - r.cDpf;
+
+        r.cTotalNii =
+                r.cHssShare * niiFactor;
+
+        r.cVatCost =
+                r.cTotalNii * vatRate;
+
+        r.cClaimFromSabb =
+                r.cTotalNii + r.cVatCost;
+
+        // =====================================================
+        // ALINMA EXCEPTION
+        // =====================================================
+
+        r.dEligibleAvgBalance = 100000;
+        r.dSarBalance = 100000;
+
+        r.dStatReserve =
+                r.dSarBalance * statReserveRate;
+
+        r.dEligibleBalNet =
+                r.dSarBalance - r.dStatReserve;
+
+        r.dVof =
+                (r.dEligibleBalNet * vofRate / yearDays)
+                        * days;
+
+        r.dDpf =
+                (r.dSarBalance * dpfRate / yearDays)
+                        * days;
+
+        r.dHssShare =
+                r.dVof - r.dDpf;
+
+        r.dTotalNii =
+                r.dHssShare * niiFactor;
+
+        r.dVatCost =
+                r.dTotalNii * vatRate;
+
+        r.dClaimFromSabb =
+                r.dTotalNii + r.dVatCost;
+
+        // =====================================================
+        // PIF EXCEPTION
+        // =====================================================
+
+        r.eEligibleAvgBalance = 50000;
+        r.eSarBalance = 50000;
+
+        r.eStatReserve =
+                r.eSarBalance * statReserveRate;
+
+        r.eEligibleBalNet =
+                r.eSarBalance - r.eStatReserve;
+
+        r.eVof =
+                (r.eEligibleBalNet * vofRate / yearDays)
+                        * days;
+
+        r.eDpf =
+                (r.eSarBalance * dpfRate / yearDays)
+                        * days;
+
+        r.eHssShare =
+                r.eVof - r.eDpf;
+
+        r.eTotalNii =
+                r.eHssShare * niiFactor;
+
+        r.eVatCost =
+                r.eTotalNii * vatRate;
+
+        r.eClaimFromSabb =
+                r.eTotalNii + r.eVatCost;
+
+        // =====================================================
+        // PIF SPECIAL RATE
+        // =====================================================
+
+        r.fEligibleAvgBalance = 25000;
+        r.fSarBalance = 25000;
+
+        r.fStatReserve =
+                r.fSarBalance * statReserveRate;
+
+        r.fEligibleBalNet =
+                r.fSarBalance - r.fStatReserve;
+
+        r.fVof =
+                (r.fEligibleBalNet * vofRate / yearDays)
+                        * days;
+
+        r.fDpf =
+                (r.fSarBalance * dpfRate / yearDays)
+                        * days;
+
+        r.fHssShare =
+                r.fVof - r.fDpf;
+
+        r.fTotalNii =
+                r.fHssShare * niiFactor;
+
+        r.fVatCost =
+                r.fTotalNii * vatRate;
+
+        r.fClaimFromSabb =
+                r.fTotalNii + r.fVatCost;
+
+        // =====================================================
+        // AFTER EXCEPTION
+        // SUM OF ALL COLUMNS
+        // =====================================================
+
+        r.gEligibleAvgBalance =
+                r.cEligibleAvgBalance
+                        + r.dEligibleAvgBalance
+                        + r.eEligibleAvgBalance
+                        + r.fEligibleAvgBalance;
+
+        r.gSarBalance =
+                r.cSarBalance
+                        + r.dSarBalance
+                        + r.eSarBalance
+                        + r.fSarBalance;
+
+        r.gStatReserve =
+                r.cStatReserve
+                        + r.dStatReserve
+                        + r.eStatReserve
+                        + r.fStatReserve;
+
+        r.gEligibleBalNet =
+                r.cEligibleBalNet
+                        + r.dEligibleBalNet
+                        + r.eEligibleBalNet
+                        + r.fEligibleBalNet;
+
+        r.gVof =
+                r.cVof
+                        + r.dVof
+                        + r.eVof
+                        + r.fVof;
+
+        r.gDpf =
+                r.cDpf
+                        + r.dDpf
+                        + r.eDpf
+                        + r.fDpf;
+
+        r.gHssShare =
+                r.cHssShare
+                        + r.dHssShare
+                        + r.eHssShare
+                        + r.fHssShare;
+
+        r.gTotalNii =
+                r.cTotalNii
+                        + r.dTotalNii
+                        + r.eTotalNii
+                        + r.fTotalNii;
+
+        r.gVatCost =
+                r.cVatCost
+                        + r.dVatCost
+                        + r.eVatCost
+                        + r.fVatCost;
+
+        r.gClaimFromSabb =
+                r.cClaimFromSabb
+                        + r.dClaimFromSabb
+                        + r.eClaimFromSabb
+                        + r.fClaimFromSabb;
+
+        return r;
+    }
+}
+
+
+
+
+
+
+kkkkkkkjjjj
+
 
 
 package service;
