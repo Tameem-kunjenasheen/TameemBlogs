@@ -84,6 +84,118 @@ button{
  // -------------------Start-----------------
 
 
+
+
+package service;
+public class Table2Printer {
+    public static void printTable2(
+            BalanceSheetService.BalanceSheetResult r) {
+        System.out.println("==============================================================");
+        System.out.println("                        TABLE 2                               ");
+        System.out.println("==============================================================");
+        System.out.printf("%-35s %-20s %-20s %-20s%n",
+                "Description",
+                "Before Exception",
+                "Alinma Exception",
+                "After Exception");
+        System.out.println("--------------------------------------------------------------");
+        // Eligible Average Balance
+        System.out.printf("%-35s %-20.2f %-20.2f %-20.2f%n",
+                "Eligible Average Balances",
+                r.getEligibleAvgBalance(),
+                r.getEligibleAvgBalance(),
+                r.getEligibleAvgBalance() + r.getEligibleAvgBalance());
+        // Eligible SAR Balance
+        System.out.printf("%-35s %-20.2f %-20.2f %-20.2f%n",
+                "Eligible SAR Balance",
+                r.getSarBalance(),
+                r.getSarBalance(),
+                r.getfSarBalance());
+        // Stat Reserve
+        System.out.printf("%-35s %-20.2f %-20.2f %-20.2f%n",
+                "Less: Stat Reserve Deduction",
+                r.getcStatReserve(),
+                r.getdStatReserve(),
+                r.getcStatReserve() + r.getdStatReserve());
+        // Eligible Balance Net
+        System.out.printf("%-35s %-20.2f %-20.2f %-20.2f%n",
+                "Eligible Balances",
+                r.getcEligibleBalNet(),
+                r.getdEligibleBalNet(),
+                r.getfEligibleBalNet());
+        // VOF
+        System.out.printf("%-35s %-20.2f %-20.2f %-20.2f%n",
+                "Computed VOF",
+                r.getcVof(),
+                r.getdVof(),
+                r.getfVof());
+        // DPF
+        System.out.printf("%-35s %-20.2f %-20.2f %-20.2f%n",
+                "Deposit Protection Fund",
+                r.getcDpf(),
+                r.getdDpf(),
+                r.getfDpf());
+        // HSS Share
+        System.out.printf("%-35s %-20.2f %-20.2f %-20.2f%n",
+                "HSS Share",
+                r.getcHssShare(),
+                r.getdHssShare(),
+                r.getfHssShare());
+        // Total NII
+        System.out.printf("%-35s %-20.2f %-20.2f %-20.2f%n",
+                "Total NII To Be Booked",
+                r.getcTotalNii(),
+                r.getdTotalNii(),
+                r.getfTotalNii());
+        // VAT
+        System.out.printf("%-35s %-20.2f %-20.2f %-20.2f%n",
+                "VAT Cost",
+                r.getcVatCost(),
+                r.getdVatCost(),
+                r.getfVatCost());
+        // Claim From SABB
+        System.out.printf("%-35s %-20.2f %-20.2f %-20.2f%n",
+                "Claim From SABB",
+                r.getcClaimFromSabb(),
+                r.getdClaimFromSabb(),
+                r.getfClaimFromSabb());
+        System.out.println("==============================================================");
+    }
+}
+
+MAIN CLASS
+
+package main;
+import service.BalanceSheetService;
+import service.BalanceSheetService.BalanceSheetResult;
+import service.Table2Printer;
+public class MainClass {
+    public static void main(String[] args) {
+        BalanceSheetService service =
+                new BalanceSheetService();
+        BalanceSheetResult result =
+                service.calculateBalanceSheet(
+                        5000000,
+                        4800000,
+                        0.07,
+                        3.75 / 100,
+                        0.05 / 100,
+                        0.88,
+                        0.15,
+                        28,
+                        365
+                );
+        // Print all values
+        Table2Printer.printTable2(result);
+    }
+}
+
+
+hhhhh
+
+
+
+
 package service;
 /**
  * Balance Sheet Calculation Service
