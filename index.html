@@ -83,7 +83,333 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
+
+package service;
 /**
+ * Balance Sheet Calculation Service
+ *
+ * This class contains:
+ * 1. Calculation function
+ * 2. Result object
+ * 3. Reusable method
+ *
+ * You can call this method from any other class.
+ */
+public class BalanceSheetService {
+    /**
+     * Result object
+     * Stores all calculated values
+     */
+    public static class BalanceSheetResult {
+        // Input values
+        private double eligibleAvgBalance;
+        private double sarBalance;
+        // Before Exception (C Column)
+        private double cStatReserve;
+        private double cEligibleBalNet;
+        private double cVof;
+        private double cDpf;
+        private double cHssShare;
+        private double cTotalNii;
+        private double cVatCost;
+        private double cClaimFromSabb;
+        // Alinma Exception (D Column)
+        private double dStatReserve;
+        private double dEligibleBalNet;
+        private double dVof;
+        private double dDpf;
+        private double dHssShare;
+        private double dTotalNii;
+        private double dVatCost;
+        private double dClaimFromSabb;
+        // After Exception (F Column)
+        private double fSarBalance;
+        private double fEligibleBalNet;
+        private double fVof;
+        private double fDpf;
+        private double fHssShare;
+        private double fTotalNii;
+        private double fVatCost;
+        private double fClaimFromSabb;
+        // =========================
+        // GETTERS AND SETTERS
+        // =========================
+        public double getEligibleAvgBalance() {
+            return eligibleAvgBalance;
+        }
+        public void setEligibleAvgBalance(double eligibleAvgBalance) {
+            this.eligibleAvgBalance = eligibleAvgBalance;
+        }
+        public double getSarBalance() {
+            return sarBalance;
+        }
+        public void setSarBalance(double sarBalance) {
+            this.sarBalance = sarBalance;
+        }
+        public double getcStatReserve() {
+            return cStatReserve;
+        }
+        public void setcStatReserve(double cStatReserve) {
+            this.cStatReserve = cStatReserve;
+        }
+        public double getcEligibleBalNet() {
+            return cEligibleBalNet;
+        }
+        public void setcEligibleBalNet(double cEligibleBalNet) {
+            this.cEligibleBalNet = cEligibleBalNet;
+        }
+        public double getcVof() {
+            return cVof;
+        }
+        public void setcVof(double cVof) {
+            this.cVof = cVof;
+        }
+        public double getcDpf() {
+            return cDpf;
+        }
+        public void setcDpf(double cDpf) {
+            this.cDpf = cDpf;
+        }
+        public double getcHssShare() {
+            return cHssShare;
+        }
+        public void setcHssShare(double cHssShare) {
+            this.cHssShare = cHssShare;
+        }
+        public double getcTotalNii() {
+            return cTotalNii;
+        }
+        public void setcTotalNii(double cTotalNii) {
+            this.cTotalNii = cTotalNii;
+        }
+        public double getcVatCost() {
+            return cVatCost;
+        }
+        public void setcVatCost(double cVatCost) {
+            this.cVatCost = cVatCost;
+        }
+        public double getcClaimFromSabb() {
+            return cClaimFromSabb;
+        }
+        public void setcClaimFromSabb(double cClaimFromSabb) {
+            this.cClaimFromSabb = cClaimFromSabb;
+        }
+        public double getdStatReserve() {
+            return dStatReserve;
+        }
+        public void setdStatReserve(double dStatReserve) {
+            this.dStatReserve = dStatReserve;
+        }
+        public double getdEligibleBalNet() {
+            return dEligibleBalNet;
+        }
+        public void setdEligibleBalNet(double dEligibleBalNet) {
+            this.dEligibleBalNet = dEligibleBalNet;
+        }
+        public double getdVof() {
+            return dVof;
+        }
+        public void setdVof(double dVof) {
+            this.dVof = dVof;
+        }
+        public double getdDpf() {
+            return dDpf;
+        }
+        public void setdDpf(double dDpf) {
+            this.dDpf = dDpf;
+        }
+        public double getdHssShare() {
+            return dHssShare;
+        }
+        public void setdHssShare(double dHssShare) {
+            this.dHssShare = dHssShare;
+        }
+        public double getdTotalNii() {
+            return dTotalNii;
+        }
+        public void setdTotalNii(double dTotalNii) {
+            this.dTotalNii = dTotalNii;
+        }
+        public double getdVatCost() {
+            return dVatCost;
+        }
+        public void setdVatCost(double dVatCost) {
+            this.dVatCost = dVatCost;
+        }
+        public double getdClaimFromSabb() {
+            return dClaimFromSabb;
+        }
+        public void setdClaimFromSabb(double dClaimFromSabb) {
+            this.dClaimFromSabb = dClaimFromSabb;
+        }
+        public double getfSarBalance() {
+            return fSarBalance;
+        }
+        public void setfSarBalance(double fSarBalance) {
+            this.fSarBalance = fSarBalance;
+        }
+        public double getfEligibleBalNet() {
+            return fEligibleBalNet;
+        }
+        public void setfEligibleBalNet(double fEligibleBalNet) {
+            this.fEligibleBalNet = fEligibleBalNet;
+        }
+        public double getfVof() {
+            return fVof;
+        }
+        public void setfVof(double fVof) {
+            this.fVof = fVof;
+        }
+        public double getfDpf() {
+            return fDpf;
+        }
+        public void setfDpf(double fDpf) {
+            this.fDpf = fDpf;
+        }
+        public double getfHssShare() {
+            return fHssShare;
+        }
+        public void setfHssShare(double fHssShare) {
+            this.fHssShare = fHssShare;
+        }
+        public double getfTotalNii() {
+            return fTotalNii;
+        }
+        public void setfTotalNii(double fTotalNii) {
+            this.fTotalNii = fTotalNii;
+        }
+        public double getfVatCost() {
+            return fVatCost;
+        }
+        public void setfVatCost(double fVatCost) {
+            this.fVatCost = fVatCost;
+        }
+        public double getfClaimFromSabb() {
+            return fClaimFromSabb;
+        }
+        public void setfClaimFromSabb(double fClaimFromSabb) {
+            this.fClaimFromSabb = fClaimFromSabb;
+        }
+    }
+    /**
+     * Main reusable calculation method
+     *
+     * You can call this method from another class
+     */
+    public BalanceSheetResult calculateBalanceSheet(
+            double eligibleAvgBalance,
+            double sarBalance,
+            double statReserveRate,
+            double vofAnnualRate,
+            double dpfAnnualRate,
+            double niiShareRate,
+            double vatRate,
+            int daysInPeriod,
+            int daysInYear) {
+        // Create result object
+        BalanceSheetResult result = new BalanceSheetResult();
+        // ============================
+        // STORE INPUT VALUES
+        // ============================
+        result.setEligibleAvgBalance(eligibleAvgBalance);
+        result.setSarBalance(sarBalance);
+        // ============================
+        // BEFORE EXCEPTION (C)
+        // ============================
+        double cStatReserve = sarBalance * statReserveRate;
+        double cEligibleNet = sarBalance - cStatReserve;
+        double cVof =
+                (cEligibleNet * vofAnnualRate / daysInYear)
+                        * daysInPeriod;
+        double cDpf =
+                (sarBalance * dpfAnnualRate / daysInYear)
+                        * daysInPeriod;
+        double cHss = cVof - cDpf;
+        double cNii = cHss * niiShareRate;
+        double cVat = cHss * vatRate;
+        double cClaim = cNii + cVat;
+        // Store values
+        result.setcStatReserve(cStatReserve);
+        result.setcEligibleBalNet(cEligibleNet);
+        result.setcVof(cVof);
+        result.setcDpf(cDpf);
+        result.setcHssShare(cHss);
+        result.setcTotalNii(cNii);
+        result.setcVatCost(cVat);
+        result.setcClaimFromSabb(cClaim);
+        // ============================
+        // D COLUMN (ALINMA EXCEPTION)
+        // ============================
+        double dStatReserve = sarBalance * statReserveRate;
+        double dEligibleNet = sarBalance - dStatReserve;
+        double dVof =
+                (dEligibleNet * vofAnnualRate / daysInYear)
+                        * daysInPeriod;
+        double dDpf =
+                (sarBalance * dpfAnnualRate / daysInYear)
+                        * daysInPeriod;
+        double dHss = dVof - dDpf;
+        double dNii = dHss * niiShareRate;
+        double dVat = dHss * vatRate;
+        double dClaim = dNii + dVat;
+        // Store values
+        result.setdStatReserve(dStatReserve);
+        result.setdEligibleBalNet(dEligibleNet);
+        result.setdVof(dVof);
+        result.setdDpf(dDpf);
+        result.setdHssShare(dHss);
+        result.setdTotalNii(dNii);
+        result.setdVatCost(dVat);
+        result.setdClaimFromSabb(dClaim);
+        // ============================
+        // AFTER EXCEPTION (F)
+        // ============================
+        result.setfSarBalance(sarBalance + sarBalance);
+        result.setfEligibleBalNet(
+                cEligibleNet + dEligibleNet);
+        result.setfVof(cVof + dVof);
+        result.setfDpf(cDpf + dDpf);
+        result.setfHssShare(cHss + dHss);
+        result.setfTotalNii(cNii + dNii);
+        result.setfVatCost(cVat + dVat);
+        result.setfClaimFromSabb(cClaim + dClaim);
+        // Return final result object
+        return result;
+    }
+}
+
+✅ HOW TO CALL FROM ANOTHER CLASS
+
+package main;
+import service.BalanceSheetService;
+import service.BalanceSheetService.BalanceSheetResult;
+public class MainApp {
+    public static void main(String[] args) {
+        // Create service object
+        BalanceSheetService service =
+                new BalanceSheetService();
+        // Call reusable function
+        BalanceSheetResult result =
+                service.calculateBalanceSheet(
+                        5000000,
+                        4800000,
+                        0.07,
+                        3.75 / 100,
+                        0.05 / 100,
+                        0.88,
+                        0.15,
+                        28,
+                        365
+                );
+        // Print result
+        System.out.println(
+                result.getfClaimFromSabb()
+        );
+    }
+}
+
+
+kkkk
 
 - Jawaad17.java
 - Banking Finance Calculator — SAR Balance Sheet
