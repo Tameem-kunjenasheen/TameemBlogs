@@ -84,7 +84,47 @@ button{
  // -------------------Start-----------------
 You can send this mail:
 
-Hi Team,
+Hi SELECT
+    LIVE.CASE_RK AS CASE_ID,
+    
+    UCHAR.UDF_VALUE AS KYC_EXPIRY_DATE,
+    
+    RAM.UDF_VALUE AS X_RAM_CATEGORY,
+    
+    SCC.UDF_VALUE AS X_SCC_CUSTOMER,
+    
+    R_STATUS.UDF_VALUE AS X_RELATIONSHIP_STATUS
+FROM CASE_LIVE LIVE
+/* Date table */
+LEFT JOIN CASE_UDF_DATE_VALUE UCHAR
+ON LIVE.CASE_RK = UCHAR.CASE_RK
+AND LIVE.VALID_FROM_DTTM = UCHAR.VALID_FROM_DTTM
+AND UCHAR.UDF_NM = 'X_KYC_EXPIRY_DATE'
+/* Char table for RAM */
+LEFT JOIN CASE_UDF_CHAR_VALUE RAM
+ON LIVE.CASE_RK = RAM.CASE_RK
+AND LIVE.VALID_FROM_DTTM = RAM.VALID_FROM_DTTM
+AND RAM.UDF_NM = 'X_RAM_CATEGORY'
+/* Char table for SCC */
+LEFT JOIN CASE_UDF_CHAR_VALUE SCC
+ON LIVE.CASE_RK = SCC.CASE_RK
+AND LIVE.VALID_FROM_DTTM = SCC.VALID_FROM_DTTM
+AND SCC.UDF_NM = 'X_SCC_CUSTOMER'
+/* Relationship Status */
+INNER JOIN CASE_UDF_CHAR_VALUE R_STATUS
+ON LIVE.CASE_RK = R_STATUS.CASE_RK
+AND LIVE.VALID_FROM_DTTM = R_STATUS.VALID_FROM_DTTM
+AND R_STATUS.UDF_NM = 'X_RELATIONSHIP_STATUS'
+AND R_STATUS.UDF_VALUE = 'Active'
+ORDER BY LIVE.CASE_RK;
+
+What this query does
+
+* Gets KYC expiry date from CASE_UDF_DATE_VALUE
+* Gets RAM category from CASE_UDF_CHAR_VALUE
+* Gets SCC customer from CASE_UDF_CHAR_VALUE
+* Filters only records where relationship status = Active
+* Avoids NULL relationship status values by using INNER JOIN for relationship status only,
 
 We are unable to connect to the UAT PostgreSQL server from my laptop using DBeaver and receiving connection timeout errors.
 
