@@ -82,7 +82,22 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-tammmm
+Hi Team,
+
+We have started the FQDN decommissioning activity for the TTS service.
+
+Kindly provide the ITSO approval to proceed further with the FQDN demise activity.
+
+Please let us know if any additional information is required from our side.
+
+Regards,
+Akram
+
+INNER JOIN CASE_UDF_CHAR_VALUE R_status
+ON LIVE.CASE_RK = R_status.CASE_RK
+AND LIVE.VALID_FROM_DTTM = R_status.VALID_FROM_DTTM
+AND R_status.UDF_NM = 'X_RELATIONSHIP_STATUS'
+AND R_status.UDF_VALUE = 'Active'
 
 package service;
 /**
