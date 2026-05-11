@@ -82,7 +82,149 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-SELECT
+CR Title
+
+Fix for Arabic Alert Generation Failure Due to Buffer Size Limitation
+
+⸻
+
+Short Description
+
+Increase PL/SQL variable size in ECMDATA.ALERTS package to handle large Arabic alert messages and prevent alert generation failure.
+
+⸻
+
+Description
+
+During execution of ECMDATA.ALERTS.GENERATE_IAI_ALERTS, the process failed while generating KYC alert notifications.
+
+The below Oracle error was observed:
+
+ORA-06502: PL/SQL: numeric or value error:
+character string buffer too small
+
+Root cause analysis identified that Arabic alert message content stored in:
+
+P_ALERT_DEFN_REC.ALERT_ENTITY_AR_TEXT
+
+is exceeding the allocated PL/SQL variable size:
+
+V_SMS_TEXT VARCHAR2(4000);
+
+The failure occurs during assignment:
+
+V_SMS_TEXT := P_ALERT_DEFN_REC.ALERT_ENTITY_AR_TEXT;
+
+The Arabic alert content length is larger than the current buffer size, causing the alert generation process to fail.
+
+To fix this issue, the PL/SQL variable size in package body ECMDATA.ALERTS procedure INS_SMS_ALERT will be increased.
+
+Current Variables
+
+V_SMS_TEXT   VARCHAR2(4000);
+V_EMAIL_TEXT VARCHAR2(4000);
+
+Proposed Change
+
+V_SMS_TEXT   VARCHAR2(32767);
+V_EMAIL_TEXT VARCHAR2(32767);
+
+Additionally, database table column sizes for SMS and Email message fields will be verified.
+
+If required, controlled truncation using SUBSTR() will be implemented before insert operation or the table column size will be increased based on business requirement.
+
+Example:
+
+SUBSTR(message_text, 1, 4000)
+
+⸻
+
+Justification
+
+This change is required to prevent failure in Arabic alert notification generation.
+
+Currently, large Arabic alert messages are exceeding the PL/SQL variable size limit, causing the alert generation process to fail with ORA-06502 error.
+
+This impacts KYC alert processing, SMS notifications, and downstream alert handling.
+
+The proposed fix will ensure larger Arabic Unicode alert messages are processed successfully without buffer overflow issues.
+
+⸻
+
+Implementation Plan
+
+1. Review existing package body ECMDATA.ALERTS procedure INS_SMS_ALERT – DB Team
+2. Increase variable size for V_SMS_TEXT and V_EMAIL_TEXT from 4000 to 32767 – DB Team
+3. Verify target table column sizes for SMS and Email message fields – DB Team
+4. Implement controlled truncation using SUBSTR() if required – DB Team
+5. Compile package after modification – DB Team
+6. Execute validation testing for Arabic alert generation – Application/DB Team
+7. Verify SMS and Email alert generation completion – Application Team
+
+⸻
+
+Business Impact
+
+If this change is not implemented:
+
+* Arabic alert notifications will continue to fail
+* KYC alert generation process will not complete successfully
+* Business users may miss important customer alerts
+* Operational monitoring and compliance-related notifications may be impacted
+
+After implementation:
+
+* Arabic alert messages with larger content will be processed successfully
+* Alert generation process will complete without errors
+* SMS and email notifications will function normally
+
+⸻
+
+Technical Impact
+
+Current implementation limits alert message variables to 4000 characters, which is insufficient for large Arabic Unicode content.
+
+If this issue is not fixed:
+
+* ORA-06502 buffer overflow errors will continue
+* Alert generation jobs will fail intermittently
+* SMS and email alert processing will remain unstable
+* Downstream notification processing will continue to fail
+
+The proposed change increases PL/SQL variable capacity to support larger message content.
+
+No functional business logic change is involved apart from increasing message handling capacity.
+
+⸻
+
+Backout Plan
+
+1. Revert package body changes to previous version – DB Team
+2. Restore original variable size definitions
+3. Recompile package
+4. Validate alert generation process after rollback
+
+⸻
+
+Post Implementation Verification Plan
+
+1. Execute GENERATE_IAI_ALERTS process
+2. Generate Arabic alert notifications with large message content
+3. Verify SMS and Email alerts are generated successfully
+4. Confirm no ORA-06502 errors are observed
+5. Validate downstream alert processing completion
+6. Obtain confirmation from application/business team
+
+⸻
+
+Additional Details
+
+* Application: ECMDATA Alerts
+* Module: KYC Alert Notification
+* Change Type: Database / PL-SQL Code Fix
+* Downtime: Not required
+* Risk Level: Low
+* Environment: Production
     LIVE.CASE_RK AS CASE_ID,
     
     UCHAR.UDF_VALUE AS KYC_EXPIRY_DATE,
