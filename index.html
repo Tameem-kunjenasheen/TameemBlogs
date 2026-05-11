@@ -84,6 +84,101 @@ button{
  // -------------------Start-----------------
 CR Title
 
+Decommission DTTS Service and Remove FQDNs from DDNS URL List
+
+⸻
+
+Short Description
+
+Decommission DTTS service by removing FQDN entries from DDNS URL list, deactivating DomainFQDNS, and revoking related certificates.
+
+⸻
+
+Description
+
+This change is to decommission the DTTS service which is no longer required.
+
+As part of this activity, the associated FQDNs will be removed from the DDNS URL list. Related DomainFQDNS entries will be deactivated and the linked certificates will be revoked.
+
+The change will ensure unused configurations and certificates are properly removed from the environment.
+
+⸻
+
+Justification
+
+This change is required to complete the decommission activity for the DTTS service.
+
+Unused FQDNs, domain entries, and certificates should be removed to avoid unnecessary exposure, outdated configurations, and dependency issues.
+
+The activity will help maintain clean configuration management and improve security compliance.
+
+⸻
+
+Implementation Plan
+
+1. Identify all DTTS-related FQDN entries – Infrastructure Team
+2. Remove FQDNs from DDNS URL list – Infrastructure Team
+3. Deactivate DomainFQDNS configurations – Application/Infrastructure Team
+4. Revoke associated certificates – Security Team
+5. Validate removal and certificate revocation – Infrastructure/Security Team
+6. Monitor system after implementation for any dependency issues – Support Team
+
+⸻
+
+Business Impact
+
+If this change is not implemented:
+
+* Unused DTTS configurations will remain active
+* Old FQDNs and certificates may create security and compliance risks
+* Environment cleanup and decommission activity will remain incomplete
+
+During implementation:
+
+* No impact expected to active business services
+* No downtime expected for production users
+
+⸻
+
+Technical Impact
+
+If this change is not implemented:
+
+* Obsolete FQDN entries will remain in DDNS configuration
+* Unused certificates will continue to remain active
+* Deprecated DTTS service dependencies may continue unnecessarily
+* Environment configuration will not be fully cleaned up
+
+This change is related to decommission and cleanup activity only. No new functionality is introduced.
+
+⸻
+
+Backout Plan
+
+1. Restore removed FQDN entries if required – Infrastructure Team
+2. Reactivate DomainFQDNS configurations if rollback is needed
+3. Reissue and restore revoked certificates if required
+4. Validate service configuration after rollback
+
+⸻
+
+Post Implementation Verification Plan
+
+1. Verify DTTS FQDNs are removed from DDNS URL list
+2. Confirm DomainFQDNS entries are deactivated
+3. Validate certificates are revoked successfully
+4. Verify no dependency or connectivity issues are observed
+5. Obtain confirmation from application and infrastructure teams
+
+⸻
+
+Additional Details
+
+* Change Type: Decommission / Configuration Cleanup
+* Downtime: Not required
+* Risk Level: Low
+* Environment: Production
+
 Fix for Arabic Alert Generation Failure Due to Buffer Size Limitation
 
 ⸻
