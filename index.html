@@ -82,7 +82,47 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-Hi Ferdosul,
+Hi First verify the files safely before deleting.
+
+Check sample files:
+
+find /path/to/logs -type f \( \
+-name "computeserver_2025-08-*" -o \
+-name "computeserver_2025-09-*" -o \
+-name "computeserver_2025-10-*" -o \
+-name "computeserver_2025-11-*" -o \
+-name "computeserver_2025-12-*" \
+\) | head
+
+Check total count:
+
+find /path/to/logs -type f \( \
+-name "computeserver_2025-08-*" -o \
+-name "computeserver_2025-09-*" -o \
+-name "computeserver_2025-10-*" -o \
+-name "computeserver_2025-11-*" -o \
+-name "computeserver_2025-12-*" \
+\) | wc -l
+
+Check total size:
+
+find /path/to/logs -type f \( \
+-name "computeserver_2025-08-*" -o \
+-name "computeserver_2025-09-*" -o \
+-name "computeserver_2025-10-*" -o \
+-name "computeserver_2025-11-*" -o \
+-name "computeserver_2025-12-*" \
+\) -exec du -ch {} + | tail -1
+
+After verification, run delete:
+
+find /path/to/logs -type f \( \
+-name "computeserver_2025-08-*" -o \
+-name "computeserver_2025-09-*" -o \
+-name "computeserver_2025-10-*" -o \
+-name "computeserver_2025-11-*" -o \
+-name "computeserver_2025-12-*" \
+\) -delete,
 
 These vulnerabilities are on high priority and need to be addressed urgently.
 
