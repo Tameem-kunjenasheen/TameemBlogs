@@ -82,6 +82,211 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
+
+Yes, you should use a similar structure for the CRMS Enhancements Project also.
+What you shared is actually a good project tracking approach.
+
+But for enhancements/project management, you need a slightly more structured tracker than support issues.
+
+You can manage it in 3 parts:
+
+⸻
+
+1. Enhancement Master Tracker
+
+Use this as the main tracking sheet.
+
+Change ID	Type	Description	Priority	BRD Status	Development Status	SIT Testing	UAT Status	Vendor IT Sign-off	Business Sign-off	ETA	Current Status	Dependency	Comments	Last Updated
+CH1	Policy	KYC reason amendment	High	Completed	In Progress	Pending	Pending	Pending	Pending	25-May	Development Ongoing	Awaiting API update	Dev started	19-May 10:00 AM
+CH2	Enhancement	KYC renewal date calculation	Medium	Completed	Pending	Pending	Pending	Pending	Pending	28-May	Pending	Business clarification required	Awaiting confirmation	19-May 11:00 AM
+
+⸻
+
+2. Weekly Meeting Tracker (Very Important)
+
+Since you plan twice-a-week calls, maintain this.
+
+Suggested Schedule
+
+* Tuesday
+* Thursday
+
+Duration:
+30 mins to 1 hour
+
+⸻
+
+Meeting Agenda
+
+A. Review Completed Items
+
+* What was completed since last meeting
+
+B. Current Development
+
+* Current progress
+* Delays
+* Risks
+
+C. Testing
+
+* SIT completed?
+* UAT started?
+* Defects pending?
+
+D. Dependencies
+
+* Infra
+* DB
+* API
+* Vendor
+* Business
+
+E. Action Items
+
+⸻
+
+3. Action Tracker
+
+This is where project managers control the project.
+
+Action Item	Owner	Target Date	Status	Remarks
+Share API design	Vendor Team	20-May	Open	Pending from vendor
+Complete CH1 development	Dev Team	24-May	In Progress	70% completed
+Conduct SIT	QA Team	27-May	Pending	Yet to start
+
+⸻
+
+4. Best Workflow for Enhancements Project
+
+Requirement
+↓
+BRD
+↓
+Business Approval
+↓
+Development
+↓
+SIT
+↓
+Bug Fix
+↓
+UAT
+↓
+Vendor IT Sign-off
+↓
+Business Sign-off
+↓
+Production Deployment
+↓
+Monitoring
+↓
+Closure
+
+⸻
+
+5. Your Meeting Style as Lead
+
+In your twice-weekly call:
+
+DO NOT ask:
+
+“Any update?”
+
+Instead ask:
+
+* What is completed?
+* What is pending?
+* Any blocker?
+* Is ETA still achievable?
+* SIT completed?
+* UAT planned?
+* Any dependency from business?
+* Any risk to timeline?
+
+This makes you look like a proper PM/Scrum Master.
+
+⸻
+
+6. Recommended Tabs in Excel
+
+Sheet 1 — Master Tracker
+
+All enhancements
+
+Sheet 2 — Action Items
+
+Pending actions
+
+Sheet 3 — Risks & Dependencies
+
+Risk	Impact	Mitigation	Owner
+
+Sheet 4 — MOM
+
+Meeting notes
+
+Sheet 5 — UAT Defects
+
+⸻
+
+7. Status Names You Should Use
+
+Status	Meaning
+Open	Not started
+Requirement Gathering	BRD ongoing
+In Development	Coding started
+SIT In Progress	QA testing
+UAT Pending	Waiting business
+UAT Completed	Business tested
+Sign-off Pending	Awaiting approvals
+Ready for Production	Deployment ready
+Closed	Completed
+
+⸻
+
+8. What You Shared in Screenshot
+
+The MS Project timeline is very good for:
+
+* management
+* milestone tracking
+* deadlines
+
+Keep using it.
+
+But additionally maintain:
+
+* enhancement tracker
+* action tracker
+* meeting MOM
+
+That combination is what real project managers use.
+
+⸻
+
+9. Best Practice
+
+For every enhancement:
+
+* assign owner
+* assign ETA
+* track dependencies
+* track testing
+* track sign-off
+* maintain comments with timestamps
+
+This is the key difference between:
+
+* normal support engineer
+    and
+* project lead/project manager.
+
+
+.........
+
+
+
 Hi Team,
 
 Please find the updated CRMS support issues tracker below.
