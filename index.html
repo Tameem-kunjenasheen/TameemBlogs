@@ -83,7 +83,35 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
-Yes, you should use a similar structure for the CRMS Enhancements Project also.
+Hi Team,
+
+Please find the updated CRMS technical issues tracker below.
+
+Kindly update the status for each item including:
+
+* RCA (Root Cause Analysis)
+* Fix / Change Required
+* Current Status
+* ETA
+* UAT Testing Status
+* Vendor IT Confirmation
+* Business Sign-off
+* Dependencies / Blockers
+* Latest comments with date & time
+
+S.No	Module	Issue Description	Priority	Assigned Team/Owner	Current Status	Root Cause Analysis (RCA)	Fix / Change Required	Temporary Fix / Workaround	Permanent Solution	ETA	UAT Testing Status	Vendor IT Confirmation	Business Sign-off	Dependency / Blocker	Latest Comment	Updated By	Last Updated Date & Time
+1	Yakeen Integration	Sometimes alert shows “cannot be fulfilled” but after clicking OK the Yakeen response gets populated. Sometimes the call breaks before reaching CRMSInterface API server and shows server error.	P1	Vendor Integration Team	Under Investigation	Pending	API retry and error handling validation required	User retries manually	Permanent API stability fix required	TBD	Pending	Pending	Pending	Need API and server logs	Issue intermittently reproducible	Vendor Team	19-May 10:00 AM
+2	Date Conversion	Users reported issues during Gregorian to Hijri and Hijri to Gregorian date conversion for specific calendar dates.	P2	Application Team	Open	Pending	Calendar conversion logic review required	Manual date validation	Date conversion patch required	TBD	Pending	Pending	Pending	Need exact impacted dates	Analysis in progress	App Team	19-May 10:30 AM
+3	RM Refresh	RM_Refresh failures due to field length mismatch between PostgreSQL, Oracle CASE_UDF_DEF and RM tables.	P1	DB Team	In Progress	Field length mismatch identified	Table column length synchronization required	Manual data cleanup performed	DB schema alignment required	22-May EOD	Pending	Pending	Pending	DB deployment required	DB analysis completed	DB Team	19-May 11:15 AM
+4	Data Synchronization	Daily sync required between PostgreSQL, Oracle and RM tables. Job should identify sync issues and report automatically to IT team.	P2	Middleware Team	Under Discussion	Sync monitoring gap identified	Automated sync monitoring job required	Manual monitoring ongoing	Automated sync validation process required	TBD	Pending	Pending	Pending	Infra and scheduler dependency	Solution design discussion ongoing	Middleware Team	19-May 12:00 PM
+5	Workflow / SAS Visual Investigator	Workflow and case status inconsistencies occurring repeatedly. Users unable to continue workflow due to workflow status mismatch impacting onboarding. Existing workaround from SAS on CS0268472 not fully resolving issue.	P1	Workflow Team	In Progress	Workflow synchronization mismatch identified	Workflow status handling enhancement required	Manual workflow correction	Permanent workflow sync fix required	TBD	In Progress	Pending	Pending	Need SAS support confirmation	Reproduced in UAT	Workflow Team	19-May 01:00 PM
+6	Case Closure	Multiple failures during case closure with “POSTG_TO_ORC_CASERK” errors. All errors need analysis and permanent solution.	P1	App + DB Team	Under Investigation	Pending	Error validation and DB mapping review required	Manual retry	Permanent closure validation fix required	TBD	Pending	Pending	Pending	Need detailed DB logs	Error logs collected for analysis	Support Team	19-May 02:15 PM
+7	CRMS Workflow	CRMS case version mismatch issue preventing users from moving case to next workflow level.	P1	Workflow Team	Open	Pending	Version synchronization handling required	Manual version update	Centralized version management fix required	TBD	Pending	Pending	Pending	Need workflow trace logs	Issue reproduced in UAT	Workflow Team	19-May 03:00 PM
+
+Please provide the updated tracker before the next review meeting.
+
+Thanks,
+Akram, you should use a similar structure for the CRMS Enhancements Project also.
 What you shared is actually a good project tracking approach.
 
 But for enhancements/project management, you need a slightly more structured tracker than support issues.
