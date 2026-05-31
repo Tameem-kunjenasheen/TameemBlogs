@@ -82,6 +82,68 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
+
+Dear Ferdosal,
+
+Thanks for your response.
+
+1. Startup Duration
+
+• How long does the startup process take (total duration)?
+
+* Approximately 2 hours.
+
+• Which step appears to be taking the longest?
+
+* SAS Viya services are failing and retrying multiple times before starting successfully. Relevant logs are attached.
+
+2. Failing Services
+
+• Which services are reported as “failed”?
+
+* SAS Viya services.
+
+• Are these SAS microservices (sas-viva-*) or infrastructure services?
+
+* SAS Viya microservices.
+
+3. Environment Details
+
+• When did the issue start?
+
+* Approximately 3 months ago.
+
+• Were there any recent changes (OS patches, SAS updates)?
+
+* Regular OS patching activities have been performed as part of standard maintenance.
+
+4. Service Health Validation
+
+• After startup completes, are all services accessible and functional?
+
+* Yes, all services are accessible and functional. However, the job status reports a failure with the error message indicating that the SAS service is already started.
+
+• Provide the output of:
+ansible-playbook viya-services-status.yml > /tmp/viya_service_status.log
+
+* Attached.
+
+5. Startup Command with Logging
+
+• Run the startup command with logging enabled and provide the log:
+ansible-playbook viya-services-start.yml -vvv | tee /tmp/viya_start.log
+
+* Attached.
+
+Additionally, we would appreciate it if you could provide the estimated timeline for the remaining reported issues. This information will help us plan our activities and coordinate with the relevant teams accordingly. Could you please review the reported issues and share the ETA for investigation and resolution?
+
+Regards,
+
+Tameem Kunjansheen
+
+5ttttttt
+
+
 Hi Rafi,
 
 Thank you for your response.
