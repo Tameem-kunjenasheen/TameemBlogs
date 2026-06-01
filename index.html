@@ -82,7 +82,45 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-Hi Sam,
+You can send the following email:
+
+Hi Ferdosal,
+
+Thank you for your email.
+
+We have already provided the complete design and mapping documentation, where the required logic and field mappings have been clearly defined. For ease of reference, we are attaching the documents again.
+
+Please find below our responses to your queries:
+
+1. Fields mentioned within the mapping list that are not present in ICMS
+    The solution for these fields has already been defined in the mapping specification. The fields are populated through one of the following methods:
+    * Mapped from the TSR/Holdings/Cash input files.
+    * Derived or calculated based on the defined business logic.
+    * Mapped from static reference files.
+    * Hardcoded where applicable.
+    * Left blank where specified in the design document.
+    The attached mapping document contains the detailed source and logic for each output field.
+2. Reports segregation (Trades List / Holding Report / Columbus Holding Report)
+    The report segregation has already been defined in the specification document:
+    * Trade reports are generated from the TSR file using the defined ADD, UPDATE, and REMOVE logic.
+    * Holding reports are generated separately using the Holdings file.
+    * Columbus Holding Report follows its own mapping and business rules as documented.
+    The report generation and segregation logic is detailed in the attached design document.
+3. Fixed Income instrument definitions and accrual calculation
+    The accrual calculation logic has already been documented under the “Columbus Holding Accrued Interest” section.
+    A Fixed Income Static File will be maintained by the business containing:
+    * ISIN
+    * Coupon Rate
+    * Face Value
+    * From Date / To Date
+    * Interest Calculation Method (360/365)
+    * Fixed/Floating Indicator
+    Holdings records are matched against the static file using ISIN, and accrued interest is calculated according to the documented formula and business rules. Error handling for missing mappings or incomplete data has also been defined in the specification.
+
+Please review the attached documents and let us know if there are any specific sections that require further clarification.
+
+Regards,
+Tameem
 
 I waited on the call, but Taqi did not join. I also rescheduled the call twice.
 
