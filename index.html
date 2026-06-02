@@ -88,7 +88,92 @@ Accrued Interest =
 * If ISIN is not found or data is missing, generate an error report.
 
 
-Hi Ferdosal,
+Here is the updated CR with your business context included and written in simple Indian English:
+
+Title
+
+Decommission TTS Service Domains and Revoke Associated Certificates
+
+Short Description
+
+Remove TTS-related domains from DDNS, deactivate DomainFQDNS entries, and revoke associated certificates as part of TTS service decommissioning.
+
+Description
+
+TTS was a vendor-hosted application used as the lead manager system for IPOs when SAB participated in IPO offerings.
+
+Later, Tadawul introduced its own regulatory IPO platform, which is now being used for all IPO activities. As a result, the TTS application is no longer in use and is being decommissioned.
+
+Although TTS is a vendor-hosted service, a service record was onboarded in HBSA because the application was accessed through the HBSA network.
+
+All required approvals and ITSA activities for decommissioning have already been completed. This change is required to remove the domains that were created for TTS usage from the HBSA network, deactivate the related DomainFQDNS entries, and revoke the associated certificates.
+
+Justification
+
+The TTS application is no longer used for IPO processing as Tadawul’s regulatory platform has replaced it.
+
+Since the service is being decommissioned, all associated domains, DNS entries, and certificates must be removed to complete the decommission activity.
+
+This change will ensure that obsolete configurations are removed from the HBSA environment and that only active and supported services remain configured.
+
+Implementation Plan
+
+1. Identify all TTS-related domain and FQDN entries.
+2. Remove TTS FQDNs from the DDNS URL list.
+3. Deactivate related DomainFQDNS configurations.
+4. Revoke certificates associated with TTS domains.
+5. Verify successful removal of domains and certificates.
+6. Validate that no active services are dependent on the removed configurations.
+7. Obtain implementation confirmation from the infrastructure team.
+
+Business Impact
+
+If this change is not implemented:
+
+* Decommission activity for TTS service will remain incomplete.
+* Obsolete domains and certificates will continue to exist in the environment.
+* Unused configurations may create audit and compliance concerns.
+* HBSA records will continue to show inactive service components.
+
+After implementation:
+
+* TTS decommission activity will be completed successfully.
+* Unused domains and certificates will be removed from the environment.
+* Configuration records will accurately reflect active services only.
+
+Technical Impact
+
+If this change is not implemented:
+
+* Obsolete DomainFQDNS entries will remain active.
+* Unused certificates will continue to exist in the environment.
+* DNS and certificate inventories will contain inactive service configurations.
+* Technical decommission of the TTS service will remain incomplete.
+
+This change is limited to decommissioning and configuration cleanup activities. No application, database, or business functionality changes are involved.
+
+Backout Plan
+
+1. Restore removed domain entries if rollback is required.
+2. Reactivate DomainFQDNS configurations.
+3. Reissue and restore revoked certificates if necessary.
+4. Validate connectivity and configuration after rollback.
+
+Post Implementation Verification Plan
+
+1. Verify TTS domains are removed from the DDNS URL list.
+2. Confirm DomainFQDNS entries are deactivated.
+3. Verify associated certificates are revoked.
+4. Validate that no active services are dependent on the removed configurations.
+5. Obtain confirmation from the infrastructure and application support teams.
+
+Downtime
+
+No downtime required.
+
+Risk Level
+
+Low. The change only involves removal of obsolete domains and certificates associated with a decommissioned service.,
 
 Thank you for your email.
 
