@@ -82,9 +82,96 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-You can send the following email to request CIO approval:
+Since you are adding 3 fixes in the same CR, update the CR as below:
 
-Dear Sir,
+Description
+
+This change is required to address issues identified in the CRMS application.
+
+The following fixes will be implemented:
+
+1. Increase the variable size in the Oracle package to handle larger audit alert messages and prevent buffer overflow errors.
+2. Update email notification subject and content to use clear and standard English language.
+3. Comment and remove execution of unused code sections to improve code maintainability and readability.
+
+These changes will ensure successful processing of audit alerts, improve notification quality, and simplify future support activities.
+
+⸻
+
+Justification
+
+This change is required to resolve application issues and improve system maintainability.
+
+If not implemented:
+
+* Audit alert processing will continue to fail when message content exceeds the current variable size.
+* Users may receive unclear email notifications.
+* Unused code will continue to increase maintenance effort and create confusion during troubleshooting.
+
+The change will improve application stability, notification clarity, and code quality.
+
+⸻
+
+Business Impact
+
+If the change is not implemented:
+
+* Audit alert processing failures may continue.
+* Business users may not receive clear and meaningful email notifications.
+* Delays may occur in identifying and resolving operational issues.
+* Manual intervention may be required to handle failed processing.
+
+⸻
+
+Technical Impact
+
+If the change is not implemented:
+
+* Oracle package execution may fail due to variable size limitations.
+* Audit alert data may not be processed successfully.
+* Email notifications may continue to contain unclear or inconsistent content.
+* Unused code will remain in the application, increasing support and maintenance effort.
+
+⸻
+
+Implementation Plan
+
+1. Take backup of the existing Oracle package.
+2. Modify the variable size to support larger audit alert messages.
+3. Update email notification subject and email content with approved English wording.
+4. Comment the identified unused code sections.
+5. Compile and validate the updated package.
+6. Execute unit testing.
+7. Deploy the changes in Production.
+8. Verify successful processing and email notification generation.
+
+⸻
+
+Backout Plan
+
+1. Restore the backup of the existing Oracle package.
+2. Revert email notification content changes.
+3. Re-enable the previously commented code if required.
+4. Compile and validate the restored package.
+5. Verify normal application functionality.
+
+⸻
+
+Post Implementation Verification Plan
+
+1. Verify audit alert processing is completed successfully.
+2. Verify no buffer overflow errors are generated.
+3. Validate email subject and content are displayed correctly.
+4. Confirm notifications are received successfully.
+5. Review application logs and confirm no errors are reported.
+
+
+
+
+
+jjj
+
+
 
 We would like to request your approval for the access requirements listed below as part of the onboarding process for the new resource.
 
