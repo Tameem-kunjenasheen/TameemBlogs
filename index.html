@@ -82,7 +82,100 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-Since you are adding 3 fixes in the same CR, update the CR as below:
+Update the existing CR fields as below to cover all 3 fixes:
+
+Justification
+
+This change is required to resolve failures in Arabic alert notification generation and improve notification management in the CRMS application.
+
+Currently, large Arabic alert messages exceed the PL/SQL variable size limit, causing the alert generation process to fail with ORA-06502 errors. In addition, email notifications contain unclear subject and content, and unused code remains in the package, increasing maintenance effort.
+
+The proposed changes will:
+
+* Increase variable size to support larger Arabic alert messages.
+* Update email notification subject and content with clear English wording.
+* Comment unused code to improve maintainability and reduce confusion during future support activities.
+
+These changes will improve application stability, notification quality, and operational support.
+
+⸻
+
+Implementation Plan
+
+1. Review the existing ECMDATA.ALERTS package and related procedures.
+2. Increase the size of V_SMS_TEXT and V_EMAIL_TEXT variables from 4000 to 8000 characters.
+3. Verify target table column sizes for email and alert message storage.
+4. Update email notification subject and content with approved English wording.
+5. Comment identified unused code sections in the package.
+6. Compile the package after modifications.
+7. Execute validation testing for Arabic alert generation and email notifications.
+8. Verify successful alert processing and notification delivery.
+
+⸻
+
+Business Impact
+
+If this change is not implemented:
+
+* Arabic alert notifications will continue to fail for large messages.
+* KYC alert generation may not complete successfully.
+* Business users may miss important customer alerts and notifications.
+* Email notifications may remain unclear and difficult to understand.
+* Operational monitoring and compliance-related notifications may be impacted.
+
+After implementation:
+
+* Large Arabic alert messages will be processed successfully.
+* Alert generation will complete without errors.
+* Email notifications will have clear and meaningful subject and content.
+* System notifications will reach users in a consistent and understandable format.
+
+There is no downtime or impact to production users during the implementation.
+
+⸻
+
+Technical Impact
+
+If this change is not implemented:
+
+* ORA-06502 buffer overflow errors will continue to occur.
+* Alert generation jobs may fail intermittently.
+* SMS and email alert processing will remain unstable.
+* Email notifications will continue using unclear subject and content.
+* Unused code will remain in the application, increasing maintenance and troubleshooting effort.
+* Downstream notification processing may continue to fail.
+
+The proposed change increases message handling capacity, improves notification formatting, and removes unnecessary code complexity. No business logic changes are being introduced.
+
+⸻
+
+Backout Plan
+
+1. Restore the package body from the backup taken before implementation.
+2. Revert variable size changes to the previous values.
+3. Revert email subject and content changes.
+4. Uncomment and restore the original code if required.
+5. Recompile the package.
+6. Validate alert generation and notification processing after rollback.
+
+⸻
+
+Post Implementation Verification Plan
+
+1. Execute the alert generation process.
+2. Generate Arabic alert notifications with large message content.
+3. Verify SMS and email alerts are generated successfully.
+4. Verify updated email subject and content are displayed correctly.
+5. Confirm notifications are delivered to intended recipients.
+6. Confirm no ORA-06502 errors are observed in logs.
+7. Review application logs and confirm successful processing.
+
+
+
+
+
+
+ you are adding 3 fixes in the same CR, update the CR as below:
 
 Description
 
