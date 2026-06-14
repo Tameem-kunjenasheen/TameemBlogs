@@ -83,7 +83,70 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
+Since this CR is only for Clouseau JAR installation and not for firewall changes, update it as below:
 
+Justification
+
+This change is required to install the Clouseau JAR on CRMS Production and DR servers to comply with HSBC ICE vulnerability scanning standards.
+
+The Clouseau component is required to process and submit vulnerability scan results for security analysis and compliance reporting. Without the installation, the CRMS application will not be able to participate in the required compliance process.
+
+Implementation Plan
+
+1. Verify server readiness on CRMS PROD and DR servers.
+2. Take backup of the existing application configuration if required.
+3. Install the Clouseau JAR on CRMS PROD server.
+4. Install the Clouseau JAR on CRMS DR server.
+5. Configure the application to use the installed Clouseau component.
+6. Restart the required application services if applicable.
+7. Verify successful installation and service status.
+8. Perform functional validation with the Security team.
+
+Business Impact
+
+If this change is not implemented:
+
+* CRMS will not meet HSBC ICE compliance requirements.
+* Vulnerability scan results cannot be processed through Clouseau.
+* Compliance reporting and security validation activities will be impacted.
+* Audit and security compliance requirements may not be fulfilled.
+
+There is no expected impact to business users during the implementation.
+
+Technical Impact
+
+If this change is not implemented:
+
+* Clouseau functionality will not be available on CRMS PROD and DR servers.
+* Vulnerability scan processing will not function as required.
+* ICE compliance validation may fail.
+* Security assessment and reporting processes will be affected.
+
+This change involves only software installation and configuration. No application code, database, or business functionality changes are involved.
+
+Backout Plan
+
+1. Stop the related service if required.
+2. Remove the installed Clouseau JAR from PROD and DR servers.
+3. Restore the previous configuration.
+4. Restart services if applicable.
+5. Verify that the environment has returned to its previous state.
+
+Post Implementation Verification Plan
+
+1. Verify Clouseau JAR installation on PROD and DR servers.
+2. Verify the service starts successfully.
+3. Confirm the application can access the Clouseau component.
+4. Perform validation testing with the Security team.
+5. Obtain confirmation that the installation is successful and functioning as expected.
+
+CR Summary:
+Install Clouseau JAR on CRMS Production and DR servers to support HSBC ICE compliance vulnerability scanning and security reporting requirements. No business functionality, database, or application code changes are involved.
+
+
+
+
+bbb
 Title
 
 Clouseau JAR Installation and Firewall Connectivity for ICE Compliance
