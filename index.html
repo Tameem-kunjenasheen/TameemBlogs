@@ -84,7 +84,111 @@ button{
  // -------------------Start-----------------
 
 
-r”
+Title
+
+Clouseau JAR Installation and Firewall Connectivity for ICE Compliance
+
+⸻
+
+Short Description
+
+Install Clouseau JAR on CRMS PROD and DR servers and enable network connectivity to Clouseau API servers for ICE compliance vulnerability scanning.
+
+⸻
+
+Description
+
+This change is required to install the Clouseau JAR on CRMS Production and DR servers and establish network connectivity with Clouseau servers.
+
+The connectivity is required to comply with HSBC ICE vulnerability scanning standards. The CRMS servers will upload vulnerability scan results to the Clouseau API server for analysis and compliance reporting.
+
+The change includes enabling the required firewall access to the Clouseau FOSS Scan Submission Endpoint.
+
+⸻
+
+Justification
+
+This change is required to meet HSBC ICE compliance requirements.
+
+Clouseau is used to analyze vulnerability scan results and ensure applications comply with security standards. The required connectivity must be established so that CRMS scan reports can be submitted successfully for analysis.
+
+Without this change, the application will not meet the required vulnerability scanning compliance standards.
+
+⸻
+
+Implementation Plan
+
+1. Take backup of existing configuration if required.
+2. Install Clouseau JAR on CRMS Production and DR servers.
+3. Configure Clouseau settings on CRMS servers.
+4. Open required firewall ports and configure network connectivity.
+5. Enable access to the Clouseau FOSS Scan Submission Endpoint.
+6. Restart required services if applicable.
+7. Submit a test scan report to validate connectivity.
+8. Confirm successful communication with Clouseau API servers.
+
+⸻
+
+Business Impact
+
+If this change is not implemented:
+
+* CRMS application will not comply with HSBC ICE security requirements.
+* Vulnerability scan results cannot be submitted for analysis.
+* Compliance reporting will be impacted.
+* Security and audit observations may remain open.
+
+After implementation:
+
+* Vulnerability scan reports will be submitted successfully.
+* CRMS will meet ICE compliance requirements.
+* Security monitoring and reporting will continue as expected.
+
+⸻
+
+Technical Impact
+
+If this change is not implemented:
+
+* CRMS servers will not be able to connect to Clouseau API servers.
+* Vulnerability scan results will not be uploaded.
+* ICE compliance validation will fail.
+* Security assessment and reporting processes will be impacted.
+
+This change involves JAR installation and firewall configuration only. No business functionality or database changes are involved.
+
+⸻
+
+Backout Plan
+
+1. Remove the installed Clouseau JAR from CRMS servers.
+2. Restore previous configuration settings.
+3. Remove firewall rules created for Clouseau connectivity.
+4. Validate that the environment is restored to its previous state.
+
+⸻
+
+Post Implementation Verification Plan
+
+1. Verify Clouseau JAR installation on PROD and DR servers.
+2. Verify connectivity to the Clouseau API endpoint.
+3. Submit a test vulnerability scan report.
+4. Confirm successful upload and processing of the report.
+5. Obtain confirmation from the Security and Application teams.
+
+⸻
+
+Risk Level
+
+Low
+
+Downtime
+
+No downtime required.
+
+Change Type
+
+Infrastructure and Security Compliance Change.”
 
   // -------------------End-----------------   
   </code></pre>
