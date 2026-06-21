@@ -82,7 +82,72 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-Hi Team,
+CR Title
+CRMS Issue Fixes – Case Version Mismatch, Data Synchronization and Case Closure Issues
+
+Justification
+
+This change is required to fix multiple issues identified in the CRMS application related to case version mismatch, data synchronization, and case closure processing.
+
+These issues are causing inconsistencies in case information and impacting normal case management activities. The proposed fixes will ensure accurate case processing, proper data synchronization, and successful case closure functionality within CRMS.
+
+Implementation Plan
+
+1. Take backup of the existing CRMS application components.
+2. Deploy the code changes to fix the case version mismatch issue.
+3. Deploy the code changes to improve data synchronization processing.
+4. Deploy the code changes related to case closure functionality.
+5. Restart the required CRMS services if applicable.
+6. Validate application functionality after deployment.
+7. Verify case creation, update, synchronization, and closure processes.
+8. Obtain confirmation from the application support team.
+
+Business Impact
+
+If this change is not implemented:
+
+* Users may continue to experience case version mismatch issues.
+* Case data may not synchronize correctly across CRMS components.
+* Some cases may not close successfully.
+* Operational efficiency and case management activities may be impacted.
+
+No downtime is expected for business users during the implementation.
+
+Technical Impact
+
+If this change is not implemented:
+
+* Data inconsistencies may continue within CRMS.
+* Case version conflicts may occur during processing.
+* Data synchronization issues may lead to incorrect case information.
+* Case closure functionality may not work as expected.
+
+The change only includes application fixes and does not involve any infrastructure changes.
+
+Backout Plan
+
+1. Stop the deployment activity.
+2. Restore the previous application version from backup.
+3. Restart the CRMS services.
+4. Verify application functionality after rollback.
+5. Confirm system stability with the support team.
+
+Post Implementation Verification Plan
+
+1. Verify case version mismatch issue is resolved.
+2. Verify data synchronization is working correctly.
+3. Verify cases can be closed successfully.
+4. Validate application logs for any errors.
+5. Obtain confirmation from business/application support team.
+
+
+
+
+
+
+
+
+,
 
 We are currently onboarding Clouseau for our UAT environment. The Clouseau service has been installed and is running successfully on the UAT servers.
 
