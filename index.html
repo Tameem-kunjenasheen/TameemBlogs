@@ -82,107 +82,72 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-You can send a firm but professional response like this:
+Subject: RE: HSBC Pen-test KSA-TADAWUL-SA, KSA-OMS-SA and KSA-OMS-SA new release
 
-Hi Hussam,
+Hi Remon,
 
-Thank you for the clarification.
+We will be implementing the IP whitelisting in the UAT environment for OMS, HBSA Tadawul, and the new OMS release. This will include both the PTLab internal IPs and the Pen Tester IPs mentioned below.
 
-Our concern is that onboarding a new application version is a lengthy process on our side. It requires coordination with multiple teams, including infrastructure, security, network, and application support teams. We also need to complete installation, configuration, testing, and validation activities before the application can be used.
+Once the whitelisting activity is completed, I will update you accordingly.
 
-Because of this effort, it would be difficult for us to repeat the entire onboarding and testing process every time a different version is provided later. We need to ensure that the version being installed is the correct and final version approved for use.
-
-Could you please confirm the root cause of the issue and whether the newly provided version (DENPRO12_SA_RETAIL_X_1.028.00.3) is the correct version that should be used going forward? This will help us avoid repeating the onboarding and testing activities again in the future.
-
-Thank you for your support.
-
-Regards,
-Akram
-
-This keeps the message professional while clearly explaining the impact on your team.
+Thanks,
+Tameem
 
 
-ggg
 
-Subject: Reminder – Awaiting Your Response
+
+You can send the below email to the CSE team:
 
 Hi Team,
 
-This is a gentle reminder regarding the below request. We are still waiting for your response.
+As part of the upcoming IP whitelisting activity for the UAT environment, could you please provide the destination IP details for the following applications?
 
-Could you please let us know your availability so that we can schedule a call with Santosh to investigate Issues #3 and #4 (Service Startup Delay) further?
+Application	Environment	Destination IP(s)
+OMS	UAT	
+New OMS Release	UAT	
+HSBC Tadawul	UAT	
 
-Also, could you please provide the ETA for resolving Issue #1?
+The destination IPs are required to proceed with whitelisting the PTLab and Pen Tester source IPs.
 
-Your prompt response will help us proceed with the next steps.
+Please share the details at your earliest convenience.
 
-Thank you.
-
-Regards,
-Akram/Tameem
-
-
-
-hhh
+Thanks & Regards,
+Tameem
 
 
- Title
-CRMS Issue Fixes – Case Version Mismatch, Data Synchronization and Case Closure Issues
 
-Justification
 
-This change is required to fix multiple issues identified in the CRMS application related to case version mismatch, data synchronization, and case closure processing.
 
-These issues are causing inconsistencies in case information and impacting normal case management activities. The proposed fixes will ensure accurate case processing, proper data synchronization, and successful case closure functionality within CRMS.
 
-Implementation Plan
 
-1. Take backup of the existing CRMS application components.
-2. Deploy the code changes to fix the case version mismatch issue.
-3. Deploy the code changes to improve data synchronization processing.
-4. Deploy the code changes related to case closure functionality.
-5. Restart the required CRMS services if applicable.
-6. Validate application functionality after deployment.
-7. Verify case creation, update, synchronization, and closure processes.
-8. Obtain confirmation from the application support team.
 
-Business Impact
+You can send the following email to the Network Team:
 
-If this change is not implemented:
+Hi Team,
 
-* Users may continue to experience case version mismatch issues.
-* Case data may not synchronize correctly across CRMS components.
-* Some cases may not close successfully.
-* Operational efficiency and case management activities may be impacted.
+Please whitelist the below source IPs in the UAT environment to facilitate the upcoming penetration testing activities for OMS, New OMS Release, and HSBC Tadawul.
 
-No downtime is expected for business users during the implementation.
+Source IP	Purpose	Destination
+xxx.xxx.xxx.xxx	Pen Tester IP	OMS UAT, New OMS UAT, HSBC Tadawul UAT
+xxx.xxx.xxx.xxx	PTLab Internal IP	OMS UAT, New OMS UAT, HSBC Tadawul UAT
 
-Technical Impact
+The destination IP details are as follows:
 
-If this change is not implemented:
+Application	Environment	Destination IP
+OMS	UAT	xxx.xxx.xxx.xxx
+New OMS Release	UAT	xxx.xxx.xxx.xxx
+HSBC Tadawul	UAT	xxx.xxx.xxx.xxx
 
-* Data inconsistencies may continue within CRMS.
-* Case version conflicts may occur during processing.
-* Data synchronization issues may lead to incorrect case information.
-* Case closure functionality may not work as expected.
+Kindly proceed with the whitelisting and let us know once completed.
 
-The change only includes application fixes and does not involve any infrastructure changes.
+Thanks & Regards,
+Tameem
 
-Backout Plan
 
-1. Stop the deployment activity.
-2. Restore the previous application version from backup.
-3. Restart the CRMS services.
-4. Verify application functionality after rollback.
-5. Confirm system stability with the support team.
 
-Post Implementation Verification Plan
 
-1. Verify case version mismatch issue is resolved.
-2. Verify data synchronization is working correctly.
-3. Verify cases can be closed successfully.
-4. Validate application logs for any errors.
-5. Obtain confirmation from business/application support team.
+
+
 
 
 
