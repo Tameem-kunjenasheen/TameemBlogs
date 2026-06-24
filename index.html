@@ -82,7 +82,383 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-Subject: Mubasher Pro 12 Installation – Cyber Security Review
+Based on the Excel test scenarios and the code screenshot, the logic appears to be:
+
+KYC Expiry Logic
+
+For normal countries (not in special country list)
+
+SCC Status	RAM Category	KYC Expiry
+YES	High	1 Year
+NO	High	2 Years
+NO	Medium	3 Years
+NO	Low	5 Years
+
+For special countries (Country of Incorporation in country list)
+
+The note says:
+
+“For these countries, the new logic will not work”
+
+The code is checking:
+
+COMPANY_INCORP_COUNTRY_N in
+(select country from hrtc_country_list)
+
+For these countries:
+
+RAM Category	KYC Expiry
+High	1 Year
+Medium	2 Years
+Low	5 Years
+
+SCC is ignored.
+
+⸻
+
+Test Cases
+
+Test Case 1
+
+Scenario
+
+New Corporate Customer
+
+* COI = KSA
+* LOB = Brokerage
+* Sub Product = Local Brokerage
+
+Expected
+
+* RAM Category = Low
+* KYC Renewal = 5 Years
+
+Validation
+
+Create customer with:
+
+* COI = KSA
+* SCC = No
+* RAM = Low
+
+Expected:
+
+KYC Onboarding Date = Today
+KYC Expiry Date = Today + 5 Years
+
+⸻
+
+Test Case 2
+
+Scenario
+
+New Corporate Customer
+
+* COI = KSA
+* LOB = HSS
+* Sub Product = DCC
+
+Expected
+
+* RAM Category = Medium
+* KYC Renewal = 5 Years
+
+Validation
+
+Check customer is assigned:
+
+RAM = Low
+
+because code gives 5 years only for Low.
+
+Expected:
+
+KYC Expiry = Today + 5 Years
+
+If RAM is actually Medium then code gives 3 years.
+
+This scenario needs clarification with business.
+
+⸻
+
+Test Case 3
+
+Scenario
+
+New NBFI Customer
+
+* COI = KSA
+* LOB = IB
+* Sub Product = CTLA
+
+Expected
+
+High Risk
+KYC Renewal = 2 Years
+
+Validation
+
+* SCC = No
+* RAM = High
+
+Expected:
+
+KYC Expiry = Today + 2 Years
+
+⸻
+
+Test Case 4
+
+Scenario
+
+New NBFI Customer
+
+* COI = Kuwait
+* LOB = IB
+* Sub Product = CTLA
+
+Expected
+
+High Risk
+KYC Renewal = 1 Year
+
+Validation
+
+Kuwait appears to be in special country list.
+
+Expected:
+
+KYC Expiry = Today + 1 Year
+
+⸻
+
+Test Case 5
+
+Scenario
+
+New NBFI Customer
+
+* COI = Virgin Islands (VG)
+* LOB = IB
+* Sub Product = CTLA
+
+Expected
+
+High Risk
+KYC Renewal = 1 Year
+
+Validation
+
+Expected:
+
+KYC Expiry = Today + 1 Year
+
+⸻
+
+Test Case 6
+
+Scenario
+
+New NBFI Customer
+
+* COI = Cayman Islands
+* LOB = IB
+* Sub Product = CTLA
+
+Expected
+
+High Risk
+KYC Renewal = 1 Year
+
+Validation
+
+Expected:
+
+KYC Expiry = Today + 1 Year
+
+⸻
+
+Test Case 7
+
+Scenario
+
+New Corporate Customer
+
+* COI = Luxembourg
+* LOB = HSS
+* Sub Product = DCC
+
+Expected
+
+Medium Risk
+KYC Renewal = 3 Years
+
+Validation
+
+If Luxembourg is NOT in special list:
+
+RAM = Medium
+KYC Expiry = Today + 3 Years
+
+⸻
+
+Test Case 8
+
+Scenario
+
+Corporate Customer
+
+* COI = KSA
+* LOB = Brokerage
+* SCC = YES (PEP present)
+
+Expected
+
+KYC Renewal = 1 Year
+
+Validation
+
+Check:
+
+SCC = YES
+RAM = High
+
+Expected:
+
+KYC Expiry = Today + 1 Year
+
+⸻
+
+Test Case 9
+
+Renewal Scenario
+
+Existing Customer
+
+* COI = KSA
+* Medium Risk
+
+Expected
+
+Renewal Date = 5 Years
+
+Validation
+
+Renew customer and verify:
+
+New Expiry Date = Previous Expiry + 5 Years
+
+⸻
+
+Test Case 10
+
+Renewal Scenario
+
+Existing Customer
+
+* COI = Kuwait
+* Medium Risk
+
+Expected
+
+Renewal Date = 3 Years
+
+Validation
+
+Renew case and verify:
+
+New Expiry Date = Previous Expiry + 3 Years
+
+⸻
+
+Test Case 11
+
+Renewal Scenario
+
+NBFI Customer
+
+* COI = KSA
+* High Risk
+
+Expected
+
+KYC Renewal = 2 Years
+
+Validation
+
+Expected:
+
+New Expiry Date = Previous Expiry + 2 Years
+
+⸻
+
+Test Case 12
+
+Material Trigger
+
+Existing Customer
+
+* COI = Luxembourg
+* High Risk
+
+Expected
+
+KYC Renewal = 1 Year
+
+Validation
+
+Trigger material review and verify:
+
+KYC Expiry Date = Today + 1 Year
+
+⸻
+
+Additional Negative Testing
+
+You should also test these before UAT signoff:
+
+1. SCC = YES
+
+Verify expiry is always 1 year.
+
+2. SCC = NO + High Risk
+
+Verify expiry is 2 years.
+
+3. SCC = NO + Medium Risk
+
+Verify expiry is 3 years.
+
+4. SCC = NO + Low Risk
+
+Verify expiry is 5 years.
+
+5. Country in Special Country List
+
+Verify special country logic overrides normal logic.
+
+6. Renewal
+
+Verify existing expiry date is updated correctly.
+
+7. Material Trigger
+
+Verify recalculation happens after trigger.
+
+8. New Customer Creation
+
+Verify KYC Onboarding Date is populated with today’s date.
+
+This should give you complete SIT/UAT coverage for the code change.
+
+
+
+
+
+
+
+
+: Mubasher Pro 12 Installation – Cyber Security Review
 
 Hi Fahad,
 
