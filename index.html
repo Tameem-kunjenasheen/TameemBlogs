@@ -82,6 +82,61 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
+filename resp temp;
+filename req temp;
+
+data _null_;
+    file req;
+    put '{"username":"testuser","password":"testpass"}';
+run;
+
+proc http
+    url="https://api.example.com/login"
+    method="POST"
+    in=req
+    out=resp
+    ct="application/json";
+run;
+
+libname apiresp json fileref=resp;
+
+proc print data=apiresp.alldata;
+run;
+
+
+
+
+
+filename apiresp temp;
+
+proc http
+    url="https://<host>/api/v1/customers"
+    method="GET"
+    out=apiresp;
+    headers
+        "consumerKey"="YOUR_CONSUMER_KEY"
+        "consumerSecret"="YOUR_CONSUMER_SECRET"
+        "Accept"="application/json";
+run;
+
+filename apiresp temp;
+
+proc http
+    url="https://<host>/api/v1/customers"
+    method="GET"
+    out=apiresp;
+    headers
+        "Authorization"="Bearer <ACCESS_TOKEN>"
+        "Accept"="application/json";
+run;
+
+
+kkk
+
+
+
+
+
 
 
 Hi Cyber Security Team,
