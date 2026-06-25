@@ -82,7 +82,33 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-filename resp temp;
+
+You can send the below email:
+
+Hi Team,
+
+We are currently mapping the OMS fields to CRMS and reviewing the lookup tables provided. The lookup information has been helpful in relating the fields.
+
+We have a few queries that require clarification:
+
+1. ID Type is not available in CRMS. Can we default the value to “Other ID”?
+2. Customer Number and CIF Number are marked for discussion between CRMS, Pandu, and Stanley. Could you please advise on the final mapping approach?
+3. For Client Type, we have a predefined list in CRMS. If there is no matching value in the OMS lookup table, can we pass “Special Cases” as the default value?
+4. ID Expiry is marked as a mandatory field. However, as per the new regulations, this information is not being provided for newly created CRs. How should this be handled?
+5. For Address details, we currently have all address information consolidated into only two fields. Could you please advise on the expected mapping approach?
+
+Kindly provide your guidance on the above points. We will continue with the mapping activity and will reach out next week if any additional follow-up is required.
+
+Thanks & Regards,
+[Your Name]
+
+
+
+
+
+
+
+ resp temp;
 filename req temp;
 
 data _null_;
