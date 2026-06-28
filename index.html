@@ -83,7 +83,114 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
-Based on the screenshot, this PL/SQL procedure is responsible for generating KYC/ID Expiry alerts. It checks whether a customer’s ID expiry date falls within a configured number of days (0, 30, 60, or 90 days) and then creates the alert.
+
+This screenshot is specifically for KYC Expiry Alert generation. Here’s a simple explanation that you can share with the Compliance team along with the screenshot.
+
+⸻
+
+KYC Alert Generation Logic
+
+The attached code shows that the system generates KYC Expiry Alerts based on the following conditions:
+
+1. Expiry Date Check
+
+The system checks the KYC Expiry Date (KYC_EXPIRY_DATE) and generates an alert only if it falls between the calculated date range.
+
+PGORCL.KYC_EXPIRY_DATE BETWEEN (V_LST_RUN) AND (V_CUR_RUN)
+
+The date range is calculated using:
+
+V_CUR_RUN := V_CUR_RUN + DAYS_VALUE;
+V_LST_RUN := V_LST_RUN + DAYS_VALUE;
+
+The procedure is executed for:
+
+* 0 days
+* 30 days
+* 60 days
+* 90 days
+
+So, alerts are generated for KYC records expiring today, in 30 days, 60 days, and 90 days.
+
+⸻
+
+2. Zero Notification Flag
+
+The alert is generated only when:
+
+ZERO_NOTIFICATION_FLG = 'NO'
+OR
+ZERO_NOTIFICATION_FLG IS NULL
+
+This means customers who have disabled zero notifications are excluded.
+
+⸻
+
+3. Relationship Status
+
+Only active customer relationships are considered.
+
+NVL(X_RELATIONSHIP_STATUS,
+GB_PCK.V_REL_STATUS_ACTIVE)
+=
+GB_PCK.V_REL_STATUS_ACTIVE
+
+⸻
+
+4. Case Status
+
+Only cases with status ‘C’ are processed.
+
+CASE_STATUS_CD = 'C'
+
+⸻
+
+5. Alert Creation
+
+If all the above conditions are satisfied, the system creates the alert using:
+
+GENERATE_XXX_ALERTS
+
+⸻
+
+6. Alert Frequencies
+
+The procedure is called four times:
+
+GENERATE_KYCEXPXX_ALERTS(...,0);
+GENERATE_KYCEXPXX_ALERTS(...,30);
+GENERATE_KYCEXPXX_ALERTS(...,60);
+GENERATE_KYCEXPXX_ALERTS(...,90);
+
+Therefore, KYC alerts are generated for:
+
+* 0 days – Expiring today
+* 30 days – Expiring in 30 days
+* 60 days – Expiring in 60 days
+* 90 days – Expiring in 90 days
+
+⸻
+
+Summary for Compliance Team
+
+The KYC expiry alert is triggered only when all of the following conditions are met:
+
+* The customer’s KYC Expiry Date falls within the configured alert window (0, 30, 60, or 90 days).
+* ZERO_NOTIFICATION_FLG is ‘NO’ or NULL.
+* The customer relationship is Active.
+* The case status is ‘C’.
+* The record is processed during the scheduled batch execution.
+
+The attached code screenshot is the implementation used by the application to determine when KYC expiry alerts should be generated.
+
+
+
+
+
+
+-----------------
+
+jj on the screenshot, this PL/SQL procedure is responsible for generating KYC/ID Expiry alerts. It checks whether a customer’s ID expiry date falls within a configured number of days (0, 30, 60, or 90 days) and then creates the alert.
 
 You can explain it to the Compliance team like this:
 
