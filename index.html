@@ -83,7 +83,87 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
+Based on the screenshot, this PL/SQL procedure is responsible for generating KYC/ID Expiry alerts. It checks whether a customer’s ID expiry date falls within a configured number of days (0, 30, 60, or 90 days) and then creates the alert.
 
+You can explain it to the Compliance team like this:
+
+⸻
+
+Subject: KYC Alert Generation Logic
+
+Hi Team,
+
+Please find the alert generation logic used by the system for KYC ID expiry notifications.
+
+The attached code shows that the system generates alerts based on the following conditions:
+
+Alert Generation Conditions
+
+1. The procedure calculates the alert date range using the last successful batch run date and the current batch run date.
+
+V_CUR_RUN := V_CUR_RUN + DAYS_VALUE;
+V_LST_RUN := V_LST_RUN + DAYS_VALUE;
+
+    * DAYS_VALUE is passed as 0, 30, 60, or 90.
+    * This means the system checks for IDs expiring today, in 30 days, 60 days, and 90 days.
+2. The alert is generated only if:
+    * Case Type = ‘CDDINV’ and the ID Expiry Date (X_EXPIRY_DATE) falls between the calculated date range.
+
+CASE_TYPE_CD = 'CDDINV'
+AND TO_DATE(X_EXPIRY_DATE,'MM/DD/RRRR')
+BETWEEN V_LST_RUN AND V_CUR_RUN
+
+    OR
+    * Case Type = ‘AMLINV’ and the Customer ID Expiry Date (X_CR_EXPIRY_DATE) falls between the calculated date range.
+
+CASE_TYPE_CD = 'AMLINV'
+AND TO_DATE(X_CR_EXPIRY_DATE,'MM/DD/RRRR')
+BETWEEN V_LST_RUN AND V_CUR_RUN
+
+3. Additional conditions:
+    * Customer relationship must be Active.
+
+NVL(X_RELATIONSHIP_STATUS, GB_PCK.V_REL_STATUS_ACTIVE)
+  = GB_PCK.V_REL_STATUS_ACTIVE
+
+    * Country of registration should not be ‘SA’.
+
+X_CNTRY_REGISTRATION != 'SA'
+
+    * Case status must be ‘C’ (Closed/Completed).
+
+CASE_STATUS_CD = 'C'
+
+4. If all the above conditions are satisfied, the procedure calls:
+
+GENERATE_XXX_ALERTS(V_ALERT_DATA_CSR, ALERT_ID);
+
+    This creates the KYC expiry alert.
+5. The procedure is executed for four alert intervals:
+
+GENERATE_IDEXPXX_ALERTS(..., 0);
+GENERATE_IDEXPXX_ALERTS(..., 30);
+GENERATE_IDEXPXX_ALERTS(..., 60);
+GENERATE_IDEXPXX_ALERTS(..., 90);
+
+    Therefore, alerts are generated for:
+    * Expiring today (0 days)
+    * Expiring in 30 days
+    * Expiring in 60 days
+    * Expiring in 90 days
+
+Summary
+
+The KYC alert is triggered only when:
+
+* The customer belongs to CDDINV or AMLINV case type.
+* The ID expiry date falls within the configured alert window (0/30/60/90 days).
+* The relationship is Active.
+* The registration country is not Saudi Arabia (SA).
+* The case status is ‘C’.
+* The batch job processes the record during its scheduled execution.
+
+This explanation, along with the attached code screenshot, provides the technical basis for how the KYC expiry alerts are generated.
 
 
 
