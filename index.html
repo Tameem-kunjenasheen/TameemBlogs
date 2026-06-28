@@ -83,233 +83,50 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
-Currently, I’m mapping the fields to CRMS. 
-They have provided lookup tables, so it is easier to relate. 
-I’ll let you know next week if we need a follow-up. 
 
-Few definite questions for them:
-1. ID Type is not in CRMS, can we select Other ID by default?
-2. ⁠customerNumber & cifNumber is mentioned to be discussed between CRMS, Pandu & Stanly. 
-3. ⁠Client type, we have a list in CRMS. If there is no match in OMS lookup, can we pass Special Cases?
-4. ⁠IDexpiry is marked as mandatory, however, as per new regulations, it is not provided with new CRs. 
-5. ⁠For address, how do we proceed as we have all the information in 2 fields only. can send the below email:
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+subject: Request to Check and Resolve SSL Certificate Issue in UAT Environment
 
 Hi Team,
 
-We are currently mapping the OMS fields to CRMS and reviewing the lookup tables provided. The lookup information has been helpful in relating the fields.
-
-We have a few queries that require clarification:
-
-1. ID Type is not available in CRMS. Can we default the value to “Other ID”?
-2. Customer Number and CIF Number are marked for discussion between CRMS, Pandu, and Stanley. Could you please advise on the final mapping approach?
-3. For Client Type, we have a predefined list in CRMS. If there is no matching value in the OMS lookup table, can we pass “Special Cases” as the default value?
-4. ID Expiry is marked as a mandatory field. However, as per the new regulations, this information is not being provided for newly created CRs. How should this be handled?
-5. For Address details, we currently have all address information consolidated into only two fields. Could you please advise on the expected mapping approach?
-
-Kindly provide your guidance on the above points. We will continue with the mapping activity and will reach out next week if any additional follow-up is required.
-
-Thanks & Regards,
-[Your Name]
-
-
-
-
-
-
-
- resp temp;
-filename req temp;
-
-data _null_;
-    file req;
-    put '{"username":"testuser","password":"testpass"}';
-run;
-
-proc http
-    url="https://api.example.com/login"
-    method="POST"
-    in=req
-    out=resp
-    ct="application/json";
-run;
-
-libname apiresp json fileref=resp;
-
-proc print data=apiresp.alldata;
-run;
-
-
-
-
-
-filename apiresp temp;
-
-proc http
-    url="https://<host>/api/v1/customers"
-    method="GET"
-    out=apiresp;
-    headers
-        "consumerKey"="YOUR_CONSUMER_KEY"
-        "consumerSecret"="YOUR_CONSUMER_SECRET"
-        "Accept"="application/json";
-run;
-
-filename apiresp temp;
-
-proc http
-    url="https://<host>/api/v1/customers"
-    method="GET"
-    out=apiresp;
-    headers
-        "Authorization"="Bearer <ACCESS_TOKEN>"
-        "Accept"="application/json";
-run;
-
-
-kkk
-
-
-
-
-
-
-
-Hi Cyber Security Team,
-
 Hope you are doing well.
 
-We require Cyber Security approval for bi-directional port opening and IP whitelisting between the New OMS UAT MQ servers and the related application servers as part of the New OMS UAT implementation.
+We are currently performing business testing in the UAT environment. During testing, we are facing an SSL certificate issue while invoking the RAM Risk Rating service.
 
-Please review and approve the connectivity requirements mentioned below:
+Error:
+java.security.cert.CertificateException: No subject alternative DNS name matching uk-dsram-sit.cloud.uk.hsbc found
 
-Source IP	Destination IP	Port	Protocol	Direction
-			TCP	Bi-Directional
-			TCP	Bi-Directional
+It appears that the SSL certificate presented by the server does not match the endpoint hostname, causing the service call to fail.
 
-Purpose:
-The connectivity is required for MQ communication between the New OMS UAT components to support application integration and end-to-end testing activities in the UAT environment.
+Could you please check the following:
 
-Kindly review and provide your approval so that the network team can proceed with the required firewall and whitelisting changes.
+* Verify that the correct SSL certificate is installed on the server.
+* Confirm that the certificate includes the hostname uk-dsram-sit.cloud.uk.hsbc in the Subject Alternative Name (SAN).
+* Check if there have been any recent certificate renewals or load balancer/DNS changes.
 
-Please let us know if any additional information is required.
+This issue is blocking our UAT business testing. We would appreciate it if you could investigate and resolve it at the earliest.
+
+Please let us know if you need any additional information or logs from our side.
 
 Thanks & Regards,
-[Your Name]
+Akram
 
-Replace the Source IP, Destination IP, and Port details before sending.
 
- on the Excel test scenarios and the code screenshot, the logic appears to be:
 
-KYC Expiry Logic
-
-For normal countries (not in special country list)
-
-SCC Status	RAM Category	KYC Expiry
-YES	High	1 Year
-NO	High	2 Years
-NO	Medium	3 Years
-NO	Low	5 Years
-
-For special countries (Country of Incorporation in country list)
-
-The note says:
-
-“For these countries, the new logic will not work”
-
-The code is checking:
-
-COMPANY_INCORP_COUNTRY_N in
-(select country from hrtc_country_list)
-
-For these countries:
-
-RAM Category	KYC Expiry
-High	1 Year
-Medium	2 Years
-Low	5 Years
-
-SCC is ignored.
-
-⸻
-
-Test Cases
-
-Test Case 1
-
-Scenario
-
-New Corporate Customer
-
-* COI = KSA
-* LOB = Brokerage
-* Sub Product = Local Brokerage
-
-Expected
-
-* RAM Category = Low
-* KYC Renewal = 5 Years
-
-Validation
-
-Create customer with:
-
-* COI = KSA
-* SCC = No
-* RAM = Low
-
-Expected:
-
-KYC Onboarding Date = Today
-KYC Expiry Date = Today + 5 Years
-
-⸻
-
-Test Case 2
-
-Scenario
-
-New Corporate Customer
-
-* COI = KSA
-* LOB = HSS
-* Sub Product = DCC
-
-Expected
-
-* RAM Category = Medium
-* KYC Renewal = 5 Years
-
-Validation
-
-Check customer is assigned:
-
-RAM = Low
-
-because code gives 5 years only for Low.
-
-Expected:
-
-KYC Expiry = Today + 5 Years
-
-If RAM is actually Medium then code gives 3 years.
-
-This scenario needs clarification with business.
-
-⸻
-
-Test Case 3
-
-Scenario
-
-New NBFI Customer
-
-* COI = KSA
-* LOB = IB
-* Sub Product = CTLA
-
-Expected
-
-High Risk
+ Risk
 KYC Renewal = 2 Years
 
 Validation
