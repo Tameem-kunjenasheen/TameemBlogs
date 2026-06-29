@@ -83,6 +83,35 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
+Here’s an updated version including that the issue affects multiple team members:
+
+Hi Infra Team,
+
+We are again facing a connectivity issue with the PostgreSQL database server over the VPN. This issue is not limited to me; multiple team members are also experiencing the same problem.
+
+Earlier, we raised a request in May regarding this issue. After investigation, it was identified that the PostgreSQL server IP needed to be whitelisted. Once the whitelisting was completed, the connection worked successfully.
+
+However, the same issue has occurred again, and none of us are able to connect to the PostgreSQL database server over the VPN.
+
+Could you please investigate why the whitelist entry is being removed (or de-whitelisted) without any notification? This is the second time we have encountered the same issue, and it is affecting our team’s work.
+
+We request you to:
+
+* Restore the required whitelist entry.
+* Investigate the root cause of why the whitelist entry is being removed.
+* Ensure this issue does not recur in the future.
+
+Please let us know if you need any additional information from our side.
+
+Thanks & Regards,
+
+
+
+
+
+
+
+
 Hi Ibrahim,
 
 I have added the required permissions to your ID. However, there is an existing group assigned to your account, and only the Access Management (IAM) team can remove it.
