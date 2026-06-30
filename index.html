@@ -83,8 +83,169 @@ button{
   <pre><code id="codeBlock">
  // -------------------Start-----------------
 
+Change Request (CR)
 
-Here’s a professional email you can send to the Cyber team:
+CR Title
+
+Update KYC Renewal Date Logic Based on New CDD Renewal Policy (1255) with COI Exclusion List
+
+Change Type
+Enhancement
+
+Application
+CRMS (Customer Relationship Management System)
+
+Module
+KYC / Customer Due Diligence (CDD)
+
+⸻
+
+Description
+
+This change is to update the KYC renewal date calculation based on the new CDD Renewal Policy (1255).
+
+A new configurable database table (HRTC_COUNTRY_LIST) will be created to maintain the list of Countries of Incorporation (COI) that should not follow the new renewal policy.
+
+During KYC calculation, the application will first check whether the customer’s COI exists in the HRTC_COUNTRY_LIST.
+
+* If the country exists in the exclusion list, the existing KYC renewal logic will be applied.
+* If the country is not in the exclusion list, the new 1255 renewal logic will be applied.
+
+The change also includes adding the missing countries to the CRMS Country Master and updating the KYC onboarding and renewal date calculation.
+
+⸻
+
+Justification
+
+This change is required to implement the revised CDD Renewal Policy (1255) for KYC renewal date calculation.
+
+The current logic does not support maintaining excluded countries through configuration. Every new country addition or removal requires code changes.
+
+By introducing a configurable exclusion table, future maintenance can be done directly through the database without modifying the application code. This reduces maintenance effort, improves flexibility, and ensures compliance with the latest business requirements.
+
+⸻
+
+Implementation Plan
+
+1. Take backup of the current application and database objects.
+2. Deploy the updated SAS program.
+3. Create the HRTC_COUNTRY_LIST table.
+4. Insert the configured exclusion countries into the table.
+5. Update the CRMS Country Master with the missing countries.
+6. Deploy the database scripts.
+7. Restart application services if required.
+8. Verify deployment logs.
+9. Perform smoke testing.
+10. Validate KYC renewal calculation in UAT.
+11. Deploy the changes to Production after UAT approval.
+
+⸻
+
+Business Impact
+
+If the change is not implemented:
+
+* KYC renewal dates will not follow the new CDD Renewal Policy (1255).
+* Customers may receive incorrect KYC expiry dates.
+* Manual corrections may be required by business users.
+* Future country updates will require application code changes instead of simple database updates.
+
+There is no expected business downtime during implementation.
+
+⸻
+
+Technical Impact
+
+If the change is not implemented:
+
+* The application will continue using the existing KYC renewal logic.
+* New CDD renewal rules will not be applied correctly.
+* Country exclusions cannot be managed through configuration.
+* Every country update will require a new code deployment.
+
+This change includes updating the SAS program, creating a new database table, and updating the Country Master. No infrastructure changes are involved.
+
+⸻
+
+Database Changes
+
+Create New Table
+
+HRTC_COUNTRY_LIST
+
+Purpose:
+Maintain the list of Countries of Incorporation (COI) that should continue using the existing KYC renewal logic.
+
+Update Existing Data
+
+* Add the missing countries to the CRMS Country Master.
+* Populate the HRTC_COUNTRY_LIST table with the required exclusion countries.
+
+⸻
+
+Code Changes
+
+The SAS program will be updated to:
+
+* Check whether the customer’s COI exists in the HRTC_COUNTRY_LIST.
+* Apply the existing renewal logic for excluded countries.
+* Apply the new CDD Renewal Policy (1255) for all other countries.
+* Update the KYC Expiry Date.
+* Update the KYC Onboarding Date for new customer onboarding.
+
+⸻
+
+Backout Plan
+
+If any issue is identified during implementation:
+
+1. Restore the previous SAS program.
+2. Restore the database backup.
+3. Remove the newly created database objects if required.
+4. Restart the application services.
+5. Verify the application is functioning normally.
+
+⸻
+
+Post Implementation Verification Plan
+
+* Verify the HRTC_COUNTRY_LIST table is created successfully.
+* Verify the exclusion countries are loaded correctly.
+* Verify the missing countries are available in the Country Master.
+* Verify KYC expiry dates for High, Medium, and Low risk customers.
+* Verify SCC scenarios.
+* Verify excluded countries follow the existing renewal logic.
+* Verify all other countries follow the new 1255 renewal logic.
+* Verify KYC onboarding date is updated correctly.
+* Verify renewal cases and material trigger cases.
+* Confirm there is no impact on other CRMS functionality.
+
+⸻
+
+UAT Testing Scenarios
+
+Test Case	Expected Result
+New Corporate Customer (Low Risk)	KYC Expiry = 5 Years
+New Corporate Customer (Medium Risk)	KYC Expiry = 3 Years
+New Corporate Customer (High Risk, SCC = No)	KYC Expiry = 2 Years
+High Risk Customer (SCC = Yes)	KYC Expiry = 1 Year
+Customer with Excluded COI	Existing renewal logic is applied
+Customer with Normal COI	New 1255 renewal logic is applied
+Renewal Case	KYC expiry updated correctly
+Material Trigger Case	KYC recalculated correctly
+New Customer Onboarding	KYC onboarding and expiry dates updated correctly
+
+⸻
+
+Summary
+
+This enhancement updates the KYC renewal calculation to comply with the new CDD Renewal Policy (1255). It introduces a configurable HRTC_COUNTRY_LIST table to manage excluded countries without future code changes, updates the CRMS Country Master with missing countries, and ensures accurate KYC expiry and onboarding date calculation while reducing ongoing maintenance effort.
+
+
+
+
+
+ a professional email you can send to the Cyber team:
 
 Hi Cyber Team,
 
