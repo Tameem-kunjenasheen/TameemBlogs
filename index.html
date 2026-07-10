@@ -82,7 +82,54 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
+Since you’ve already created the table fdhdata.hrtc_country_list, you can insert the data using INSERT statements.
 
+Based on your screenshots, use the following SQL:
+
+INSERT INTO fdhdata.hrtc_country_list (country, country_description)
+VALUES
+('IR', 'Iran'),
+('DZ', 'Algeria'),
+('AO', 'Angola'),
+('BO', 'Bolivia'),
+('BG', 'Bulgaria'),
+('CM', 'Cameroon'),
+('CI', 'Côte d''Ivoire'),
+('KP', 'Korea, North'),
+('CD', 'Congo, Democratic Republic'),
+('HT', 'Haiti'),
+('KE', 'Kenya'),
+('KW', 'Kuwait'),
+('LA', 'Laos'),
+('LB', 'Lebanon'),
+('MC', 'Monaco'),
+('MM', 'Myanmar'),
+('NP', 'Nepal'),
+('PG', 'Papua New Guinea'),
+('SY', 'Syria'),
+('VE', 'Venezuela'),
+('VN', 'Vietnam'),
+('VG', 'Virgin Islands(UK)'),
+('YE', 'Yemen'),
+('SS', 'Sudan (South)'),
+('IQ', 'Iraq');
+
+If you want to copy all data from ai_country_list to hrtc_country_list
+
+If both tables have the same structure, you don’t need to insert row by row. Just run:
+
+INSERT INTO fdhdata.hrtc_country_list (country, country_description)
+SELECT country, country_description
+FROM fdhdata.ai_country_list;
+
+This is the simplest and fastest approach.
+
+Verify the data
+
+SELECT *
+FROM fdhdata.hrtc_country_list;
+
+From your screenshots, it looks like hrtc_country_list contains only a subset of the countries from ai_country_list. If your requirement is to copy all countries from ai_country_list, use the INSERT ... SELECT statement above instead of manually inserting the rows.
 
 Based on both the Teams chat and the previous discussion, here’s a concise and professional email:
 
