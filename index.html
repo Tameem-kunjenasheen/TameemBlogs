@@ -82,9 +82,82 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
+The content is good, but I recommend making it a little stronger and clearer since this email may be reviewed by management or compliance. Here’s a refined version:
+
+⸻
+
+Subject: Root Cause Analysis – Monthly Refund Commission File Upload Issue
+
+Dear Imran, Sara, Feras,
+
+Based on our investigation, we found that there is no technical issue with the HUB upload process or the OMS application. The application is working as designed.
+
+Process Overview
+
+The Monthly Refund Commission file uses a sequence number to maintain the upload order. During each upload, the HUB validates the sequence number.
+
+* If the uploaded file contains the expected sequence number, the file is accepted and processed successfully.
+* If the sequence number does not match the expected sequence, the HUB rejects the file, and the upload fails.
+
+Therefore, the sequence number must always follow the expected order without any gaps.
+
+Root Cause Analysis
+
+The last successful upload in the HUB was completed in December 2025 (evidence attached).
+
+The January 2026 monthly file was not uploaded. Since no file was processed in January, the expected sequence number in the HUB remained at 811 and did not increment.
+
+However, the subsequent monthly files were uploaded using the next sequence numbers instead of the sequence number that the HUB was still expecting. As a result, the HUB rejected these uploads because of the sequence number mismatch.
+
+If the January 2026 upload issue had been identified and reported at that time, the sequence could have been corrected immediately. However, the issue was not flagged by the Operations team, and the same incorrect sequence number continued to be used in the following monthly uploads.
+
+Findings
+
+* The last successful HUB upload was completed in December 2025.
+* The January 2026 upload was not performed.
+* Since January was missed, the expected sequence number in the HUB remained 811.
+* The subsequent monthly uploads were performed using incorrect sequence numbers, resulting in upload failures.
+* This issue continued for approximately six months because the sequence mismatch was not identified.
+* The HUB validation worked as designed by rejecting files with an unexpected sequence number.
+* There is no technical issue with the HUB upload process or the OMS application.
+
+Conclusion
+
+Based on our investigation, the issue is not caused by an application or technical defect. The root cause is a process/control gap, where the January 2026 upload was missed and the sequence number mismatch was not identified before subsequent monthly uploads were performed.
+
+Please find the attached evidence showing that the last successful upload was completed in December 2025.
+
+Kindly review the Operations process and investigate why the January 2026 upload was missed and why the sequence number mismatch was not identified in the subsequent months.
+
+Please let us know if you require any additional information from the IT team.
+
+Regards,
+
+Tameem Kunjanshasheen
+
+⸻
+
+This version is:
+
+* More professional.
+* Clearly explains how the sequence number works.
+* Clearly establishes the root cause.
+* States that IT is not at fault without sounding accusatory.
+* Suitable for business, compliance, and audit stakeholders.
 
 
-Here’s a clear and professional email that explains the process, root cause, and findings in simple business English.
+
+
+
+
+
+
+
+
+
+
+
+ a clear and professional email that explains the process, root cause, and findings in simple business English.
 
 ⸻
 
