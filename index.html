@@ -84,7 +84,79 @@ button{
  // -------------------Start-----------------
 
 
-I can read most of the visible conversation now. Some words and names are still slightly blurred, so I’ve marked those with […] where I can’t be completely certain.
+Here’s a clear and professional email that explains the process, root cause, and findings in simple business English.
+
+⸻
+
+Subject: Root Cause Analysis – Monthly Refund Commission File Upload Issue
+
+Dear Sarah, Faras, Hamad, and Muhammad,
+
+Based on our investigation, we found that there is no technical issue with the HUB upload process or the IT application. The application is working as designed.
+
+Process Overview
+
+The Monthly Refund Commission file uses a sequence number to maintain the upload order. The HUB validates this sequence number during every upload.
+
+* If the uploaded file contains the expected sequence number, the file is accepted and processed successfully.
+* If the sequence number does not match the expected value, the HUB rejects the file and the upload fails.
+
+Therefore, the sequence number must always follow the correct order without any gaps.
+
+Root Cause
+
+Our investigation shows that the last successful upload was in December 2025 (evidence attached).
+
+Since the January 2026 file was not uploaded, the sequence number in the HUB remained unchanged because the expected sequence was never advanced.
+
+When the subsequent monthly files were uploaded, they were submitted with the next sequence number instead of the sequence number that the HUB was still expecting. As a result, the uploads were rejected due to the sequence number mismatch.
+
+If the January 2026 upload failure had been identified and reported at that time, the issue could have been corrected immediately. However, this was not flagged by the Operations team, and the same incorrect sequence number pattern continued for the following months.
+
+Findings
+
+* The last successful upload was in December 2025.
+* The January 2026 upload was missed, so the expected sequence number in the HUB did not change.
+* The subsequent monthly uploads were performed using incorrect sequence numbers.
+* This sequence number mismatch continued for approximately six months.
+* The HUB rejected the uploads as per its designed validation logic.
+* There is no technical failure in the HUB upload process or the IT application.
+
+Conclusion
+
+Based on the above findings, this issue is not related to an IT system defect. The root cause is a process/control gap where the missed upload in January 2026 was not identified and corrected, resulting in subsequent uploads being performed with incorrect sequence numbers.
+
+Kindly review the Operations process to determine why the January 2026 upload was missed and why the sequence number mismatch was not identified in the following monthly uploads.
+
+The attached evidence shows that the last successful upload was completed in December 2025.
+
+Please let us know if any further clarification is required from the IT team.
+
+Best Regards,
+
+Tameem Kunjanshasheen
+
+⸻
+
+This version clearly explains:
+
+* How the sequence number mechanism works
+* Why the issue occurred
+* Why it continued for six months
+* Why IT is not the root cause
+* What the Operations team should investigate, making it suitable for management and audit review.
+
+
+
+
+
+
+
+
+
+
+
+ can read most of the visible conversation now. Some words and names are still slightly blurred, so I’ve marked those with […] where I can’t be completely certain.
 
 Extracted conversation
 
