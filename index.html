@@ -82,7 +82,16 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-The content is good, but I recommend making it a little stronger and clearer since this email may be reviewed by management or compliance. Here’s a refined version:
+SELECT
+    schemaname,
+    tablename,
+    pg_size_pretty(pg_total_relation_size(schemaname || '.' || tablename)) AS total_size
+FROM pg_tables
+ORDER BY pg_total_relation_size(schemaname || '.' || tablename) DESC;
+
+
+
+ content is good, but I recommend making it a little stronger and clearer since this email may be reviewed by management or compliance. Here’s a refined version:
 
 ⸻
 
