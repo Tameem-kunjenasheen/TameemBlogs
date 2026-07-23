@@ -82,7 +82,38 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-You can send a professional follow-up email like this:
+import java.nio.charset.StandardCharsets;
+
+public class ArabicToHtmlEntity {
+
+    public static String encodeToHtmlEntities(String input) {
+        StringBuilder result = new StringBuilder();
+
+        for (char ch : input.toCharArray()) {
+            // Preserve spaces, tabs, and new lines
+            if (ch == ' ' || ch == '\n' || ch == '\r' || ch == '\t') {
+                result.append(ch);
+            } else {
+                result.append("&#").append((int) ch).append(";");
+            }
+        }
+
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+
+        String arabic = "السلام عليكم";
+
+        String encoded = encodeToHtmlEntities(arabic);
+
+        System.out.println(encoded);
+    }
+}
+
+
+
+ can send a professional follow-up email like this:
 
 Subject: Follow-up: Invalid CAPTCHA Error Reported During Pen Testing
 
