@@ -82,7 +82,45 @@ button{
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
  // -------------------Start-----------------
-You can update it like this:
+Here’s a professional incident template you can use for the HarfBuzz font library installation.
+
+Short Description
+
+Installation of HarfBuzz Font Library on Application Server
+
+Description
+
+The application requires the HarfBuzz font library to support font shaping and rendering, which is required for Captcha generation and proper rendering of multilingual text (including Arabic).
+
+Currently, the HarfBuzz library is not installed on the application server. As a result, the application is unable to render the required fonts correctly, causing the Captcha functionality to fail and preventing users from logging in.
+
+The HarfBuzz library installation requires sudo/root access on the application server.
+
+Request:
+
+* Install the HarfBuzz font library on the application server.
+* Verify that the required dependencies are installed.
+* Restart the application service (if required) after installation.
+* Confirm once the installation is completed so that the application team can perform validation.
+
+Business Impact
+
+* Users are unable to log in because the Captcha cannot be rendered correctly.
+* The affected application functionality is unavailable to users.
+* This is impacting normal business operations and requires urgent resolution.
+
+Technical Information
+
+* Library Name: HarfBuzz
+* Purpose: Text shaping and font rendering library used for multilingual languages such as Arabic.
+* Access Required: Sudo/Root access
+* Installation Location: Application Server
+* Action Required: Install HarfBuzz and its required dependencies, then verify the application is able to render the Captcha correctly.
+
+This incident provides enough information for the Infra/Linux team to understand why the HarfBuzz library is needed and what action is required.
+
+
+ can update it like this:
 
 Hi Suresh,
 
