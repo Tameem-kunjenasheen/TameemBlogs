@@ -84,7 +84,85 @@ button{
  // -------------------Start-----------------
 
 
-Based on the email, they are asking you to:
+These screenshots are actually very useful. They explain the client’s requirement much more clearly.
+
+What I understood
+
+The client has acquired Gaia, which has its own Order Management System (OMS).
+
+They want two types of integration:
+
+1. Order execution (Real-time)
+    * Orders entered in Gaia should be sent directly to HSBC.
+    * HSBC should execute the orders.
+    * Execution reports should automatically return to Gaia.
+    * They are asking whether this can be done through FIX, API, or another supported method.
+2. Other data exchange (Non-real-time)
+    * Cash balances
+    * Statements
+    * Portfolio data
+    * Reports
+
+For this, they are happy to use SFTP, preferably with CSV or XML files.
+
+⸻
+
+What you should do next
+
+I recommend sending a short email like this:
+
+Dear Team,
+
+Thank you for sharing the integration overview.
+
+We will review the requirements internally with our technical team and vendor.
+
+To help us evaluate the solution, could you also share any available technical documentation for the Gaia integration, such as:
+
+* API specifications (if available)
+* FIX interface specifications (if applicable)
+* Message formats
+* Sample request/response messages
+* Connectivity and authentication requirements
+* Order and execution workflow diagrams
+
+This will help us review the requirements and identify the most suitable integration approach.
+
+We will get back to you after completing our internal review.
+
+Regards,
+Tameem
+
+⸻
+
+Internally, these are now the key questions you need answered:
+
+* Does HSBC OMS support FIX connectivity?
+* If yes, which FIX version?
+* Do we have an existing FIX gateway?
+* If not FIX, do we expose APIs for order execution?
+* Is SFTP only for reports and statements?
+* Which team owns the OMS/FIX integration?
+* Do we have any existing client using the same setup?
+
+One important point
+
+From the screenshots, the client has already documented their requirement quite well. The missing piece is your side’s capability.
+
+So your next task is not to ask the client to explain further. It’s to work with your internal team and vendor to answer:
+
+“Can HSBC support this requirement, and if so, what is the recommended integration method (FIX, API, or another interface)?”
+
+That’s the discussion you should now drive internally.
+
+
+
+
+
+
+
+
+ on the email, they are asking you to:
 
 * Update the Arabic email addresses for the T90, T60, T30, and T0 emails.
 * Update the “New Customer Onboarding” email text in both English and Arabic.
