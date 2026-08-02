@@ -84,7 +84,117 @@ button{
  // -------------------Start-----------------
 
 
-This is a good finding. Since you’ve confirmed that HSBC/CSE has already implemented a similar FIX-IN integration, your next step is to let CSE review the Gaia requirement and confirm what can be reused or what needs to change.
+Yes. Based on the requirement shown in the screenshots and following the CR format we’ve been using, here is a complete Change Request.
+
+⸻
+
+Change Request (CR)
+
+CR Title
+
+Data Patch to Update KYC Expiry Date for High and Medium Risk Cases as per Project 1255 Renewal Cycle
+
+⸻
+
+Justification
+
+As part of Project 1255, CRMS has been enhanced to support the new CDD renewal cycle. Existing High and Medium risk customer cases still contain the old KYC expiry dates. A one-time data patch is required to update these records with the new expiry dates so that they align with the new renewal cycle.
+
+A total of 318 records will be updated across PostgreSQL, Oracle, and RM databases.
+
+If this change is not implemented, customers will continue to follow the old renewal cycle, resulting in incorrect KYC renewals and compliance issues.
+
+⸻
+
+Scope
+
+* Update 318 High and Medium Risk customer records.
+* Update KYC Expiry Date using the business-provided data.
+* Target databases:
+    * PostgreSQL
+    * Oracle
+    * RM Database
+
+⸻
+
+Implementation Plan
+
+1. Take a backup of the affected tables in PostgreSQL, Oracle, and RM databases.
+2. Verify the business-provided file containing:
+    * CRMS Case ID
+    * Existing KYC Expiry Date
+    * New KYC Expiry Date
+3. Validate the total record count (318 records).
+4. Execute the data patch using the following logic:
+    * If Case Status = C, update the KYC Expiry Date in all databases.
+    * Else, if Case Status ≠ C and KYC Reason = Maintenance, update the KYC Expiry Date in all databases.
+    * Otherwise, do not update the record and prepare a list of skipped records.
+5. Update PostgreSQL database.
+6. Update Oracle database.
+7. Update RM database.
+8. Validate that all successful records have been updated.
+9. Share the validation report with the business team for confirmation.
+
+⸻
+
+Business Impact
+
+* Existing High and Medium risk customer records will follow the new renewal cycle.
+* KYC renewal dates will be corrected.
+* Business users will see the updated expiry dates after the patch.
+* No impact is expected on normal business operations during the maintenance window.
+
+⸻
+
+Technical Impact
+
+* Data will be updated in PostgreSQL, Oracle, and RM databases.
+* Approximately 318 records will be modified.
+* Auto synchronization between databases is not available; therefore, each database must be updated separately.
+* No application code changes are involved.
+
+⸻
+
+Backout Plan
+
+If any issue occurs during implementation:
+
+1. Stop further execution immediately.
+2. Restore the affected records from the database backup.
+3. Verify that the original KYC Expiry Dates are restored.
+4. Inform the business and stakeholders.
+5. Investigate the issue before rescheduling the activity.
+
+⸻
+
+Post Implementation Verification Plan (PIVP)
+
+1. Verify that all eligible records are updated successfully.
+2. Extract KYC Expiry Date from PostgreSQL, Oracle, and RM databases.
+3. Compare the updated values with the business-provided file.
+4. Verify that skipped records match the expected conditions.
+5. Obtain business confirmation after validation.
+
+⸻
+
+Rollback Criteria
+
+Rollback will be initiated if:
+
+* Incorrect KYC Expiry Dates are updated.
+* Record count does not match the expected 318 records.
+* Data inconsistency is found across the three databases.
+* Business validation fails after implementation.
+
+This version follows the same CR structure and simple Indian English style you’ve asked me to use for all future CRs.
+
+
+
+
+
+
+
+ is a good finding. Since you’ve confirmed that HSBC/CSE has already implemented a similar FIX-IN integration, your next step is to let CSE review the Gaia requirement and confirm what can be reused or what needs to change.
 
 I would send two separate emails.
 
