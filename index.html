@@ -84,7 +84,42 @@ button{
  // -------------------Start-----------------
 
 
-You can ask Bloomberg like this:
+From your screenshots, this sheet is asking whether the application has privileged interactive accounts.
+
+The rows shown are application/service names (for example, SCA-CRMS-SA, SCA-TRADE-PLUS, etc.), and the columns ask:
+
+1. Are there any human individual or human non-individual (shared/generic) interactive accounts with privileged attributes in your application?
+    * If no privileged user accounts exist, select No.
+    * If there are admin/shared privileged accounts, select Yes.
+2. If Yes, do the privileged users have clear ownership?
+    * Select Yes only if each privileged account has an identified owner.
+3. Are privileged accounts onboarded to a PAM solution (e.g., TPAM)?
+    * Select Yes if they are managed by PAM.
+    * Otherwise No.
+4. If No, is there an exception approved?
+    * Select Yes only if there is an approved security exception.
+    * Otherwise No.
+5. Provide the Helios issue / additional comments
+    * If there are no issues, you can write:
+        N/A
+    * If there is an approved exception:
+        Refer to Helios issue ######.
+
+Based on the application names in your screenshot
+
+These look like service/non-interactive accounts (...-SA), not human users. If that is correct, you would typically answer:
+
+* Human privileged interactive accounts: No
+* Ownership: N/A
+* PAM: N/A
+* Exception: N/A
+* Comments: Application uses service accounts only. No human privileged interactive accounts.
+
+However, if these applications do have admin users or shared administrator IDs, then the answers will be different.
+
+Can you tell me:
+
+* Are these applications using only service accounts, or do they also have administrator user IDs (shared or individual)? can ask Bloomberg like this:
 
 Hi Team,
 
