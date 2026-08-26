@@ -84,40 +84,7 @@ button{
  // -------------------Start-----------------
 
 
-Hi,
-
-The SNOW request for VDI access is currently pending with you. The resource’s access was revoked, and the IAM team asked us to raise the request again.
-
-Could you please review and approve the request at the earliest? The resource is working on the critical CRMS enhancement project.
-
-Thanks,
-Tameem
-
-
-
-    ALRT_DATA.CASE_RK,
-    PGORCL.KYX_EXPIRY_DATE,
-    PGORCL.ZERO_NOTIFICATION_FLG,
-    PGORCL.X_RELATIONSHIP_STATUS,
-    ALRT_DATA.CASE_STATUS_CD
-FROM IAI_ALERT_DATA ALRT_DATA
-WHERE ALRT_DATA.CASE_RK IN
-(
-    SELECT CASE_ID
-    FROM CRMS_PG_ORACLE_DATA PGORCL
-    WHERE PGORCL.KYX_EXPIRY_DATE
-          BETWEEN DATE '2026-09-22' AND DATE '2026-09-23'
-      AND (
-            PGORCL.ZERO_NOTIFICATION_FLG = 'No'
-            OR PGORCL.ZERO_NOTIFICATION_FLG IS NULL
-          )
-      AND NVL(
-            PGORCL.X_RELATIONSHIP_STATUS,
-            GB_PCK.V_REL_STATUS_ACTIVE
-          ) = GB_PCK.V_REL_STATUS_ACTIVE
-)
-AND ALRT_DATA.CASE_STATUS_CD = 'C'
-ORDER BY ALRT_DATA.CASE_RK;
+r”
 
   // -------------------End-----------------   
   </code></pre>
