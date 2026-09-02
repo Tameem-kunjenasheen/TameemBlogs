@@ -84,7 +84,56 @@ button{
  // -------------------Start-----------------
 
 
-You can propose the activities like this, in simple and clear wording:
+Sure. Based on the details in the screenshots, you can create the CR as below.
+
+CR Title
+
+CRMS PROD/DR Certificate Renewal and SSH Public Key Update
+
+Description
+
+SAB is requesting to add the SSH public key on the PROD and DR servers as part of the migration from G3 to the Enterprise Ansible Automation Platform (AAP). This is required to allow the new automation platform to continue managing deployments to the application servers.
+
+As part of the same activity, the existing CRMS certificates will be renewed on both PROD and DR servers before expiry to avoid service accessibility and security compliance issues.
+
+Implementation Plan
+
+1. Take a backup of the existing certificates.
+2. Add the required SSH public key on the PROD and DR servers.
+3. Install the renewed certificates on the respective servers.
+4. Renew/update the CRMS certificates.
+5. Restart the required CRMS services/servers to reflect the certificate changes.
+6. Verify the certificate validity using IBM Key Manager.
+7. Verify that the CRMS application and related services are working as expected.
+8. In case of any issue, restore the previously backed-up certificates.
+
+Business Impact
+
+If the certificate renewal is unsuccessful, the existing certificates will expire, which may result in the CRMS service becoming inaccessible and may lead to security/compliance concerns.
+
+The activity will be performed during the approved maintenance window to minimize business impact.
+
+Technical Impact
+
+The CRMS certificates will be replaced with the renewed certificates on both PROD and DR servers. The required CRMS services/servers will be restarted to reflect the changes.
+
+There is no expected impact during the activity as it will be performed within the maintenance window.
+
+Backout Plan
+
+If any issue occurs after the certificate renewal, the newly installed certificates will be removed and the previously backed-up certificates will be restored. The required services will then be restarted and verified.
+
+Post Implementation Verification
+
+1. Verify the renewed certificate validity using IBM Key Manager.
+2. Verify that the CRMS services are up and running.
+3. Perform basic application connectivity/functionality checks.
+4. Confirm that the PROD and DR environments are accessible and working as expected.
+5. Confirm that there are no certificate-related errors in the application/server logs.
+
+
+
+ can propose the activities like this, in simple and clear wording:
 
 Hi Team,
 
