@@ -84,7 +84,58 @@ button{
  // -------------------Start-----------------
 
 
-Sure. You can add a meeting slot request like this:
+Sure. Since this is for UAT New OMS testing and requires opening the firewall for SMTP email connectivity on port 25, you can use the below.
+
+CR Title
+
+UAT New OMS – SMTP Firewall Access
+
+Description
+
+Request to open the required firewall connection for SMTP connectivity from the UAT New OMS server to the destination SMTP host on port 25. This is required for email functionality testing in the new OMS application.
+
+Implementation Plan
+
+1. Configure the firewall rule for the required source and destination.
+2. Allow SMTP traffic on TCP port 25.
+3. Validate SMTP connectivity from the UAT New OMS server.
+4. Perform email functionality testing from the application.
+
+Business Impact
+
+Required to validate email functionality in the UAT New OMS application. No production impact is expected.
+
+Technical Impact
+
+Firewall access will be enabled between the specified UAT source server and SMTP destination on TCP port 25.
+
+Backout Plan
+
+Remove/revert the firewall rule if any issue is observed.
+
+Post Implementation Verification
+
+Verify SMTP connectivity and confirm that emails can be sent successfully from the UAT New OMS application.
+
+⸻
+
+Short Email for Cyber Approval
+
+Subject: Cyber Approval Required – UAT New OMS SMTP Firewall Access
+
+Hi Team,
+
+We have raised a CR to enable SMTP connectivity for UAT New OMS testing.
+
+The firewall rule is required to allow communication from the UAT New OMS server to the SMTP destination on TCP port 25 for email functionality testing.
+
+Could you please review and provide the required Cyber approval for this change?
+
+Thanks & Regards,
+Akram
+
+
+. You can add a meeting slot request like this:
 
 We are going to schedule a call to troubleshoot the DR tunnel connectivity.
 Could you please be available on 7th and 8th September for this activity? We may need to troubleshoot during this window.
