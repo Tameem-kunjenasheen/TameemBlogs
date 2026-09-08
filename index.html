@@ -84,7 +84,125 @@ button{
  // -------------------Start-----------------
 
 
-You can write it like this:
+Exactly. Then the justification/business impact should clearly mention the risk of sending outdated information and the old address to customers.
+
+CR Title
+
+CRMS – KYC Alert Notification Email Body and Address Update
+
+Description / Justification
+
+As part of the CRMS KYC renewal enhancement, the existing KYC notification email templates need to be updated to reflect the new KYC renewal process and the latest customer communication details.
+
+The change includes updates to the KYC 90/60/30/00-day alert notifications, KYC update confirmation, and new customer onboarding emails.
+
+If the email templates are not updated, CRMS will continue sending outdated notification content and the old address to clients, which may cause incorrect communication and customer confusion.
+
+Scope
+
+* Update KYC 90/60/30/00-day notification email templates.
+* Update KYC update confirmation email.
+* Update new customer onboarding email.
+* Update the old address/details with the approved latest information.
+* Validate the updated email content and address.
+
+Business Impact
+
+The change is required to ensure customers receive the latest and correct KYC notification content and address details.
+
+If not implemented, outdated notifications containing the old address will continue to be sent to clients.
+
+Technical Impact
+
+* Changes are limited to CRMS email notification templates.
+* No database changes are expected.
+* No application downtime is expected.
+
+Implementation Plan
+
+1. Deploy the approved updated email templates.
+2. Validate the updated notification content and address.
+3. Test the applicable KYC notifications.
+4. Validate KYC update confirmation and new customer onboarding emails.
+5. Business team to perform final validation.
+
+Backout Plan
+
+If any issue is identified, revert the email templates to the previous approved version and perform validation again.
+
+PIVP / Validation
+
+* Verify KYC 90/60/30/00-day notifications.
+* Verify KYC update confirmation email.
+* Verify new customer onboarding email.
+* Confirm the new address is displayed correctly.
+* Confirm no outdated address or old notification content is being sent.
+
+
+
+
+
+-----
+
+
+
+
+
+ Sure. For this CR, you can keep the wording focused on pre-production and DR preparation for the new OMS ITP services, with firewall whitelisting as a mandatory go-live prerequisite.
+
+CR Title
+
+Firewall Whitelisting for New OMS ITP Services – Production & DR Preparation
+
+Description / Justification
+
+As part of the New OMS implementation, firewall whitelisting is required for the Production and DR environments to establish the required connectivity for the ITP services.
+
+The required IP addresses, ports, and URLs have been listed in the firewall request form. Cyber approval is also attached for the requested connectivity.
+
+This activity is a mandatory prerequisite before the New OMS go-live to ensure all required service-to-service communication is available.
+
+Scope
+
+* Whitelist the required Production and DR IPs, ports, and URLs on the firewall.
+* Implement the connectivity as per the attached firewall request form.
+* Validate connectivity after the firewall changes.
+* Confirm that the required ITP services can communicate successfully.
+
+Implementation Plan
+
+1. Review the approved firewall request and required IPs, ports, and URLs.
+2. Implement the whitelisting on the Production/DR firewall as per the approved form.
+3. Validate connectivity for all required ITP services.
+4. Confirm successful communication with the respective endpoints.
+5. Share the validation results with the project team.
+
+Business Impact
+
+No business impact is expected during the activity. The change is required to prepare the Production and DR environments for the New OMS go-live.
+
+Risk
+
+If the required firewall rules are not implemented, the New OMS ITP services may not be able to communicate with the required endpoints, which can impact the go-live readiness.
+
+Backout Plan
+
+If any issue is identified after implementation, the newly added firewall rules will be reverted to the previous configuration and connectivity will be revalidated.
+
+Validation / PIVP
+
+* Verify all requested IPs, ports, and URLs are whitelisted.
+* Perform connectivity testing from the respective Production and DR servers.
+* Validate communication for all required ITP services.
+* Confirm successful connectivity with the application/project team.
+
+
+
+
+
+
+
+----- write it like this:
 
 Hi Team,
 
