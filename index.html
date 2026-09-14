@@ -81,12 +81,35 @@ button{
 <div class="code-container" id="codeBox">
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <pre><code id="codeBlock">
- // -------------------Start-----------------
+ // -------------------
 
 
-Hi Team,
+If the firewall whitelisting change is unsuccessful, I would write the impacts like this in the CR:
 
-Please review the attached release DB changes/code script. It includes only the DB changes and CRMS interface changes. The address-related changes are available in the mailcontent.properties file, which is also attached for your review.
+Technical Impact – If Change Is Unsuccessful
+
+* Required network connectivity for the New OMS ITP Services will not be established.
+* New OMS ITP services may not be able to communicate with the required dependent systems/endpoints.
+* Connectivity testing may fail for the affected IPs, ports, or URLs.
+* This may prevent completion of the Production and DR readiness activities for New OMS.
+* No impact is expected to the existing Production applications or existing firewall rules, as the change only involves adding new firewall rules.
+
+Business Impact – If Change Is Unsuccessful
+
+* The New OMS Production and DR environments will not be fully ready for go-live.
+* Dependent ITP service communication may not work as required, which can delay application validation and go-live activities.
+* Business testing/validation involving the affected services may be impacted.
+* The New OMS go-live may need to be delayed until the required firewall connectivity is successfully established.
+
+Short version for CR fields:
+
+Technical Impact:
+If unsuccessful, the required connectivity for New OMS ITP Services will not be established, which may result in communication failure with dependent systems and impact Production/DR readiness.
+
+Business Impact:
+If unsuccessful, New OMS go-live readiness and business validation may be impacted, as the required ITP service connectivity will not be available. Team,
+
+ review the attached release DB changes/code script. It includes only the DB changes and CRMS interface changes. The address-related changes are available in the mailcontent.properties file, which is also attached for your review.
 
 Request you to please review and confirm your sign-off.
 
