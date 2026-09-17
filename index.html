@@ -84,7 +84,73 @@ button{
  // -------------------
 
 
-Subject: Thank You for Your Support
+Sure. Based on the incident and the discussion, this should be a Retrospective CR covering the proxy property update for the Yakeen service.
+
+CR Title
+
+KSA-CRMS-SA – Yakeen Service Proxy Property Update
+
+Justification
+
+Following the production release, the Yakeen service was unable to connect through the SAB proxy due to the existing proxy IP configuration. The old proxy IPs were retained as part of the previous configuration.
+
+The issue was identified through an incident, and a property update is required to use the correct proxy details.
+
+There is no code change involved. The same JAR/package will be re-deployed with only the required proxy properties updated.
+
+This CR is being raised retrospectively to formally document and track the change, as recommended by Incident Management.
+
+Implementation Plan
+
+1. Obtain the required approvals for the retrospective CR and incident.
+2. Use the same application JAR/package released under the previous CR.
+3. Update only the required Yakeen proxy properties with the correct proxy details.
+4. Release the updated package to UAT.
+5. Application team to perform Yakeen service connectivity and functional validation.
+6. Upon successful UAT validation, deploy the same package/property update to Production and DR.
+7. Perform post-deployment health checks and confirm Yakeen service connectivity.
+
+Business Impact
+
+If this change is not implemented, Business will not be able to onboard new customers or update KYC for existing customers without Yakeen verification, which will impact customer onboarding and KYC-related business activities.
+
+During the deployment, the Yakeen service will be validated after the property update. No planned business downtime is expected.
+
+Technical Impact
+
+The Yakeen service connection through the SAB proxy will continue to use the required proxy configuration after updating the properties.
+
+There is no application code change. Only the proxy-related configuration/properties will be updated.
+
+If the change is unsuccessful, the Yakeen service may continue to face connectivity issues through the SAB proxy, resulting in service/API failures.
+
+Backout Plan
+
+If the deployment is unsuccessful, restore the previously backed-up configuration/package and restart the required services as per the standard deployment procedure.
+
+Post Implementation Verification Plan
+
+1. Verify Yakeen service is up and running.
+2. Verify connectivity through the SAB proxy.
+3. Perform Yakeen API/service health checks.
+4. Validate customer onboarding/KYC verification flow.
+5. Monitor application logs for connectivity or proxy-related errors.
+6. Confirm successful validation with the Application and Business teams.
+
+CR Remark / Additional Information
+
+Related Incident: [Incident Number]
+Previous Release CR: [CR Number]
+
+This retrospective CR is raised to formally document the proxy property correction required following the previous production release. The change contains no code modification and only updates the required proxy properties.
+
+
+
+
+
+
+
+: Thank You for Your Support
 
 Hi Sandeep,
 
