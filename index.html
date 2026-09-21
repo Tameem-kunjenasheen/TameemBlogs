@@ -84,7 +84,211 @@ button{
  // -------------------
 
 
-Hi Molly,
+Complete Change Request
+
+Project
+
+Yes
+
+Outage Required
+
+Yes
+
+Testing
+
+Network / Connectivity Testing
+
+CAB Categorization
+
+HBSA
+
+Short Description
+
+New OMS Production & DR – Firewall Whitelisting and Load Balancer Setup
+
+⸻
+
+Description
+
+As part of the New OMS implementation and Production/DR preparation, the required network connectivity and Load Balancer configuration needs to be completed for the New OMS services.
+
+The activity covers the following:
+
+1. Firewall Whitelisting – Production and DR
+
+* Whitelist the required Production and DR source/destination IP addresses, ports, protocols and URLs as per the approved firewall request form.
+* Establish the required connectivity between the New OMS ITP Production and DR servers and Tadawul New FIX Genium/TIP.
+* Establish the required connectivity between the New OMS ITP Production and DR servers and Omnibus HUB MQ.
+* The required Production Tadawul Genium FIX/TIP connectivity parameters have been received and will be implemented as per the approved details.
+* The required firewall rules, IPs, ports and URLs are listed in the firewall request form.
+* Cyber Security approval is attached for the requested firewall changes.
+
+2. Load Balancer Setup – Production and DR
+
+Load Balancer configuration is required for the following New OMS services:
+
+* Production OMS Front Office
+* Production OMS ITP Back Office
+* DR OMS Front Office
+* DR OMS ITP Back Office
+
+The Load Balancer activity includes:
+
+* Configuration of required Virtual Servers/VIPs.
+* Creation/configuration of required backend server pools.
+* Addition of the respective OMS Front Office and OMS ITP Back Office server IPs to the relevant pools.
+* Configuration of required service ports and protocols.
+* Configuration of appropriate health checks for the backend services.
+* Validation of backend server health and service availability.
+* Validation of connectivity through the configured VIPs.
+
+3. Connectivity and Validation
+
+After implementation, connectivity will be validated for:
+
+* New OMS Front Office services.
+* New OMS ITP Back Office services.
+* New OMS ITP services.
+* Tadawul Genium FIX/TIP connectivity.
+* Omnibus HUB MQ connectivity.
+* Production and DR Load Balancer VIPs and backend pools.
+
+The required IPs, services, ports and URLs are listed in the respective firewall and infrastructure request forms.
+
+This activity is required for Production and DR readiness and is mandatory before the New OMS go-live. No application code or database changes are included in this activity. Existing Production firewall and Load Balancer configurations will not be modified except for the approved additions required for the New OMS services.
+
+⸻
+
+Contact Information
+
+OMS Application Team / Network & Infrastructure Team
+
+⸻
+
+Justification
+
+The firewall whitelisting and Load Balancer setup are required to establish the necessary network connectivity and service access for the New OMS Production and DR environments.
+
+The changes are required to support communication between the New OMS ITP services, Tadawul Genium FIX/TIP, Omnibus HUB MQ, OMS Front Office and OMS ITP Back Office services.
+
+This activity is a mandatory prerequisite for New OMS go-live. The required firewall details have been documented in the firewall request form and Cyber Security approval is attached.
+
+⸻
+
+Implementation Plan
+
+1. Review the approved firewall request, Cyber Security approval and Load Balancer requirements.
+2. Validate all required source/destination IPs, ports, protocols and URLs.
+3. Implement the approved Production firewall rules.
+4. Implement the approved DR firewall rules.
+5. Establish connectivity between New OMS ITP servers and Tadawul Genium FIX/TIP.
+6. Establish connectivity between New OMS ITP servers and Omnibus HUB MQ.
+7. Configure the Production OMS Front Office Load Balancer VIP and backend pool.
+8. Configure the Production OMS ITP Back Office Load Balancer VIP and backend pool.
+9. Configure the DR OMS Front Office Load Balancer VIP and backend pool.
+10. Configure the DR OMS ITP Back Office Load Balancer VIP and backend pool.
+11. Add the respective OMS server IPs to the required backend pools.
+12. Configure the required ports, protocols and health checks.
+13. Verify the health status of all backend servers.
+14. Perform connectivity testing through the configured Load Balancer VIPs.
+15. Validate Tadawul Genium FIX/TIP and Omnibus HUB MQ connectivity.
+16. Validate OMS Front Office and ITP Back Office service availability.
+17. Share the validation results with the OMS application/project team.
+
+⸻
+
+Business Impact
+
+If the change is successful:
+
+* Required Production and DR connectivity for New OMS will be established.
+* OMS Front Office and OMS ITP Back Office services will be accessible through the configured Load Balancer VIPs.
+* Tadawul Genium FIX/TIP and Omnibus HUB MQ connectivity will be available.
+* Production and DR environments will be ready for New OMS validation and go-live activities.
+* No impact is expected to existing Production applications during the implementation.
+
+If the change is unsuccessful:
+
+* Required connectivity for New OMS services will not be established.
+* OMS Front Office and/or ITP Back Office services may not be accessible through the Load Balancer.
+* Tadawul Genium FIX/TIP or Omnibus HUB MQ communication may not work as required.
+* Production and DR readiness activities may remain incomplete.
+* New OMS testing and go-live activities may be delayed until the required connectivity is established.
+
+⸻
+
+Technical Impact
+
+If the change is successful:
+
+* New firewall rules will be added for the approved Production and DR connectivity.
+* Required communication will be established between New OMS ITP servers and Tadawul Genium FIX/TIP.
+* Required communication with Omnibus HUB MQ will be established.
+* Production and DR Load Balancer VIPs/Virtual Servers will be configured.
+* Backend pools will be configured for OMS Front Office and OMS ITP Back Office.
+* Required OMS server IPs will be added to the respective pools.
+* Health checks will monitor backend service availability.
+* Traffic through the configured VIPs will be forwarded to the respective OMS backend servers.
+* Existing firewall and Load Balancer configurations will remain unchanged except for the approved additions.
+
+If the change is unsuccessful:
+
+* Required network connectivity may remain blocked.
+* New OMS ITP services may not be able to communicate with Tadawul Genium FIX/TIP or Omnibus HUB MQ.
+* OMS Front Office or ITP Back Office services may not be reachable through the Load Balancer.
+* Backend servers may remain unavailable if health checks fail.
+* Production and DR technical readiness for New OMS will remain incomplete.
+
+⸻
+
+Backout Plan
+
+1. Stop the implementation activity if any issue is identified.
+2. Review the newly implemented firewall and Load Balancer configurations.
+3. Disable/revert the newly added firewall rules, if required.
+4. Disable/revert the newly configured Load Balancer VIPs, pools or health checks, if required.
+5. Restore the previous firewall and Load Balancer configuration.
+6. Verify that existing Production services are operating normally.
+7. Perform connectivity validation after rollback.
+8. Investigate the issue and reschedule the activity after the required correction.
+
+⸻
+
+Post Implementation Verification Plan
+
+1. Verify all approved Production and DR firewall rules.
+2. Verify source/destination IPs, ports, protocols and URLs.
+3. Test New OMS ITP connectivity with Tadawul Genium FIX/TIP.
+4. Test required connectivity with Omnibus HUB MQ.
+5. Verify Production OMS Front Office VIP and backend pool.
+6. Verify Production OMS ITP Back Office VIP and backend pool.
+7. Verify DR OMS Front Office VIP and backend pool.
+8. Verify DR OMS ITP Back Office VIP and backend pool.
+9. Verify all OMS backend servers are added to the correct pools.
+10. Verify backend server health status.
+11. Perform connectivity testing through each configured VIP.
+12. Validate OMS Front Office service availability.
+13. Validate OMS ITP Back Office service availability.
+14. Confirm successful connectivity with the OMS application/project team.
+15. Capture and share the validation results.
+
+Overall Activity
+
+Environment	Component	Activity
+Production	Firewall	IP/Port/URL whitelisting
+DR	Firewall	IP/Port/URL whitelisting
+Production	OMS Front Office	LB VIP & Pool Setup
+Production	OMS ITP Back Office	LB VIP & Pool Setup
+DR	OMS Front Office	LB VIP & Pool Setup
+DR	OMS ITP Back Office	LB VIP & Pool Setup
+Production/DR	OMS ITP	Tadawul Genium FIX/TIP connectivity
+Production/DR	OMS ITP	Omnibus HUB MQ connectivity
+
+This is aligned to the CR template in your screenshots, with the full technical details kept inside the Description field as requested.
+
+
+
+ Molly,
 
 Hija Cape has already tried multiple times by reverting the request to Draft and resubmitting it. However, the review task is still showing as Cancelled.
 
