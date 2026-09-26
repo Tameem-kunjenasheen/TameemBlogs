@@ -84,7 +84,155 @@ button{
  // -------------------
 
 
-Subject: Cyber Approval Required – Wathq Firewall Whitelisting
+Complete CR – Manual Data Push from OMS Production to TMS
+
+Project
+
+Yes
+
+Outage Required
+
+No
+
+Testing
+
+Testing Required – Data Validation
+
+CAB Categorization
+
+HBSA
+
+Short Description
+
+Manual Push of OMS Production Data to TMS Using Script
+
+⸻
+
+Description
+
+As part of the OMS-to-TMS invoice processing activity, certain invoice records are required to be manually pushed from the OMS Production system to TMS using an approved script.
+
+The activity is required for the identified historical periods where the data was not successfully pushed from OMS to TMS due to system conditions and invoice generation issues.
+
+The activity includes the following:
+
+* Extract the required invoice data from the OMS Production database for the identified periods.
+* Validate the data against the available T+0 and T+2 reports.
+* Use the approved script to manually push the required data from OMS Production to TMS.
+* Validate the data after the push to confirm that the records are successfully received/processed in TMS.
+* The invoice data for 2024, 2025 and 2026 has been regenerated where required and will be reviewed before the manual push.
+* The activity covers the required historical periods, including the identified months where the invoices/data were not pushed successfully.
+* For records that could not be processed through the normal OMS-to-TMS flow due to the system condition, the required records will be extracted from the historical database and uploaded/pushed manually.
+* The activity will also cover the required invoice population for Saudi clients under HBEU management and applicable foreign clients under HBEU, based on the agreed business requirements.
+* Previously identified invoice generation issues related to the address issue have been investigated and a sample invoice generation has been successfully tested.
+* The manual push will be performed only for the approved and validated population.
+* No application code change is included as part of this activity. The activity is limited to data extraction, validation and manual push using the approved script.
+
+The identified months/data population will be confirmed against the attached reports and business-provided details before execution.
+
+⸻
+
+Contact Information
+
+OMS Application Team / TMS Team / Business Team
+
+⸻
+
+Justification
+
+The required invoice data for certain historical periods was not successfully pushed from OMS Production to TMS due to system conditions and previously identified invoice generation issues.
+
+A manual data push is therefore required to ensure that the required invoice records are available in TMS and the pending processing can be completed.
+
+The activity will be performed using an approved script against the validated data population, followed by post-implementation validation.
+
+⸻
+
+Implementation Plan
+
+1. Confirm the approved list of periods and invoice records to be processed.
+2. Review the T+0 and T+2 reports and business-provided data.
+3. Extract the required records from the OMS Production database.
+4. Validate the extracted records against the approved population.
+5. Take the required backup/export of the data before execution.
+6. Review and validate the manual push script.
+7. Execute the script against the approved OMS Production data.
+8. Push the required records from OMS Production to TMS.
+9. Monitor the execution and capture the execution results.
+10. Validate that the records have been successfully pushed to TMS.
+11. Reconcile the pushed records against the source OMS data and T+0/T+2 reports.
+12. Share the validation results with the Business/TMS team.
+13. Identify and report any records that remain unsuccessful for further investigation.
+
+⸻
+
+Business Impact
+
+If the change is successful:
+
+* The pending invoice data will be pushed from OMS Production to TMS.
+* Required historical invoice processing can be completed in TMS.
+* The identified data gaps between OMS and TMS will be addressed.
+* Business users will be able to continue the required TMS invoice processing activities.
+
+If the change is unsuccessful:
+
+* The identified invoice data will remain pending in OMS and will not be available in TMS.
+* TMS invoice processing for the affected population may remain incomplete.
+* Additional manual investigation and reconciliation will be required.
+* The pending invoice processing activity may be delayed.
+
+No outage to the OMS Production application is expected as the activity is limited to data extraction and controlled execution of the approved script.
+
+⸻
+
+Technical Impact
+
+If the change is successful:
+
+* Required historical invoice records will be extracted from OMS Production.
+* The approved script will push the validated records from OMS Production to TMS.
+* OMS and TMS data will be reconciled after execution.
+* No application code or database structure changes are required.
+* Existing OMS Production functionality will remain unchanged.
+
+If the change is unsuccessful:
+
+* Some or all of the identified records may not be pushed successfully to TMS.
+* Data reconciliation may identify mismatches between OMS and TMS.
+* Further investigation of the script execution or source data may be required.
+* Existing OMS Production application functionality is not expected to be impacted.
+
+⸻
+
+Backout Plan
+
+As this activity involves controlled data processing, if any issue is identified during execution:
+
+1. Stop the script execution immediately.
+2. Identify the records processed before the issue occurred.
+3. Validate the execution logs and affected records.
+4. If incorrect data has been pushed to TMS, coordinate with the TMS team to reverse/correct the affected records as per the approved procedure.
+5. Restore/reprocess the affected data from the backup/export taken before execution, where applicable.
+6. Perform reconciliation between OMS and TMS.
+7. Do not proceed with the remaining population until the issue is investigated and resolved.
+
+⸻
+
+Post Implementation Verification Plan
+
+1. Verify the total number of records selected for processing.
+2. Verify the total number of records successfully processed by the script.
+3. Compare the processed records with the source OMS Production data.
+4. Verify that the records are available in TMS.
+5. Validate the T+0 and T+2 data against the pushed records.
+6. Reconcile any failed or missing records.
+7. Confirm the invoice data is correctly available for the required periods.
+8. Obtain confirmation from the TMS/Business team.
+9. Share the execution and reconciliation results as implementation evidence.
+
+
+: Cyber Approval Required – Wathq Firewall Whitelisting
 
 Hi Team,
 
