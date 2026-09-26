@@ -84,7 +84,182 @@ button{
  // -------------------
 
 
-Subject: Request to Check Connectivity – No Response Packets Received
+Complete CR – Wathq Firewall Whitelisting
+
+Project
+
+Yes
+
+Outage Required
+
+No
+
+Testing
+
+Connectivity Testing
+
+CAB Categorization
+
+HBSA
+
+Short Description
+
+Wathq API Firewall Whitelisting for Production and DR Servers
+
+⸻
+
+Description
+
+As part of the CRMS Wathq Integration, firewall whitelisting is required to establish secure connectivity from the CRMS application servers to the Wathq API services provided by the Saudi Ministry of Commerce.
+
+Wathq is an API-based service used to retrieve up-to-date information related to Commercial Registration and Commercial Contract Issuing services.
+
+The required firewall connectivity needs to be enabled for both Production and DR CRMS servers.
+
+The following Wathq API services are required:
+
+1. Commercial Registration API
+
+Endpoint:
+
+https://api.wathq.sa/commercial-registration/fullinfo/{id}
+
+Where {id} represents the Commercial Registration National Number of the organisation.
+
+2. Commercial Contract Issuing API
+
+Endpoint:
+
+https://api.wathq.sa/company-contract/info/{crNationalNumber}/
+
+Where {crNationalNumber} represents the Commercial Registration National Number of the organisation.
+
+3. API Authentication
+
+The Wathq APIs require an API Key (apiKey) to be passed in the request header. The API Key will be provided separately for the applicable UAT and Production environments.
+
+4. Language Parameter
+
+The APIs support the language parameter with the following values:
+
+* en – English
+* ar – Arabic
+
+5. Firewall Scope
+
+Firewall whitelisting is required for:
+
+* Production CRMS servers → Wathq API
+* DR CRMS servers → Wathq API
+
+The required destination IPs, URLs, ports and protocols will be implemented as per the approved firewall request/form.
+
+The change is required to allow CRMS to communicate with the Wathq services and retrieve the required Commercial Registration and Commercial Contract information.
+
+No application code change is included as part of this firewall activity. The activity is limited to establishing the required network connectivity between the Production/DR CRMS servers and Wathq.
+
+⸻
+
+Contact Information
+
+CRMS Application Team / Network & Infrastructure Team
+
+⸻
+
+Justification
+
+Firewall whitelisting is required to allow the Production and DR CRMS servers to connect to the Wathq API services.
+
+The connectivity is required for the CRMS Wathq Integration to retrieve Commercial Registration and Commercial Contract information from the Saudi Ministry of Commerce Wathq service.
+
+Both Production and DR connectivity are required to ensure the integration is available in the respective environments and to support DR readiness.
+
+⸻
+
+Implementation Plan
+
+1. Review the approved firewall request and Wathq connectivity requirements.
+2. Validate the source IPs of the Production and DR CRMS servers.
+3. Validate the Wathq destination URLs/IPs, ports and protocols.
+4. Implement the required firewall rules for Production CRMS → Wathq.
+5. Implement the required firewall rules for DR CRMS → Wathq.
+6. Ensure the rules allow only the approved Wathq destinations and required ports.
+7. Verify that the firewall rules are successfully implemented.
+8. Perform connectivity testing from the Production CRMS servers to Wathq.
+9. Perform connectivity testing from the DR CRMS servers to Wathq.
+10. Validate connectivity to the Commercial Registration API.
+11. Validate connectivity to the Commercial Contract Issuing API.
+12. Confirm successful connectivity with the CRMS application team.
+13. Capture and share the connectivity test results.
+
+⸻
+
+Business Impact
+
+If the change is successful:
+
+* Production and DR CRMS servers will have the required connectivity to Wathq.
+* CRMS will be able to communicate with the Wathq API services.
+* The required Commercial Registration and Commercial Contract information can be retrieved through the Wathq integration.
+* DR readiness for the Wathq integration will be established.
+* No impact or downtime is expected to existing Production business services during the firewall implementation.
+
+If the change is unsuccessful:
+
+* Production and/or DR CRMS servers will not be able to connect to Wathq.
+* Wathq-related functionality in CRMS may not work as expected.
+* Commercial Registration and Commercial Contract information may not be retrieved through the integration.
+* Wathq integration validation and related business activities may be delayed.
+
+⸻
+
+Technical Impact
+
+If the change is successful:
+
+* Firewall rules will be added to allow approved communication from the Production and DR CRMS servers to Wathq.
+* Required HTTPS/API connectivity to the Wathq endpoints will be established.
+* Connectivity will be available for both Commercial Registration and Commercial Contract Issuing APIs.
+* Existing firewall rules and existing application connectivity will remain unchanged.
+* No database or application code changes are included in this activity.
+
+If the change is unsuccessful:
+
+* Network connectivity from the CRMS servers to Wathq will remain unavailable.
+* API requests from CRMS to Wathq may fail due to firewall blocking.
+* Production and/or DR Wathq integration testing cannot be completed.
+* No impact is expected to other existing application connectivity because the change is limited to the new Wathq firewall rules.
+
+⸻
+
+Backout Plan
+
+1. Stop the implementation if any issue is identified.
+2. Review the newly added Wathq firewall rules.
+3. Disable/remove the newly added rules, if required.
+4. Restore the previous firewall configuration.
+5. Verify existing CRMS connectivity and services are operating normally.
+6. Revalidate the environment after rollback.
+7. Investigate and resolve the issue before rescheduling the change.
+
+⸻
+
+Post Implementation Verification Plan
+
+1. Verify the firewall rules for the Production CRMS servers.
+2. Verify the firewall rules for the DR CRMS servers.
+3. Confirm the required Wathq destination IPs/URLs and ports are allowed.
+4. Test HTTPS connectivity from Production CRMS to Wathq.
+5. Test HTTPS connectivity from DR CRMS to Wathq.
+6. Validate connectivity to the Commercial Registration API.
+7. Validate connectivity to the Commercial Contract Issuing API.
+8. Confirm API requests can reach the Wathq endpoints.
+9. Validate the response from Wathq with the CRMS application team.
+10. Confirm successful completion of the Wathq connectivity testing.
+
+
+
+: Request to Check Connectivity – No Response Packets Received
 
 Hi Team,
 
