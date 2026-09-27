@@ -84,7 +84,171 @@ button{
  // -------------------
 
 
-Complete CR – Manual Data Push from OMS Production to TMS
+Complete CR – New OMS Network Changes & Apache SSL Installation
+
+Project
+
+Yes
+
+Outage Required
+
+No
+
+Testing
+
+Connectivity and SSL Validation Testing
+
+CAB Categorization
+
+HBSA
+
+Short Description
+
+New OMS – Network Changes and Apache SSL Configuration on Reverse Proxy Servers
+
+⸻
+
+Description
+
+As part of the New OMS implementation, required network and SSL configuration activities need to be completed on the new OMS servers to support secure communication between the application components and external/internal services.
+
+The activity includes the required network changes and installation/configuration of the Apache SSL module on the designated New OMS Reverse Proxy servers.
+
+The following package needs to be installed on the applicable Reverse Proxy servers:
+
+sudo yum install -y mod_ssl
+
+The mod_ssl package is required to enable SSL/TLS support for Apache HTTP Server and to support HTTPS communication on the New OMS Reverse Proxy servers.
+
+The activity includes:
+
+* Implement the required network connectivity changes for the New OMS servers as per the approved network request.
+* Install the Apache mod_ssl package on the designated New OMS Reverse Proxy servers.
+* Configure Apache SSL/TLS settings as per the approved New OMS architecture and security requirements.
+* Configure the required SSL certificate, private key and certificate chain, where applicable.
+* Configure the required HTTPS listener/port.
+* Validate the Apache configuration after the changes.
+* Restart/reload Apache services as required.
+* Validate HTTPS connectivity to the New OMS services.
+* Perform application-level connectivity testing after the SSL configuration.
+* Confirm that the existing required services are not impacted by the changes.
+
+The exact server IPs, hostnames, ports and network parameters will be implemented as per the approved infrastructure/network request.
+
+⸻
+
+Contact Information
+
+New OMS Application Team / Network Team / Infrastructure Team
+
+⸻
+
+Justification
+
+The New OMS Reverse Proxy servers require Apache SSL support to enable secure HTTPS communication.
+
+The mod_ssl package is required to configure SSL/TLS support on Apache. The required network changes are also necessary to establish the connectivity required for the New OMS services.
+
+These activities are required as part of the New OMS Production/DR readiness and go-live preparation.
+
+⸻
+
+Implementation Plan
+
+1. Review the approved network request and New OMS server details.
+2. Validate the required source/destination IPs, ports and network connectivity.
+3. Implement the approved network changes.
+4. Connect to the designated New OMS Reverse Proxy servers.
+5. Verify the server connectivity and required access.
+6. Install the Apache SSL module using:
+    sudo yum install -y mod_ssl
+7. Verify successful installation of the mod_ssl package.
+8. Configure the required Apache SSL/TLS settings.
+9. Configure the required SSL certificate, private key and certificate chain as applicable.
+10. Configure the required HTTPS port/listener.
+11. Validate the Apache configuration syntax.
+12. Reload/restart Apache as required.
+13. Verify that Apache is running successfully.
+14. Perform HTTPS connectivity testing.
+15. Validate New OMS application connectivity through the Reverse Proxy.
+16. Confirm successful implementation with the application and infrastructure teams.
+
+⸻
+
+Business Impact
+
+If the change is successful:
+
+* Required network connectivity for New OMS will be established.
+* New OMS Reverse Proxy servers will support secure HTTPS communication.
+* The New OMS services will be ready for secure application connectivity.
+* This will support the Production/DR readiness and planned New OMS go-live activities.
+* No impact to existing business services is expected during the implementation.
+
+If the change is unsuccessful:
+
+* Required New OMS network connectivity may not be available.
+* HTTPS communication through the New OMS Reverse Proxy may not work as expected.
+* New OMS application testing or service validation may be delayed.
+* Production/DR readiness and related go-live activities may be impacted.
+
+⸻
+
+Technical Impact
+
+If the change is successful:
+
+* Required network rules will be implemented for the New OMS servers.
+* Apache mod_ssl will be installed on the designated Reverse Proxy servers.
+* Apache will be configured to support SSL/TLS and HTTPS communication.
+* Required SSL certificates and related configuration will be applied.
+* HTTPS connectivity to the New OMS services will be enabled and validated.
+* Existing Apache services and configurations will remain unchanged except for the approved SSL/network configuration.
+
+If the change is unsuccessful:
+
+* Required network communication may remain unavailable.
+* Apache SSL/TLS configuration may not be completed.
+* HTTPS requests to the New OMS Reverse Proxy may fail.
+* New OMS application connectivity through the Reverse Proxy may not work.
+* Further investigation and configuration will be required before completing the activity.
+
+⸻
+
+Backout Plan
+
+1. Stop the implementation if any issue is identified.
+2. Revert the newly implemented network changes, if required.
+3. Revert the newly added Apache SSL configuration.
+4. Remove/disable the newly configured SSL listener or related configuration, if required.
+5. Restore the previous Apache configuration.
+6. Restart/reload Apache and verify service status.
+7. Confirm that existing services are operating normally.
+8. Perform connectivity validation after rollback.
+
+Note: The mod_ssl package installation itself does not need to be removed during rollback if it does not impact the existing service. The SSL configuration changes will be reverted to the previous approved configuration.
+
+⸻
+
+Post Implementation Verification Plan
+
+1. Verify the required network changes are implemented successfully.
+2. Verify mod_ssl is installed on all designated New OMS Reverse Proxy servers.
+3. Verify Apache configuration syntax.
+4. Verify Apache service status.
+5. Verify the SSL certificate and certificate chain configuration.
+6. Verify the required HTTPS port/listener.
+7. Perform HTTPS connectivity testing.
+8. Validate New OMS application connectivity through the Reverse Proxy.
+9. Verify that the expected SSL/TLS handshake is successful.
+10. Confirm there is no impact to existing services.
+11. Obtain confirmation from the New OMS application/infrastructure teams.
+
+
+
+
+
+ CR – Manual Data Push from OMS Production to TMS
 
 Project
 
