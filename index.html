@@ -84,7 +84,254 @@ button{
  // -------------------
 
 
-Hussain asked me to raise the CR for the Global SNOW user unmasking, as a similar CR was already raised earlier. I raised it based on his request, so it came under my name. The request is from the other team.
+Yes. Based on the updated details in the screenshots, this CR should cover three activities together:
+
+1. iSeries NFS export/connectivity for GLPosting file share.
+2. Mounting the GLPosting iSeries NFS path on New OMS ITP Production and DR servers.
+3. Installation of Apache mod_ssl and SSL configuration on the applicable New OMS Reverse Proxy servers.
+
+Complete CR – New OMS Network, NFS and SSL Configuration
+
+Project
+
+Yes
+
+Outage Required
+
+No
+
+Testing
+
+Connectivity and Application Testing
+
+CAB Categorization
+
+HBSA
+
+Short Description
+
+New OMS – NFS GLPosting Mount, Network Connectivity and Apache SSL Configuration
+
+⸻
+
+Description
+
+As part of the New OMS implementation, the required network, NFS file-share and SSL configuration activities need to be completed on the New OMS Production and DR environments.
+
+The activity includes the following:
+
+1. iSeries NFS Export for GLPosting File Share
+
+An NFS export is required to establish the GLPosting file share connectivity between the New OMS ITP servers and the iSeries/HUB environment.
+
+The required iSeries servers are:
+
+* Production iSeries: PSA001A
+* DR iSeries: PSA001C
+* HS iSeries: PSA001B
+
+The required NFS ports are:
+
+* Port 111
+* Port 2049
+
+The required NFS connectivity will be established for the New OMS ITP Production and DR servers as per the approved network and infrastructure requirements.
+
+2. GLPosting NFS Mount on New OMS ITP Servers
+
+The GLPosting iSeries NFS path needs to be mounted on the New OMS ITP Production and DR servers.
+
+The required mount points are:
+
+* /home/ibsanoms/glin
+* /home/ibsanoms/glout
+
+The mount configuration will allow the New OMS ITP services to access the required GLPosting input and output files through the shared NFS location.
+
+The required connectivity between the New OMS ITP servers and the applicable iSeries NFS servers will be configured and validated.
+
+3. Apache SSL Configuration – New OMS Reverse Proxy
+
+As part of the New OMS secure communication requirements, Apache SSL configuration is required on the applicable New OMS Reverse Proxy servers.
+
+The following package needs to be installed:
+
+sudo yum install -y mod_ssl
+
+The mod_ssl package is required to enable SSL/TLS support for Apache HTTP Server and support HTTPS communication for the New OMS services.
+
+The SSL activity includes:
+
+* Install the mod_ssl package on the applicable New OMS Reverse Proxy servers.
+* Configure Apache SSL/TLS settings as per the approved New OMS architecture.
+* Configure the required SSL certificate and certificate chain, where applicable.
+* Configure the required HTTPS listener/port.
+* Validate the Apache configuration.
+* Reload/restart Apache services as required.
+* Validate HTTPS connectivity to the New OMS services.
+
+4. Network Connectivity
+
+The required network connectivity will be implemented between the applicable New OMS servers and dependent infrastructure components.
+
+This includes:
+
+* New OMS ITP Production → iSeries NFS.
+* New OMS ITP DR → iSeries NFS.
+* Required NFS communication over ports 111 and 2049.
+* New OMS Reverse Proxy → required New OMS application services.
+* Required HTTPS/SSL connectivity for New OMS.
+
+All IPs, ports and network parameters will be implemented as per the approved infrastructure/network request.
+
+No application code or database changes are included in this activity.
+
+⸻
+
+Contact Information
+
+New OMS Application Team / Network Team / Infrastructure Team
+
+⸻
+
+Justification
+
+The above changes are required as part of the New OMS Production and DR implementation.
+
+The NFS configuration is required to provide the GLPosting file share between the New OMS ITP servers and the iSeries environment. The Apache SSL configuration is required to enable secure HTTPS communication through the New OMS Reverse Proxy servers.
+
+These activities are required for New OMS Production and DR readiness and go-live preparation.
+
+⸻
+
+Implementation Plan
+
+1. Review the approved New OMS infrastructure and network requirements.
+2. Validate the source and destination server details.
+3. Configure the required network connectivity between New OMS ITP servers and iSeries NFS servers.
+4. Configure/enable the required NFS connectivity on ports 111 and 2049.
+5. Configure the required iSeries NFS export for the GLPosting file share.
+6. Validate connectivity to the Production iSeries server PSA001A.
+7. Validate connectivity to the DR iSeries server PSA001C.
+8. Validate connectivity to the required HS iSeries server PSA001B, where applicable.
+9. Mount the GLPosting NFS path on the New OMS ITP Production server.
+10. Mount the GLPosting NFS path on the New OMS ITP DR server.
+11. Configure the following mount points:
+
+* /home/ibsanoms/glin
+* /home/ibsanoms/glout
+
+12. Verify read/write access to the required NFS mount points.
+13. Verify the GLPosting file transfer/read/write functionality.
+14. Connect to the applicable New OMS Reverse Proxy servers.
+15. Install the Apache SSL module using:
+
+sudo yum install -y mod_ssl
+
+16. Verify successful installation of mod_ssl.
+17. Configure the required Apache SSL/TLS settings.
+18. Configure the required SSL certificate and certificate chain.
+19. Configure the required HTTPS listener/port.
+20. Validate the Apache configuration syntax.
+21. Reload/restart Apache services as required.
+22. Verify Apache service status.
+23. Perform HTTPS connectivity testing.
+24. Validate New OMS application connectivity through the Reverse Proxy.
+25. Perform final validation for Production and DR.
+26. Share the implementation and validation results with the New OMS application/infrastructure teams.
+
+⸻
+
+Business Impact
+
+If the change is successful:
+
+* New OMS ITP Production and DR environments will have the required GLPosting file-share connectivity.
+* New OMS services will be able to access the required GLPosting input/output locations.
+* Secure HTTPS communication will be enabled through the New OMS Reverse Proxy servers.
+* Production and DR readiness activities for New OMS will be completed.
+* No impact to existing Production business services is expected during the activity.
+
+If the change is unsuccessful:
+
+* New OMS ITP services may not be able to access the required GLPosting file share.
+* GLPosting file processing may not work as expected.
+* New OMS HTTPS connectivity may not be available through the Reverse Proxy.
+* New OMS Production/DR testing and readiness activities may be delayed.
+* The planned New OMS go-live activities may be impacted until the required configuration is completed.
+
+⸻
+
+Technical Impact
+
+If the change is successful:
+
+* Required network connectivity between New OMS ITP servers and iSeries NFS servers will be established.
+* NFS communication over ports 111 and 2049 will be enabled.
+* GLPosting NFS paths will be mounted on the New OMS ITP Production and DR servers.
+* The following mount points will be available:
+    * /home/ibsanoms/glin
+    * /home/ibsanoms/glout
+* Required read/write access to the GLPosting file share will be validated.
+* Apache mod_ssl will be installed on the applicable New OMS Reverse Proxy servers.
+* Apache will support the required SSL/TLS configuration and HTTPS communication.
+* Required SSL certificates and HTTPS configuration will be applied.
+* Existing application and infrastructure configurations will remain unchanged except for the approved additions.
+
+If the change is unsuccessful:
+
+* NFS connectivity may not be established between the New OMS ITP servers and iSeries.
+* GLPosting mount points may not be accessible.
+* GLPosting file processing may fail due to unavailable file-share connectivity.
+* Apache SSL configuration may not be completed.
+* HTTPS requests through the New OMS Reverse Proxy may fail.
+* New OMS technical readiness may remain incomplete.
+
+⸻
+
+Backout Plan
+
+1. Stop the implementation if any issue is identified.
+2. Revert the newly implemented network changes, if required.
+3. Unmount the newly configured NFS mount points, if required.
+4. Revert the newly added NFS export/mount configuration.
+5. Revert the Apache SSL configuration to the previous approved configuration.
+6. Disable/remove the newly configured SSL listener, if required.
+7. Restore the previous Apache configuration.
+8. Restart/reload Apache services as required.
+9. Verify that existing services are operating normally.
+10. Perform connectivity validation after rollback.
+11. Investigate the issue before rescheduling the activity.
+
+Note: The mod_ssl package itself does not need to be removed during rollback if its installation does not impact existing services. The newly added SSL configuration will be reverted as required.
+
+⸻
+
+Post Implementation Verification Plan
+
+1. Verify network connectivity between New OMS ITP Production and the required iSeries NFS server.
+2. Verify network connectivity between New OMS ITP DR and the required iSeries NFS server.
+3. Verify NFS ports 111 and 2049.
+4. Verify the GLPosting NFS export.
+5. Verify the following mount points on Production:
+    * /home/ibsanoms/glin
+    * /home/ibsanoms/glout
+6. Verify the same mount points on the DR server.
+7. Perform read/write testing on the GLPosting mount points.
+8. Verify GLPosting file access and processing.
+9. Verify mod_ssl installation on the applicable Reverse Proxy servers.
+10. Validate Apache configuration syntax.
+11. Verify Apache service status.
+12. Verify SSL certificate and certificate chain configuration.
+13. Verify the HTTPS listener/port.
+14. Perform HTTPS connectivity testing.
+15. Validate New OMS application connectivity through the Reverse Proxy.
+16. Confirm Production and DR services are working as expected.
+17. Obtain confirmation from the New OMS application/infrastructure teams.
+18. Capture and share the final validation evidence.
+
+
+ asked me to raise the CR for the Global SNOW user unmasking, as a similar CR was already raised earlier. I raised it based on his request, so it came under my name. The request is from the other team.
 
 
  I raised this CR only because Hussain specifically asked me to raise it based on a similar CR that was already raised earlier. I was only helping with the CR submission; it was not my initiative to take over their work. I am continuing to focus on our team’s assigned tasks as well.
