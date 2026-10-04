@@ -84,7 +84,104 @@ button{
  // -------------------
 
 
-Subject: Support Required – OMS Data Extraction
+Yes. From the OMS/LETS document you shared earlier, the main business process covered by OMS is the Saudi equities order lifecycle, from order creation by the broker/OMS until execution confirmation is returned.
+
+OMS Business Process
+
+1. Order Creation
+
+* Customer/investor places a buy or sell order through the broker/OMS.
+* OMS creates the order in the required FIX message format.
+* The order contains details such as:
+    * Buy/Sell
+    * Security/Symbol
+    * Quantity
+    * Price
+    * Account/customer details
+    * Order type
+
+2. Order Validation
+
+* The order is sent to the FIX-IN Adapter.
+* Adapter validates the incoming FIX message and required fields.
+* Connectivity, message format and business validations are performed.
+
+3. Order Routing
+
+* Valid orders are passed from the OMS/FIX-IN Adapter to LETS.
+* LETS acts as the trading/exchange interface and routes the order towards Tadawul.
+
+4. Order Execution
+
+* Tadawul processes the order.
+* If the order is matched, the trade is executed.
+* If it is not matched, the order remains open/pending based on the order conditions.
+
+5. Execution Report
+
+* Tadawul sends the order/trade status back.
+* OMS receives the execution report through the integration layer.
+* The customer/broker gets the latest order status.
+
+6. Order Modification
+OMS also handles the order lifecycle activities such as:
+
+* New Order
+* Cancel Order
+* Replace/Modify Order
+* Reject
+* Execution Report
+
+Simple end-to-end flow
+
+Customer
+   ↓
+Broker / OMS
+   ↓
+FIX-IN Adapter
+   ↓
+LETS
+   ↓
+Tadawul
+   ↓
+Order Matching / Execution
+   ↓
+Execution Report
+   ↓
+LETS
+   ↓
+FIX-IN Adapter
+   ↓
+OMS / Broker
+   ↓
+Customer
+
+So, for your business process explanation to management, I would describe OMS as:
+
+OMS manages the complete equity order lifecycle, starting from order creation by the customer/broker, validation and routing through FIX/LETS, submission to Tadawul, order execution, and receiving the execution/status response back to the broker. It also supports order cancellation, modification, rejection and execution reporting.
+
+If you want, I can also give you the complete OMS business process in detail — including Buy/Sell, New Order, Cancel, Replace, Reject, Partial Fill, Full Fill and Trade Confirmation — in a flow you can use for your OMS KT/documentation.
+
+
+
+
+
+: Sure. You can explain the OMS business process in these simple points:
+
+* Order Creation: Customer places a Buy or Sell order through the broker/OMS.
+* Order Validation: OMS validates the order details such as account, security, quantity, price and order type.
+* Order Routing: After validation, OMS sends the order through the FIX interface / LETS towards Tadawul.
+* Exchange Processing: Tadawul receives and processes the order based on market conditions.
+* Order Execution: If a matching order is available, the trade is executed. It can be a full or partial execution.
+* Order Status: OMS receives the response from Tadawul and updates the order status, such as New, Accepted, Rejected, Partially Filled, Filled or Cancelled.
+* Order Modification/Cancel: Customer or broker can request to modify or cancel an order based on the allowed conditions.
+* Execution Reporting: Once the trade is executed, the execution details are sent back to OMS for further processing and reporting.
+* End-to-End Tracking: OMS maintains the complete order lifecycle, so the business can track the order from creation → routing → execution → final status.
+
+
+
+
+ Required – OMS Data Extraction
 
 Dear [Manager Name],
 
