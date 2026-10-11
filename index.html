@@ -84,7 +84,110 @@ button{
  // -------------------
 
 
-Hi Here is a simple and professional version:
+Based on the screenshot, the CR covers three tasks related to the CRMS RDD/BDD Connected Party Table enhancement. The scope includes dynamic form fields, additional field mapping, and updating the database fields used by OWS, followed by restarting the CRMS Interface services in Production and DR.
+
+Change Request (CR)
+
+Short Description: CRMS – RDD/BDD Connected Party Table Enhancement
+
+1. Description
+
+As part of the CRMS enhancement, changes are required to the RDD/BDD Connected Party Table to improve dynamic field display, connected-party data mapping, and data availability for OWS screening.
+
+The following three tasks are included in this change:
+
+Task 1 – Dynamic Connected Party Form Fields
+
+* Change the label from Customer Type to Connected Party Type.
+* Make the form fields dynamic based on the selected connected-party type.
+* Display the applicable fields in the required order for both Production and DR environments.
+* For Entity and Individual connected-party types, display the relevant fields and ensure the fields are populated before the Legal Name field, as required.
+* Retain the existing fields where applicable and validate the form behaviour for each connected-party type.
+
+Task 2 – Connected Party Field Mapping and Additional Fields
+
+* Ensure the CR Number / ID Number fields are displayed in the same column.
+* Ensure Date of Establishment and Date of Birth are displayed in the same column, as applicable.
+* Update the relevant column labels to reflect the connected-party type.
+* Ensure the COI field is displayed correctly for individual connected parties.
+* Ensure the Nationality field is displayed correctly and does not appear under the COI label.
+* Add the additional fields required for screening in OWS.
+
+Task 3 – Database Update and CRMS Interface Restart
+
+* Add the required screening fields to the database table from which OWS retrieves the data.
+* Coordinate with the database/application team to ensure the new fields are available for OWS processing.
+* Restart the CRMS Interface services in Production and DR after completing the required changes.
+* Validate the updated functionality and data flow after the restart.
+
+2. Justification
+
+The changes are required to ensure the RDD/BDD Connected Party Table displays the correct fields based on the selected connected-party type and maintains the correct mapping of customer information.
+
+The additional screening fields must also be available in the database table used by OWS. This enhancement will improve data consistency and ensure the required connected-party information is available for screening in both Production and DR environments.
+
+3. Implementation Plan
+
+1. Take the required backup of the existing application configuration and database objects before implementation.
+2. Update the Connected Party Table label from Customer Type to Connected Party Type.
+3. Implement the dynamic field display and required field order based on the selected connected-party type.
+4. Update the field mapping and column labels for CR Number/ID Number, Date of Establishment/Date of Birth, COI and Nationality.
+5. Add the additional screening fields to the database table used by OWS.
+6. Verify that the new fields are correctly mapped and available for OWS screening.
+7. Deploy the approved changes to the Production and DR environments.
+8. Restart the CRMS Interface services in Production and DR.
+9. Perform post-implementation validation of the form, database fields and data flow to OWS.
+
+4. Business Impact
+
+If this change is not implemented:
+
+* The Connected Party Table may not display the required fields dynamically.
+* Incorrect field labels or field mapping may cause confusion for business users.
+* Required connected-party information may not be available for OWS screening.
+* Business users may face limitations when entering or reviewing connected-party details.
+
+The change is required to ensure the correct connected-party information is captured and made available for screening.
+
+5. Technical Impact
+
+If this change is not implemented:
+
+* Dynamic field display and field ordering will remain unchanged.
+* Connected-party field mapping and column labels may not reflect the required changes.
+* Additional screening fields will not be available in the database table used by OWS.
+* OWS may not receive all the required connected-party information.
+
+The change includes CRMS application configuration/code changes and database updates. CRMS Interface services will be restarted in Production and DR as part of the implementation.
+
+6. Backout Plan
+
+1. Stop the implementation if any critical issue is identified.
+2. Revert the application changes to the previous approved version.
+3. Roll back the database changes using the approved rollback scripts or backup, as applicable.
+4. Restore the previous application configuration.
+5. Restart the CRMS Interface services in Production and DR, if required.
+6. Validate the application and data flow after rollback.
+7. Inform the relevant stakeholders and investigate the issue before rescheduling the change.
+
+7. Post Implementation Verification Plan
+
+1. Verify that the Customer Type label is changed to Connected Party Type.
+2. Verify that the form fields are displayed dynamically based on the selected connected-party type.
+3. Verify the field order and column labels for Entity and Individual connected parties.
+4. Verify CR Number/ID Number and Date of Establishment/Date of Birth field mapping.
+5. Verify that COI and Nationality fields are displayed correctly.
+6. Confirm that the additional screening fields are available in the database table used by OWS.
+7. Verify that OWS receives the required connected-party information.
+8. Confirm that CRMS Interface services are running successfully in Production and DR after the restart.
+9. Check application logs for errors and obtain business confirmation.
+
+Important: Since this change includes a CRMS Interface restart in Production and DR, confirm the expected service interruption and maintenance window with the application and business teams before submitting the CR.
+
+
+
+
+ Here is a simple and professional version:
 
 Hi Alvin,
 
